@@ -3,12 +3,13 @@ module.exports = {
     darkMode: 'class',
     theme: {
         fontFamily: {
-            display: ['Open Sans', 'sans-serif'],
-            body: ['Open Sans', 'sans-serif'],
+            display: ['Roboto', 'sans-serif'],
+            body: ['Roboto', 'sans-serif'],
         },
         extend: {
             fontSize: {
                 14: '14px',
+                16: '16px',
             },
             backgroundColor: {
                 'main-bg': '#FAFBFB',
