@@ -7,10 +7,12 @@ import IconButton from '@mui/material/IconButton';
 
 import { publicRoutes, privateRoutes } from './routes';
 import Sidebar from './components/Sidebar';
+import Navbar from './components/Navbar';
+import { useStateContext } from '~/contexts/Context';
 import './App.css';
 
 function App() {
-    const activemenu = true;
+    const { activeMenu, setActiveMenu } = useStateContext();
     return (
         <Router>
             <div>
@@ -24,20 +26,28 @@ function App() {
                         </Tooltip>
                     </div>
                 </div>
-                {activemenu ? (
+                {activeMenu ? (
                     <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
                         <Sidebar />
                     </div>
                 ) : (
                     <div
                         className={`dark:bg-main-bg bg-main-bg min-h-screen w-full ${
-                            activemenu ? 'md:ml-72' : 'flex-2'
+                            activeMenu ? 'md:ml-72' : 'flex-2'
                         }`}
                     >
                         <Sidebar />
                     </div>
                 )}
-                <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">Navbar</div>
+                <div
+                    className={
+                        activeMenu
+                            ? 'dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-auto  '
+                            : 'bg-main-bg dark:bg-main-dark-bg w-auto min-h-screen'
+                    }
+                >
+                    <Navbar />
+                </div>
 
                 <div>
                     <Routes>
