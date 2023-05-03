@@ -36,12 +36,27 @@ function App() {
                     </div>
                 )}
                 <div className="bg-main-bg dark:bg-main-dark-bg flex-1">
-                    <SearchPost />
                     <div>
                         <Routes>
                             {publicRoutes.map((route, index) => {
                                 const Page = route.component;
-                                return <Route key={index} path={route.path} element={<Page />} />;
+                                return route.subRoutes ? (
+                                    <Route key={index} path={route.path} element={<Page />}>
+                                        {route.subRoutes.map((subRoute, subIndex) => {
+                                            const SubPage = subRoute.component;
+                                            return (
+                                                <Route
+                                                    key={subIndex}
+                                                    index={subRoute.path === '' ? true : false}
+                                                    path={subRoute.path}
+                                                    element={<SubPage />}
+                                                />
+                                            );
+                                        })}
+                                    </Route>
+                                ) : (
+                                    <Route key={index} path={route.path} element={<Page />} />
+                                );
                             })}
                         </Routes>
                     </div>

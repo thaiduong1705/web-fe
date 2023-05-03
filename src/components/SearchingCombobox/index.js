@@ -1,9 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import clsx from 'clsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './SearchingCombobox.module.css';
-const SearchingCombobox = ({ items = [], placeholder = 'Seaching...', icon, title = 'Search', className }) => {
+const SearchingCombobox = ({ items = [], placeholder = 'Seaching...', title = 'Search', className }) => {
+    const [icon, setIcon] = useState(faChevronDown);
     return (
         <Tippy
             render={(attrs) => (
@@ -25,9 +28,14 @@ const SearchingCombobox = ({ items = [], placeholder = 'Seaching...', icon, titl
             placement="bottom-start"
             offset={0}
         >
-            <button className={clsx(styles['combobox-btn'], className)}>
+            <button
+                className={clsx(styles['combobox-btn'], className)}
+                onClick={() => {
+                    setIcon((prev) => (prev = prev == faChevronDown ? faChevronUp : faChevronDown));
+                }}
+            >
                 {title}
-                {icon}
+                <FontAwesomeIcon icon={icon} />
             </button>
         </Tippy>
     );
