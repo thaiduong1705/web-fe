@@ -1,6 +1,14 @@
 //import { Fragment } from 'react';
+import { Homepage, Jobpage } from '~/pages';
 
-const publicRoutes = [];
-const privateRoutes = [];
-
-export { publicRoutes, privateRoutes };
+export const publicRoutes = [
+    {
+        path: '/',
+        component: Homepage,
+    },
+    {
+        path: '/job',
+        component: Jobpage,
+    },
+];
+export const privateRoutes = [];

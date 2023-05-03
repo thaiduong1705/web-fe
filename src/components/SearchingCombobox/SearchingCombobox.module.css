@@ -1,0 +1,42 @@
+@import '../../tailwind.css';
+
+.combobox-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 0.8rem;
+}
+
+.combobox-btn:hover,
+.search-input:hover {
+    @apply border-green-500;
+}
+
+.combobox-btn:active {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.options {
+    height: 150px;
+    overflow-y: scroll;
+    @apply bg-white;
+}
+
+.input-combobox {
+    outline: none;
+    padding: 8px;
+    display: block;
+    width: 100%;
+    font-size: 1.4rem;
+    line-height: 2rem;
+}
+
+.list-item {
+    margin-top: 12px;
+    display: block;
+    list-style-type: none;
+}

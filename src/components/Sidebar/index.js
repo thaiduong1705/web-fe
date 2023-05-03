@@ -1,0 +1,52 @@
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+
+import { routes } from '~/data/';
+import { useStateContext } from '~/contexts/Context';
+
+import styles from './Sidebar.module.css';
+const Sidebar = () => {
+    const activeLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-gray text-md m-2 bg-light-gray';
+    const normalLink =
+        'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2';
+    const { activeMenu, setActiveMenu } = useStateContext();
+    return (
+        <div className="ml-3 h-screen md:overflow-hidden overflow-auto">
+            {activeMenu && (
+                <>
+                    <div className="flex justify-between items-center">
+                        <Link
+                            to="/"
+                            onClick={() => {}}
+                            className="flex justify-center items-center gap-2 text-2xl mt-4 ml-3 font-extrabold tracking-tight dark:text-white text-slate-900"
+                        >
+                            <FontAwesomeIcon icon={faHouse} />
+                            <span>Giới thiệu việc làm</span>
+                        </Link>
+                    </div>
+                    <div className="mt-10">
+                        {routes.map((route) => {
+                            return (
+                                <NavLink
+                                    to={route.path}
+                                    key={route.title}
+                                    className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                                    onClick={() => {
+                                        setActiveMenu((prev) => true);
+                                    }}
+                                >
+                                    {route.icon}
+                                    <span className="capitalize">{route.title}</span>
+                                </NavLink>
+                            );
+                        })}
+                    </div>
+                </>
+            )}
+        </div>
+    );
+};
+
+export default Sidebar;
