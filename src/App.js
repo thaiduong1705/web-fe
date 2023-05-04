@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
-import { publicRoutes, privateRoutes } from './routes';
+import { publicRoutes } from './routes';
 import Sidebar from './components/Sidebar';
-import SearchPost from './components/SearchPost';
+
 import './App.css';
 
 function App() {

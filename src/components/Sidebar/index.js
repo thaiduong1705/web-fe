@@ -27,11 +27,11 @@ const Sidebar = () => {
                         </Link>
                     </div>
                     <div className="mt-10">
-                        {publicRoutes.map((route) => {
+                        {publicRoutes.map((route, index) => {
                             return (
                                 <NavLink
                                     to={route.path}
-                                    key={route.title}
+                                    key={index}
                                     className={({ isActive }) => (isActive ? activeLink : normalLink)}
                                     onClick={() => {
                                         setActiveMenu((prev) => true);

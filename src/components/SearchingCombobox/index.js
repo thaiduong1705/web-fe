@@ -29,9 +29,10 @@ const SearchingCombobox = ({ items = [], placeholder = 'Seaching...', title = 'S
             offset={0}
         >
             <button
+                type="button"
                 className={clsx(styles['combobox-btn'], className)}
                 onClick={() => {
-                    setIcon((prev) => (prev = prev == faChevronDown ? faChevronUp : faChevronDown));
+                    setIcon((prev) => (prev = prev === faChevronDown ? faChevronUp : faChevronDown));
                 }}
             >
                 {title}

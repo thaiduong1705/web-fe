@@ -9,11 +9,6 @@ export const publicRoutes = [
         path: '/',
         component: Homepage,
     },
-    {
-        title: 'Thống kê',
-        path: '/summary',
-        icon: '',
-    },
 
     {
         title: 'Bài tuyển dụng',
@@ -32,16 +27,16 @@ export const publicRoutes = [
         ],
     },
 
-    {
-        title: 'Hồ sơ nhà tuyển dụng',
-        path: '/company',
-        icon: <FontAwesomeIcon icon={faBuilding} />,
-    },
+    // {
+    //     title: 'Hồ sơ nhà tuyển dụng',
+    //     path: '/company',
+    //     icon: <FontAwesomeIcon icon={faBuilding} />,
+    // },
 
-    {
-        title: 'Hồ sơ ứng viên',
-        path: '/candidate',
-        icon: <FontAwesomeIcon icon={faUser} />,
-    },
+    // {
+    //     title: 'Hồ sơ ứng viên',
+    //     path: '/candidate',
+    //     icon: <FontAwesomeIcon icon={faUser} />,
+    // },
 ];
 export const privateRoutes = [];
