@@ -23,7 +23,7 @@ const CreatePost = () => {
                     </div>
                     <div className="w-[30%]">
                         <label htmlFor="JobName">Công ty</label>
-                        <Combobox placeholder="Tìm kiếm..." title="Công ty" className="w-[100%]" />
+                        <Combobox placeholder="Tìm kiếm..." title="Công ty" className="w-[100%]" isMulti />
                     </div>
                     <div>
                         <label htmlFor="amount">Số lượng ứng tuyển</label>

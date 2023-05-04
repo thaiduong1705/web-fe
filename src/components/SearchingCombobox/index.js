@@ -1,44 +1,155 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp, faClose } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './SearchingCombobox.module.css';
-const SearchingCombobox = ({ items = [], placeholder = 'Seaching...', title = 'Search', className }) => {
+const SearchingCombobox = ({ items = [], title = 'Search', className, isMulti, data, onChange }) => {
     const [icon, setIcon] = useState(faChevronDown);
+    const [showMenu, setshowMenu] = useState(false);
+    const [selectedValue, setSelectedValue] = useState(isMulti ? [] : null);
+    const [searchValue, setSearchValue] = useState('');
+    const searchRef = useRef();
+    const inputRef = useRef();
+
+    useEffect(() => {
+        setSearchValue('');
+        if (showMenu && searchRef.current) {
+            searchRef.current.focus();
+        }
+    }, [showMenu]);
+
+    useEffect(() => {
+        const handler = (e) => {
+            if (inputRef.current && !inputRef.current.contains(e.target)) {
+                setshowMenu(false);
+            }
+        };
+        window.addEventListener('click', handler);
+        window.addEventListener('scroll', handler);
+        return () => {
+            window.removeEventListener('click', handler);
+            window.removeEventListener('scroll', handler);
+        };
+    });
+
+    const removeOption = (option) => {
+        return selectedValue.filter((o) => o.value !== option.value);
+    };
+    const onTagRemove = (e, values) => {
+        e.stopPropagation();
+        const newValues = removeOption(values);
+        setSelectedValue();
+        onChange(newValues);
+    };
+    const getDisplay = () => {
+        if (!selectedValue || selectedValue.length === 0) {
+            return title;
+        }
+        if (isMulti) {
+            return (
+                <div className={clsx(styles['dropdown-tags'])}>
+                    {selectedValue.map((option, index) => (
+                        <div key={index} className={clsx(styles['dropdown-tag-item'])}>
+                            {option.value}
+                            <span
+                                onClick={(e) => onTagRemove(e, option)}
+                                className={clsx(styles['dropdown-tag-close'])}
+                            >
+                                <FontAwesomeIcon icon={faClose} />
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+        return selectedValue.value;
+    };
+
+    const onItemClick = (option) => {
+        let newValue;
+        if (isMulti) {
+            if (selectedValue.findIndex((o) => o.value === option.value) >= 0) {
+                newValue = removeOption(option);
+            } else {
+                newValue = [...selectedValue, option];
+            }
+        } else {
+            newValue = option;
+        }
+        setSelectedValue(newValue);
+        onChange(newValue);
+    };
+
+    const isSelected = (option) => {
+        if (!selectedValue) {
+            return false;
+        }
+        return selectedValue.value === option.value;
+    };
+
+    const onSearch = (e) => {
+        setSearchValue(e.target.value);
+    };
+    const getOptions = () => {
+        if (!searchValue) {
+            return items;
+        }
+        return items.filter((item) => item.label.toLowerCase().indexOf(searchValue.toLowerCase()) === 0);
+    };
+    items = [
+        {
+            key: 1,
+            value: 'avc',
+        },
+        {
+            key: 1,
+            value: 'dá',
+        },
+        {
+            key: 1,
+            value: 'adsadvc',
+        },
+    ];
+
+    const handleInputCLick = (e) => {
+        setshowMenu((prev) => !prev);
+    };
     return (
-        <Tippy
-            render={(attrs) => (
-                <div className={clsx(styles['options'], className)} tabIndex="-1" {...attrs}>
-                    <input placeholder={placeholder} className={styles['input-combobox']} />
-                    <ul className={clsx(styles['list-item'])}>
-                        {items.map((item, index) => {
-                            return (
-                                <li key={index} className="py-2 px-2 hover:bg-gray-200 hover:cursor-pointer">
-                                    {item}
-                                </li>
-                            );
-                        })}
-                    </ul>
+        <div className={clsx(styles['dropdown-container'])}>
+            <div className={clsx(styles['dropdown-input'])} onClick={handleInputCLick} ref={inputRef}>
+                <div className={clsx(styles['dropdown-selected-value'])}>{getDisplay()}</div>
+                <div className={clsx(styles['dropdown-tools'])}>
+                    <div className={clsx(styles['dropdown-tool'])}>
+                        <FontAwesomeIcon icon={icon} />
+                    </div>
+                </div>
+            </div>
+            {showMenu && (
+                <div className={clsx(styles['dropdown-menu'])}>
+                    <div className={clsx(styles['search-box'])}>
+                        <input
+                            onChange={onSearch}
+                            value={searchValue}
+                            ref={searchRef}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                            }}
+                        />
+                    </div>
+                    {getOptions().map((item, index) => (
+                        <div
+                            key={index}
+                            className={clsx(styles['dropdown-item'], { [styles['selected']]: isSelected(item) })}
+                            onClick={() => onItemClick(item)}
+                        >
+                            {item.value}
+                        </div>
+                    ))}
                 </div>
             )}
-            interactive
-            trigger="click"
-            placement="bottom-start"
-            offset={0}
-        >
-            <button
-                type="button"
-                className={clsx(styles['combobox-btn'], className)}
-                onClick={() => {
-                    setIcon((prev) => (prev = prev === faChevronDown ? faChevronUp : faChevronDown));
-                }}
-            >
-                {title}
-                <FontAwesomeIcon icon={icon} />
-            </button>
-        </Tippy>
+        </div>
     );
 };
 
