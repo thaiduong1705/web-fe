@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import ReactQuill, { Quill } from 'react-quill';
+import React, { useState } from 'react';
+import ReactQuill from 'react-quill';
 import 'quill/dist/quill.snow.css';
 import clsx from 'clsx';
 
@@ -12,18 +12,15 @@ const TOOLBAR_OPTIONS = [
     [{ align: [] }],
     ['clean'],
 ];
-const TextEditor = ({ className }) => {
+const TextEditor = ({ className, onChange = () => {} }) => {
     const [quill, setQuill] = useState('');
+    const handleChange = (value) => {
+        setQuill((prev) => value);
+        onChange(value);
+    };
     return (
         <div className={clsx(className)}>
-            <ReactQuill
-                theme="snow"
-                value={quill}
-                onChange={setQuill}
-                modules={{ toolbar: TOOLBAR_OPTIONS }}
-                className={clsx(className)}
-            />
-            <div>{quill}</div>
+            <ReactQuill theme="snow" value={quill} onChange={handleChange} modules={{ toolbar: TOOLBAR_OPTIONS }} />
         </div>
     );
 };

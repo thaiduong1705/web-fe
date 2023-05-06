@@ -40,10 +40,26 @@ const CreatePost = () => {
     const [jobName, setJobName] = useState('');
     const [recruitAmount, setRecruitAmount] = useState(0);
     const [startDate, setStartDate] = useState(currentDate);
+    const [endDate, setEndDate] = useState();
     const [address, setAddress] = useState('');
     const [expYear, setExpYear] = useState(0);
+    const [salary, setSalary] = useState([0, 100000000]);
+    const [requirement, setRequirement] = useState('');
+    const [response, setResponse] = useState('');
+    const [reward, setReward] = useState('');
 
-    const [endDate, setEndDate] = useState();
+    const handleRequirementChange = (value) => {
+        setRequirement((prev) => value);
+        console.log(requirement);
+    };
+    const handleResponseChange = (value) => {
+        setResponse((prev) => value);
+        console.log(response);
+    };
+    const handleRewardChange = (value) => {
+        setReward((prev) => value);
+        console.log(reward);
+    };
 
     const handleSubmit = () => {};
     return (
@@ -72,11 +88,10 @@ const CreatePost = () => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="SoLuong"
                             id="amount"
-                            pattern="[0-9]*"
                             value={recruitAmount}
                             onChange={(e) => {
-                                const input = e.target.validity.valid ? e.target.value : recruitAmount;
-                                setRecruitAmount((prev) => input);
+                                const input = e.target.value.replace(/[^0-9]/g, '');
+                                setRecruitAmount((prev) => (isNaN(input) || input === '' ? 0 : parseInt(input, 10)));
                             }}
                         />
                     </div>
@@ -112,65 +127,101 @@ const CreatePost = () => {
                     </div>
                 </div>
                 <div className="w-full h-[1px] bg-black my-[12px] opacity-20 "></div>
-                <div className="flex justify-between gap-[10px] mb-[8px]">
-                    <div className="flex-1">
+                <div className="flex gap-[10px] mb-[8px]">
+                    <div className="w-[51%]">
                         <label htmlFor="">Ngành nghề</label>
                         <Combobox title="Ngành nghề" className="w-[100%] h-[40px]" isSearchables />
                     </div>
-                    <div className="w-[30%]">
+                    <div className="w-[25%]">
                         <label>Vị trí tuyển dụng</label>
                         <Combobox title="Vị trí tuyển dụng" className="h-[40px]" />
                     </div>
-                    <div className="w-[20%]">
+                    <div className="w-[25%]">
                         <label>Loại hình</label>
                         <Combobox title="Loại hình làm việc" className="h-[40px]" />
                     </div>
                 </div>
-                <div className="flex justify-between gap-[10px] mb-[8px]">
-                    <div className="flex-1">
+                <div className="flex gap-[10px] mb-[8px]">
+                    <div className="w-[25%]">
                         <label>Trình độ</label>
                         <Combobox placeholder="Tìm kiếm" title="Trình độ" className="h-[40px]" />
                     </div>
-                    <div className="w-[20%]">
+                    <div className="w-[25%]">
                         <label htmlFor="expYear">Số năm kinh nghiệm</label>
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="SoNamKinhNghiem"
                             id="expYear"
-                            pattern="[0-9]*"
                             value={expYear}
                             onChange={(e) => {
-                                const input = e.target.validity.valid ? e.target.value : expYear;
-                                setRecruitAmount((prev) => input);
+                                const input = e.target.value.replace(/[^0-9]/g, '');
+                                setExpYear((prev) => (isNaN(input) || input === '' ? 0 : parseInt(input, 10)));
                             }}
                         />
                     </div>
-                    <div className="w-[20%]">
-                        <label htmlFor="province">Tỉnh thành</label>
+                    <div className="w-[25%]">
+                        <label htmlFor="salaryMin">Lương tối thiểu</label>
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
-                            name="TinhThanh"
-                            id="province"
+                            name="salaryMin"
+                            id="salary"
+                            pattern="[0-9]*"
+                            value={salary[0].toLocaleString('vi-VN')}
+                            onChange={(e) => {
+                                const input = e.target.value.replace(/[^0-9]/g, '');
+                                setSalary((prev) => {
+                                    const newState = [...prev];
+                                    newState[0] = isNaN(input) || input === '' ? 0 : parseInt(input, 10);
+                                    return newState;
+                                });
+                            }}
+                        />
+                    </div>
+                    <div className="w-[25%]">
+                        <label htmlFor="salaryMin">Lương tối đa</label>
+                        <input
+                            className="w-full h-[40px] rounded-md outline-none px-[8px]"
+                            name="salaryMin"
+                            id="salary"
+                            value={salary[1].toLocaleString('vi-VN')}
+                            onChange={(e) => {
+                                const input = e.target.value.replace(/[^0-9]/g, '');
+                                setSalary((prev) => {
+                                    const newState = [...prev];
+                                    newState[1] = isNaN(input) || input === '' ? 0 : parseInt(input, 10);
+                                    return newState;
+                                });
+                            }}
+                        />
+                    </div>
+                </div>
+                <div className="mb-[8px] flex  gap-[10px]">
+                    <div className="w-[70%]">
+                        <label htmlFor="address">Địa chỉ làm việc</label>
+                        <input
+                            name="DiaChi"
+                            id="address"
+                            className="w-full h-[40px] rounded-md outline-none px-[8px]"
+                            value={address}
+                            onChange={(e) => setAddress((prev) => e.target.value)}
+                        />
+                    </div>
+                    <div className="w-[30%]">
+                        <label htmlFor="province">Tỉnh thành</label>
+                        <Combobox
+                            className="w-full h-[40px] rounded-md outline-none px-[8px]"
+                            title="Tỉnh thành"
+                            isSearchable
                         />
                     </div>
                 </div>
                 <div className="mb-[8px]">
-                    <label htmlFor="address">Địa chỉ làm việc</label>
-                    <input
-                        name="DiaChi"
-                        id="address"
-                        className="w-full h-[40px] rounded-md outline-none px-[8px]"
-                        value={address}
-                        onChange={(e) => setAddress((prev) => e.target.value)}
-                    />
-                </div>
-                <div className="mb-[8px]">
                     <label>Yêu cầu ứng viên</label>
-                    <TextEditor className="w-[100%] h-[120px]" />
+                    <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={handleRequirementChange} />
                     <label>Trách nhiệm công việc</label>
-                    <TextEditor className="w-[100%] h-[120px]" />
+                    <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={handleResponseChange} />
                     <label>Quyền lợi công việc</label>
-                    <TextEditor className="w-[100%] h-[120px]" />
+                    <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={handleRewardChange} />
                 </div>
                 <div className="flex justify-end">
                     <button
