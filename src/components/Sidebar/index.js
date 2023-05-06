@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 import { publicRoutes } from '~/routes';
 import { useStateContext } from '~/contexts/Context';
@@ -29,17 +29,19 @@ const Sidebar = () => {
                     <div className="mt-10">
                         {publicRoutes.map((route, index) => {
                             return (
-                                <NavLink
-                                    to={route.path}
-                                    key={index}
-                                    className={({ isActive }) => (isActive ? activeLink : normalLink)}
-                                    onClick={() => {
-                                        setActiveMenu((prev) => true);
-                                    }}
-                                >
-                                    {route.icon}
-                                    <span className="capitalize">{route.title}</span>
-                                </NavLink>
+                                <div className="flex justify-between">
+                                    <NavLink
+                                        to={route.path}
+                                        key={index}
+                                        className={({ isActive }) => (isActive ? activeLink : normalLink) + ' flex-1'}
+                                        onClick={() => {
+                                            setActiveMenu((prev) => true);
+                                        }}
+                                    >
+                                        {route.icon}
+                                        <span className="capitalize">{route.title}</span>
+                                    </NavLink>
+                                </div>
                             );
                         })}
                     </div>

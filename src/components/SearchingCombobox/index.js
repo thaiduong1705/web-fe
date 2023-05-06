@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faClose } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './SearchingCombobox.module.css';
-const SearchingCombobox = ({ items = [], title = 'Search', className, isMulti, data, onChange }) => {
+const SearchingCombobox = ({ items = [], title = 'Search', className, onChange, isMulti, isSearchable = false }) => {
     const [icon, setIcon] = useState(faChevronDown);
     const [showMenu, setshowMenu] = useState(false);
     const [selectedValue, setSelectedValue] = useState(isMulti ? [] : null);
@@ -98,46 +98,35 @@ const SearchingCombobox = ({ items = [], title = 'Search', className, isMulti, d
         }
         return items.filter((item) => item.label.toLowerCase().indexOf(searchValue.toLowerCase()) === 0);
     };
-    items = [
-        {
-            key: 1,
-            value: 'avc',
-        },
-        {
-            key: 1,
-            value: 'dá',
-        },
-        {
-            key: 1,
-            value: 'adsadvc',
-        },
-    ];
 
     const handleInputCLick = (e) => {
         setshowMenu((prev) => !prev);
     };
     return (
         <div className={clsx(styles['dropdown-container'])}>
-            <div className={clsx(styles['dropdown-input'])} onClick={handleInputCLick} ref={inputRef}>
+            <div className={clsx(styles['dropdown-input'], className)} onClick={handleInputCLick} ref={inputRef}>
                 <div className={clsx(styles['dropdown-selected-value'])}>{getDisplay()}</div>
                 <div className={clsx(styles['dropdown-tools'])}>
                     <div className={clsx(styles['dropdown-tool'])}>
-                        <FontAwesomeIcon icon={icon} />
+                        <FontAwesomeIcon icon={showMenu ? faChevronUp : faChevronDown} />
                     </div>
                 </div>
             </div>
             {showMenu && (
                 <div className={clsx(styles['dropdown-menu'])}>
-                    <div className={clsx(styles['search-box'])}>
-                        <input
-                            onChange={onSearch}
-                            value={searchValue}
-                            ref={searchRef}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                            }}
-                        />
-                    </div>
+                    {isSearchable && (
+                        <div className={clsx(styles['search-box'])}>
+                            <input
+                                onChange={onSearch}
+                                value={searchValue}
+                                ref={searchRef}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                }}
+                            />
+                        </div>
+                    )}
+
                     {getOptions().map((item, index) => (
                         <div
                             key={index}

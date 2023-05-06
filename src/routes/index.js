@@ -17,7 +17,7 @@ export const publicRoutes = [
         component: Jobpage,
         subRoutes: [
             {
-                path: '',
+                path: '/posts',
                 component: ListPosts,
             },
             {

@@ -9,6 +9,7 @@ import { publicRoutes } from './routes';
 import Sidebar from './components/Sidebar';
 
 import './App.css';
+import { Switch } from '@mui/material';
 
 function App() {
     const activemenu = true;
@@ -48,8 +49,8 @@ function App() {
                                                 <Route
                                                     key={subIndex}
                                                     index={subRoute.path === '' ? true : false}
-                                                    path={subRoute.path}
                                                     element={<SubPage />}
+                                                    path={subRoute.path}
                                                 />
                                             );
                                         })}
