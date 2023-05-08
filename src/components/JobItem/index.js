@@ -8,7 +8,7 @@ const JobItem = ({ job, className }) => {
             <div className="w-3/4 ml-8">
                 <Link
                     className="text-16 leading-8 uppercase border-b-1 border-blue-500 border-dashed w-full block"
-                    to="/"
+                    to={`detail/1231`}
                 >
                     {job.name}
                 </Link>

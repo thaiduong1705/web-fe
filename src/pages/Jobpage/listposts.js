@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Combobox, JobItem } from '~/components';
 
 const ListPosts = () => {
     return (
-        <div className="w-1024 h-auto m-auto clear-both">
+        <div className="">
             <div className="bg-blue-500 text-black">
                 <div className="px-[14px] py-[20px] flex gap-[10px] h-[80px]">
                     <span className="text-[16px] text-white leading-[32px] block">Tìm việc</span>
@@ -29,6 +29,7 @@ const ListPosts = () => {
                     <Combobox title="Độ tuổi" className="w-[240px]" />
                     <Combobox title="Trình độ" className="w-[240px]" />
                     <Combobox title="Mức lương" className="w-[240px]" />
+                    <Combobox title="Ngành nghề" className="w-[240px]" />
                 </div>
             </div>
             <div className="w-full flex  flex-col justify-center h-auto rounded-[3px] mt-[8px] bg-gray-200 p-[8px] max-h-[800px]">

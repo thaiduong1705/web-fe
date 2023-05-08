@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaste, faUser, faBuilding } from '@fortawesome/free-solid-svg-icons';
 
-import { CreatePost, Homepage, Jobpage, ListPosts } from '~/pages';
+import { CreatePost, DetailPage, Homepage, Jobpage, ListPosts } from '~/pages';
 
 export const publicRoutes = [
     {
@@ -23,6 +23,10 @@ export const publicRoutes = [
             {
                 path: 'create',
                 component: CreatePost,
+            },
+            {
+                path: 'detail/:id',
+                component: DetailPage,
             },
         ],
     },
