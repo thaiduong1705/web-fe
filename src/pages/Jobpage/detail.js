@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faSuitcase, faCoins, faCalendarDays, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+    faLocationDot,
+    faSuitcase,
+    faCoins,
+    faCalendarDays,
+    faUser,
+    faBuilding,
+    faFile,
+} from '@fortawesome/free-solid-svg-icons';
 
 import { Combobox } from '~/components';
 const DetailPage = () => {
@@ -131,7 +139,29 @@ const DetailPage = () => {
                     </div>
                 </div>
                 <div className="col-span-4">
-                    <div className="px-[32px] py-[20px] shadow-lg">dsadadadada</div>
+                    <div className="px-[32px] py-[20px] shadow-lg ">
+                        <div className=" mb-[12px] flex items-center text-[20px]">
+                            <FontAwesomeIcon icon={faSuitcase} className="mr-[8px] p-[8px] bg-orange-300 text-white" />
+                            <span>Bind tên công ty</span>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center gap-4">
+                                <FontAwesomeIcon icon={faLocationDot} />
+                                <span className="font-medium">Địa chỉ:</span>
+                                <span>Bind địa chỉ</span>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <FontAwesomeIcon icon={faBuilding} />
+                                <span className="font-medium">Quy mô công ty:</span>
+                                <span>Bind quy mô</span>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <FontAwesomeIcon icon={faFile} />
+                                <span className="font-medium">Đã đăng:</span>
+                                <span>Bind số lượng bài</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
