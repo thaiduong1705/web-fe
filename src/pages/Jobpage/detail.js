@@ -9,6 +9,7 @@ import {
     faUser,
     faBuilding,
     faFile,
+    faCircleInfo,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { Combobox } from '~/components';
@@ -94,7 +95,7 @@ const DetailPage = () => {
                 </div>
             </div>
             <div className="mt-[40px] grid grid-cols-12 gap-4">
-                <div className="col-span-8">
+                <div className="col-span-8 flex flex-col gap-8">
                     <div className="grid grid-flow-col grid-rows-4 shadow-lg px-[32px] py-[20px]">
                         <div className="flex items-center gap-[8px] text-[16px] leading-[32px]">
                             <FontAwesomeIcon icon={faUser} />
@@ -136,6 +137,14 @@ const DetailPage = () => {
                             <span>Kinh nghiệm: </span>
                             <span>bind kinh nghiệm</span>
                         </div>
+                    </div>
+
+                    <div className="shadow-lg px-[32px] py-[20px]">
+                        <div className="flex items-center gap-4 pb-[20px] border-b-1 border-gray-500">
+                            <FontAwesomeIcon icon={faCircleInfo} className="text-[20px] text-blue-400" />
+                            <h2 className="text-[20px] font-medium">Mô tả công việc</h2>
+                        </div>
+                        <div className="mb-4 text-justify">Bind mô tả</div>
                     </div>
                 </div>
                 <div className="col-span-4">
