@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 const Jobpage = () => {
     return (
-        <div className="w-1024 h-auto m-auto clear-both">
+        <div className="w-1200 h-auto m-auto clear-both">
             <Outlet />
         </div>
     );
