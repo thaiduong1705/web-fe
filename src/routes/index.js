@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaste, faUser, faBuilding } from '@fortawesome/free-solid-svg-icons';
 
-import { CreatePost, DetailPage, Homepage, Jobpage, ListPosts } from '~/pages';
+import { CompanyPage, CreatePost, DetailPage, Homepage, Jobpage, ListCompanies, ListPosts } from '~/pages';
 
 export const publicRoutes = [
     {
@@ -12,30 +12,37 @@ export const publicRoutes = [
 
     {
         title: 'Bài tuyển dụng',
-        path: '/posts',
+        path: '/viec-lam',
         icon: <FontAwesomeIcon icon={faPaste} />,
         component: Jobpage,
         subRoutes: [
             {
-                path: '/posts',
+                path: '',
                 component: ListPosts,
             },
             {
-                path: 'create',
+                path: 'tao-viec-lam',
                 component: CreatePost,
             },
             {
-                path: 'detail/:id',
+                path: 'chi-tiet/:id',
                 component: DetailPage,
             },
         ],
     },
 
-    // {
-    //     title: 'Hồ sơ nhà tuyển dụng',
-    //     path: '/company',
-    //     icon: <FontAwesomeIcon icon={faBuilding} />,
-    // },
+    {
+        title: 'Hồ sơ nhà tuyển dụng',
+        path: '/nha-tuyen-dung',
+        icon: <FontAwesomeIcon icon={faBuilding} />,
+        component: CompanyPage,
+        subRoutes: [
+            {
+                path: '/nha-tuyen-dung',
+                component: ListCompanies,
+            },
+        ],
+    },
 
     // {
     //     title: 'Hồ sơ ứng viên',

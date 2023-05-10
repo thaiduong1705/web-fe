@@ -19,7 +19,7 @@ const JobItem = ({ job, className }) => {
                     <span>Lương: {job.salary < 0 ? 'Thoả thuận' : job.salary}</span>
                 </div>
             </div>
-            <Link className="w-auto h-auto ml-[32px]" to="/">
+            <Link className="w-auto h-auto mx-auto" to="/">
                 <img src="http://www.vieclamhcm.net/images/paste.png" alt="" />
             </Link>
 

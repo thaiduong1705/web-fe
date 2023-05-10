@@ -6,7 +6,6 @@ import { faChevronDown, faChevronUp, faClose } from '@fortawesome/free-solid-svg
 
 import styles from './SearchingCombobox.module.css';
 const SearchingCombobox = ({ items = [], title = 'Search', className, onChange, isMulti, isSearchable = false }) => {
-    const [icon, setIcon] = useState(faChevronDown);
     const [showMenu, setshowMenu] = useState(false);
     const [selectedValue, setSelectedValue] = useState(isMulti ? [] : null);
     const [searchValue, setSearchValue] = useState('');
@@ -96,15 +95,15 @@ const SearchingCombobox = ({ items = [], title = 'Search', className, onChange, 
         if (!searchValue) {
             return items;
         }
-        return items.filter((item) => item.label.toLowerCase().indexOf(searchValue.toLowerCase()) === 0);
+        return items.filter((item) => item.value.toLowerCase().indexOf(searchValue.toLowerCase()) === 0);
     };
 
     const handleInputCLick = (e) => {
         setshowMenu((prev) => !prev);
     };
     return (
-        <div className={clsx(styles['dropdown-container'])}>
-            <div className={clsx(styles['dropdown-input'], className)} onClick={handleInputCLick} ref={inputRef}>
+        <div className={clsx(styles['dropdown-container'], className)}>
+            <div className={clsx(styles['dropdown-input'])} onClick={handleInputCLick} ref={inputRef}>
                 <div className={clsx(styles['dropdown-selected-value'])}>{getDisplay()}</div>
                 <div className={clsx(styles['dropdown-tools'])}>
                     <div className={clsx(styles['dropdown-tool'])}>

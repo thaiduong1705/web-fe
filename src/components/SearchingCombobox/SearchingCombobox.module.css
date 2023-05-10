@@ -41,13 +41,13 @@
 } */
 .dropdown-container {
     text-align: left;
-    border: 1px solid #ccc;
     position: relative;
     border-radius: 5px;
     background-color: #fff;
 }
 
 .dropdown-input {
+    height: 100%;
     padding: 5px;
     display: flex;
     align-items: center;

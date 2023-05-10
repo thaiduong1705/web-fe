@@ -36,7 +36,7 @@ const ListPosts = () => {
                 <div className="flex justify-between">
                     <p className="text-[16px] font-medium leading-[32px]">Danh sách việc làm</p>
                     <Link
-                        to="/posts/create"
+                        to="/viec-lam/tao-viec-lam"
                         className="bg-blue-600 text-white rounded-[4px] border-transparent border-1 flex items-center p-[4px] hover:opacity-80"
                     >
                         Tạo mới bài tuyển dụng
