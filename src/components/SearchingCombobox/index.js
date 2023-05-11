@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Tippy from '@tippyjs/react/headless';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faClose } from '@fortawesome/free-solid-svg-icons';

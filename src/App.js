@@ -17,24 +17,14 @@ function App() {
     return (
         <Router>
             <div>
-                <div className="flex fixed dark:bg-main-dark-bg">
-                    <h1 className="underline text-3xl">App</h1>
-                    <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
-                        <Tooltip title="Setting">
-                            <IconButton className="text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white bg-blue-300 border-r-8">
-                                <FontAwesomeIcon icon={faGear} />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                </div>
                 {activeMenu ? (
-                    <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
+                    <div className="w-96 fixed sidebar dark:bg-secondary-dark-bg bg-white">
                         <Sidebar />
                     </div>
                 ) : (
                     <div
                         className={`dark:bg-main-bg bg-main-bg min-h-screen w-full ${
-                            activeMenu ? 'md:ml-72' : 'flex-2'
+                            activeMenu ? 'md:ml-96' : 'flex-2'
                         }`}
                     >
                         <Sidebar />
@@ -43,8 +33,8 @@ function App() {
                 <div
                     className={
                         activeMenu
-                            ? 'dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-auto  '
-                            : 'bg-main-bg dark:bg-main-dark-bg w-auto min-h-screen'
+                            ? 'dark:bg-main-dark-bg  bg-main-bg md:ml-96 w-auto  '
+                            : 'bg-main-bg dark:bg-main-dark-bg w-auto'
                     }
                 >
                     <Navbar />

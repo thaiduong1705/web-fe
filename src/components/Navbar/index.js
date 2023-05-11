@@ -8,6 +8,7 @@ import {
     faBars,
     faCircleUser,
     faCaretDown,
+    faUserTie,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { routes } from '~/data/';
@@ -57,13 +58,11 @@ const Navbar = () => {
     const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
     return (
-        <div className="flex justify-between p-2 md:mx-6 relative">
-            <NavButton
-                title="Menu"
-                customFunc={() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)}
-                color="black"
-                icon={<FontAwesomeIcon icon={faBars} />}
-            />
+        <div className="flex justify-between mx-[24px] relative">
+            <div className="flex justify-between items-center gap-3">
+                <FontAwesomeIcon icon={faUserTie} style={{ color: '#3282f6' }} />
+                <span className="font-medium text-blue-500 pt-[4px]">JobProject</span>
+            </div>
             <div className="relative">
                 <div
                     className="flex items-center gap-2 cursor-pointer p-2 hover:bg-light-gray rounded-lg"
@@ -75,12 +74,7 @@ const Navbar = () => {
                         src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/sb9bSAPV1fYDP9hKyhctQSprqtn.jpg"
                         alt="user-profile"
                     />
-
-                    <p>
-                        <span className="text-gray-400 text-14">Hi,</span>{' '}
-                        <span className="text-gray-400 font-bold ml-1 text-14">User</span>
-                    </p>
-                    <FontAwesomeIcon icon={faCaretDown} />
+                    <FontAwesomeIcon icon={faCaretDown} style={{ color: '#4B5563' }} />
                 </div>
                 {dropdown && <Dropdown />}
             </div>

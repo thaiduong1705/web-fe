@@ -28,7 +28,7 @@ const DetailPage = () => {
                 <div className="px-[14px] py-[20px] flex gap-[10px] h-[80px]">
                     <span className="text-[16px] text-white leading-[32px] block">Tìm việc</span>
                     <input
-                        className="w-[30%] h-[35px] border-solid border-1 rounded-[4px] border-transparent outline-none"
+                        className="w-[70%] h-[35px] border-solid border-1 rounded-[4px] border-transparent outline-none"
                         placeholder="Nhập từ khoá tìm kiếm"
                     />
                     <Combobox
