@@ -1,25 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faCartShopping, faMessage, faBars } from '@fortawesome/free-solid-svg-icons';
+import {
+    faBell,
+    faCartShopping,
+    faMessage,
+    faBars,
+    faCircleUser,
+    faCaretDown,
+} from '@fortawesome/free-solid-svg-icons';
 
 import { routes } from '~/data/';
 import { useStateContext } from '~/contexts/Context';
 import { Tooltip } from '@mui/material';
+import Dropdown from './dropdown';
 
-const NavButton = ({ title, customFunc, color, dotColor, icon }) => {
+const NavButton = ({ title, customFunc, color, dotColor, icon, className }) => {
     return (
         <Tooltip title={title}>
             <button
                 type="button"
                 onClick={customFunc}
                 style={{ color }}
-                className="relative text-xl rounded-full p-3 hover:bg-light-gray"
+                className="relative text-3xl rounded-full p-2 hover:bg-light-gray"
             >
-                <span
-                    style={{ background: dotColor }}
-                    className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2"
-                />
                 {icon}
             </button>
         </Tooltip>
@@ -27,6 +31,8 @@ const NavButton = ({ title, customFunc, color, dotColor, icon }) => {
 };
 
 const Navbar = () => {
+    const [dropdown, setDropdown] = useState(false);
+
     const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } =
         useStateContext();
 
@@ -55,30 +61,28 @@ const Navbar = () => {
             <NavButton
                 title="Menu"
                 customFunc={() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)}
-                color="blue"
+                color="black"
                 icon={<FontAwesomeIcon icon={faBars} />}
             />
-            <div className="flex">
-                <NavButton
-                    title="Cart"
-                    customFunc={() => {}}
-                    color="blue"
-                    icon={<FontAwesomeIcon icon={faCartShopping} />}
-                />
-                <NavButton
-                    title="Chat"
-                    customFunc={() => {}}
-                    color="blue"
-                    dotColor="#03C9D7"
-                    icon={<FontAwesomeIcon icon={faMessage} />}
-                />
-                <NavButton
-                    title="Notification"
-                    customFunc={() => {}}
-                    color="blue"
-                    dotColor="rgb(254, 201, 15)"
-                    icon={<FontAwesomeIcon icon={faBell} />}
-                />
+            <div className="relative">
+                <div
+                    className="flex items-center gap-2 cursor-pointer p-2 hover:bg-light-gray rounded-lg"
+                    onMouseEnter={() => setDropdown(true)}
+                    onMouseLeave={() => setDropdown(false)}
+                >
+                    <img
+                        className="rounded-full w-12 h-12"
+                        src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/sb9bSAPV1fYDP9hKyhctQSprqtn.jpg"
+                        alt="user-profile"
+                    />
+
+                    <p>
+                        <span className="text-gray-400 text-14">Hi,</span>{' '}
+                        <span className="text-gray-400 font-bold ml-1 text-14">User</span>
+                    </p>
+                    <FontAwesomeIcon icon={faCaretDown} />
+                </div>
+                {dropdown && <Dropdown />}
             </div>
         </div>
     );
