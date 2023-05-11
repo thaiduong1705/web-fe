@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +10,7 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import { useStateContext } from '~/contexts/Context';
 import './App.css';
+import { Switch } from '@mui/material';
 
 function App() {
     const { activeMenu, setActiveMenu } = useStateContext();
@@ -53,17 +54,22 @@ function App() {
                     <Routes>
                         {publicRoutes.map((route, index) => {
                             const Page = route.component;
-                            const Layout = route.layout;
-                            return (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={
-                                        <Layout>
-                                            <Page />
-                                        </Layout>
-                                    }
-                                />
+                            return route.subRoutes ? (
+                                <Route key={index} path={route.path} element={<Page />}>
+                                    {route.subRoutes.map((subRoute, subIndex) => {
+                                        const SubPage = subRoute.component;
+                                        return (
+                                            <Route
+                                                key={subIndex}
+                                                index={subRoute.path === '' ? true : false}
+                                                element={<SubPage />}
+                                                path={subRoute.path}
+                                            />
+                                        );
+                                    })}
+                                </Route>
+                            ) : (
+                                <Route key={index} path={route.path} element={<Page />} />
                             );
                         })}
                     </Routes>

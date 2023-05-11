@@ -1,0 +1,81 @@
+@import '../../tailwind.css';
+
+.wrapper {
+    background-color: #ccc;
+}
+
+.panel {
+    width: 100%;
+    padding: 0 20px;
+}
+
+.row-big {
+    padding: 36px 0px;
+    gap: 12px;
+    @apply flex justify-evenly items-center;
+}
+
+.row-small {
+    gap: 12px;
+    margin-bottom: 8px;
+    @apply flex justify-evenly items-center;
+}
+
+.title {
+    @apply uppercase;
+    font-size: 1.6rem;
+    margin-right: 1.6rem;
+}
+
+.search-input {
+    border: 1px solid;
+    border-radius: 5px;
+    outline: none;
+    padding: 0.8rem;
+    font-size: 1.6rem;
+    height: 40px;
+    width: 300px;
+    @apply bg-white font-normal border-transparent;
+}
+
+.combobox-btn {
+    width: 300px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 0.8rem;
+}
+
+.combobox-btn:hover,
+.search-input:hover {
+    @apply border-green-500;
+}
+
+.combobox-btn:active {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.options {
+    width: 300px;
+    min-height: 50px;
+    padding: 8px;
+    @apply bg-white;
+}
+
+.input-combobox {
+    display: block;
+    width: 100%;
+    font-size: 1.4rem;
+    line-height: 2rem;
+}
+
+.list-item {
+    margin-top: 12px;
+    display: block;
+    list-style-type: none;
+}

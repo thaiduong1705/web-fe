@@ -1,0 +1,112 @@
+@import '../../tailwind.css';
+
+/* .combobox-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 0.8rem;
+}
+
+.combobox-btn:hover,
+.search-input:hover {
+}
+
+.combobox-btn:active {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.options {
+    height: 150px;
+    overflow-y: scroll;
+    @apply bg-white;
+}
+
+.input-combobox {
+    outline: none;
+    padding: 8px;
+    display: block;
+    width: 100%;
+    font-size: 1.4rem;
+    line-height: 2rem;
+}
+
+.list-item {
+    margin-top: 12px;
+    display: block;
+    list-style-type: none;
+} */
+.dropdown-container {
+    text-align: left;
+    position: relative;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.dropdown-input {
+    height: 100%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: auto;
+    max-height: 150px;
+    background-color: #fff;
+    transform: translateY(4px);
+    z-index: 10;
+}
+
+.dropdown-item {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #9fc3f8;
+}
+
+.selected {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.dropdown-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+.dropdown-tag-item {
+    background-color: #ddd;
+    padding: 2px 4px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+}
+.dropdown-tag-close {
+    display: flex;
+    align-items: center;
+}
+.search-box {
+    padding: 5px;
+    background-color: #eee;
+}
+.search-box input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
