@@ -5,9 +5,8 @@ import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
-import { publicRoutes } from './routes';
+import { publicRoutes, privateRoutes } from './routes';
 import Sidebar from './components/Sidebar';
-
 import './App.css';
 import { Switch } from '@mui/material';
 
@@ -15,16 +14,19 @@ function App() {
     const activemenu = true;
     return (
         <Router>
-            <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
-                <Tooltip title="Setting">
-                    <IconButton className="text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white bg-blue-300 border-r-8">
-                        <FontAwesomeIcon icon={faGear} />
-                    </IconButton>
-                </Tooltip>
-            </div>
-            <div className="flex">
+            <div>
+                <div className="flex fixed dark:bg-main-dark-bg">
+                    <h1 className="underline text-3xl">App</h1>
+                    <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
+                        <Tooltip title="Setting">
+                            <IconButton className="text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white bg-blue-300 border-r-8">
+                                <FontAwesomeIcon icon={faGear} />
+                            </IconButton>
+                        </Tooltip>
+                    </div>
+                </div>
                 {activemenu ? (
-                    <div className="w-72 sidebar dark:bg-secondary-dark-bg bg-white">
+                    <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
                         <Sidebar />
                     </div>
                 ) : (

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
-import { publicRoutes } from '~/routes';
+import { routes } from '~/data/';
 import { useStateContext } from '~/contexts/Context';
 
 import styles from './Sidebar.module.css';
@@ -27,21 +27,19 @@ const Sidebar = () => {
                         </Link>
                     </div>
                     <div className="mt-10">
-                        {publicRoutes.map((route, index) => {
+                        {routes.map((route) => {
                             return (
-                                <div className="flex justify-between">
-                                    <NavLink
-                                        to={route.path}
-                                        key={index}
-                                        className={({ isActive }) => (isActive ? activeLink : normalLink) + ' flex-1'}
-                                        onClick={() => {
-                                            setActiveMenu((prev) => true);
-                                        }}
-                                    >
-                                        {route.icon}
-                                        <span className="capitalize">{route.title}</span>
-                                    </NavLink>
-                                </div>
+                                <NavLink
+                                    to={route.path}
+                                    key={route.title}
+                                    className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                                    onClick={() => {
+                                        setActiveMenu((prev) => false);
+                                    }}
+                                >
+                                    {route.icon}
+                                    <span className="capitalize">{route.title}</span>
+                                </NavLink>
                             );
                         })}
                     </div>
