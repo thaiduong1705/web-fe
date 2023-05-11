@@ -70,7 +70,6 @@ const CreatePost = () => {
                     Tạo bài tuyển dụng
                 </p>
                 <span className="w-full h-[5px] block bg-blue-300 my-[8px]"></span>
-                Bí quá
                 <div className="flex justify-between mb-[8px] gap-[10px]">
                     <div className="flex-1">
                         <label htmlFor="JobName">Tên công việc</label>

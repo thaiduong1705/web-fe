@@ -5,7 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp, faClose } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './SearchingCombobox.module.css';
-const SearchingCombobox = ({ items = [], title = 'Search', className, onChange, isMulti, isSearchable = false }) => {
+const SearchingCombobox = ({
+    items = [],
+    title = 'Search',
+    className,
+    onChange,
+    isMulti = false,
+    isSearchable = false,
+}) => {
     const [showMenu, setshowMenu] = useState(false);
     const [selectedValue, setSelectedValue] = useState(isMulti ? [] : null);
     const [searchValue, setSearchValue] = useState('');

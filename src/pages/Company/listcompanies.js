@@ -1,7 +1,6 @@
 import React from 'react';
 import { Combobox, CompanyItem } from '~/components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faSuitcase } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const ListCompanies = () => {
     return (
@@ -19,10 +18,18 @@ const ListCompanies = () => {
                 </div>
             </div>
 
-            <div className="my-[48px]">
+            <div className="my-[48px] flex justify-between">
                 <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
                     <p className="text-[24px] font-medium leading-[1.4] mb-[4px]">Nhà tuyển dụng</p>
                     <p className="text-[#999999]">Danh sách nhà tuyển dụng tại TP Hồ Chí Minh</p>
+                </div>
+                <div className="flex items-center">
+                    <Link
+                        to="/nha-tuyen-dung/tao-moi"
+                        className="bg-blue-600 text-white rounded-[4px] border-transparent border-1 flex items-center p-[4px] hover:opacity-80 h-fit"
+                    >
+                        Thêm mới nhà tuyển dụng
+                    </Link>
                 </div>
             </div>
 

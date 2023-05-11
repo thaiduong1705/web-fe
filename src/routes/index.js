@@ -2,7 +2,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaste, faUser, faBuilding } from '@fortawesome/free-solid-svg-icons';
 
-import { CompanyPage, CreatePost, DetailPage, Homepage, Jobpage, ListCompanies, ListPosts } from '~/pages';
+import {
+    CompanyPage,
+    CreateCompany,
+    CreatePost,
+    DetailPage,
+    Homepage,
+    Jobpage,
+    ListCompanies,
+    ListPosts,
+} from '~/pages';
 
 export const publicRoutes = [
     {
@@ -38,8 +47,12 @@ export const publicRoutes = [
         component: CompanyPage,
         subRoutes: [
             {
-                path: '/nha-tuyen-dung',
+                path: '',
                 component: ListCompanies,
+            },
+            {
+                path: 'tao-moi',
+                component: CreateCompany,
             },
         ],
     },
