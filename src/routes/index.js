@@ -3,12 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaste, faUser, faBuilding } from '@fortawesome/free-solid-svg-icons';
 
 import {
+    CandidatePage,
     CompanyPage,
+    CreateCandidate,
     CreateCompany,
     CreatePost,
     DetailPage,
     Homepage,
     Jobpage,
+    ListCandidates,
     ListCompanies,
     ListPosts,
 } from '~/pages';
@@ -41,7 +44,7 @@ export const publicRoutes = [
     },
 
     {
-        title: 'Hồ sơ nhà tuyển dụng',
+        title: 'Nhà tuyển dụng',
         path: '/nha-tuyen-dung',
         icon: <FontAwesomeIcon icon={faBuilding} />,
         component: CompanyPage,
@@ -57,10 +60,21 @@ export const publicRoutes = [
         ],
     },
 
-    // {
-    //     title: 'Hồ sơ ứng viên',
-    //     path: '/candidate',
-    //     icon: <FontAwesomeIcon icon={faUser} />,
-    // },
+    {
+        title: 'Hồ sơ ứng viên',
+        path: '/ung-vien',
+        icon: <FontAwesomeIcon icon={faUser} />,
+        component: CandidatePage,
+        subRoutes: [
+            {
+                path: '',
+                component: ListCandidates,
+            },
+            {
+                path: 'tao-ung-vien',
+                component: CreateCandidate,
+            },
+        ],
+    },
 ];
 export const privateRoutes = [];
