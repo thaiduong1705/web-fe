@@ -28,13 +28,13 @@ function App() {
             <div
                 className={
                     activeMenu
-                        ? 'dark:bg-main-dark-bg bg-main-bg w-auto h-[52px] item-center md:ml-96'
+                        ? 'dark:bg-main-dark-bg bg-main-bg w-auto h-auto item-center md:ml-96'
                         : 'bg-main-bg dark:bg-main-dark-bg w-auto item-center justify-between'
                 }
             >
                 <Navbar />
             </div>
-            <div className="md:ml-96 w-auto">
+            <div className="w-auto">
                 <Routes>
                     {publicRoutes.map((route, index) => {
                         const Page = route.component;

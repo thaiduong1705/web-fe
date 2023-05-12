@@ -58,12 +58,12 @@ const Navbar = () => {
     const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
     return (
-        <div className="flex justify-between mx-[24px]">
-            <div className="flex justify-between items-center gap-3">
+        <div className="flex justify-between mr-[16px]">
+            <div className="flex items-center gap-3">
                 <FontAwesomeIcon icon={faUserTie} style={{ color: '#3282f6' }} />
                 <span className="font-medium text-blue-500 pt-[4px]">JobProject</span>
             </div>
-            <div className="flex items-center content-end right-0">
+            <div className="flex items-center justify-end">
                 <div
                     className="flex items-center gap-2 cursor-pointer p-2 hover:bg-light-gray rounded-lg"
                     onMouseEnter={() => setDropdown(true)}
