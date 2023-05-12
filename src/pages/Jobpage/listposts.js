@@ -18,7 +18,7 @@ const ListPosts = () => {
                         items={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                     />
                     <Combobox title="Chọn quận huyện" className="w-[200px] h-[35px]" />
-                    <button className="w-[15%] cursor-pointer bg-blue-400 text-white h-[35px] rounded-[4px] font-[550]">
+                    <button className="w-[15%] cursor-pointer bg-blue-400 text-white h-[35px] rounded-[8px] font-[550]">
                         Tìm kiếm
                     </button>
                 </div>
@@ -41,7 +41,7 @@ const ListPosts = () => {
                     </div>
                     <Link
                         to="/viec-lam/tao-viec-lam"
-                        className="bg-blue-600 text-white rounded-[4px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80"
+                        className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80"
                     >
                         Tạo mới bài tuyển dụng
                     </Link>

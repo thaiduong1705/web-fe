@@ -13,7 +13,7 @@ const Sidebar = () => {
         'flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 hover:text-black hover:bg-blue-200 m-2';
     const { activeMenu, setActiveMenu } = useStateContext();
     return (
-        <div className="ml-3 h-screen md:overflow-hidden overflow-auto ">
+        <div className="ml-3 h-screen w-auto">
             {activeMenu && (
                 <>
                     <div className="flex justify-between items-center">
