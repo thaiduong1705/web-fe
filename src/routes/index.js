@@ -8,6 +8,7 @@ import {
     CreateCandidate,
     CreateCompany,
     CreatePost,
+    DetailCandidate,
     DetailCompany,
     DetailPage,
     Homepage,
@@ -78,6 +79,10 @@ export const publicRoutes = [
             {
                 path: 'tao-ung-vien',
                 component: CreateCandidate,
+            },
+            {
+                path: 'chi-tiet/:id',
+                component: DetailCandidate,
             },
         ],
     },

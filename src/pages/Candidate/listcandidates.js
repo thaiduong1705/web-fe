@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Combobox } from '~/components';
+import { CandidateItem, Combobox } from '~/components';
 const ListCandidates = () => {
     return (
         <div>
@@ -61,28 +61,7 @@ const ListCandidates = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="border-b dark:border-neutral-500">
-                            <td className="whitespace-nowrap px-6 py-4">
-                                <div>
-                                    <p className="uppercase text-[16px]">Bind tên ở đây</p>
-                                    <div className="flex">
-                                        <div className="mr-[4px]">
-                                            <span className="font-medium">Học vấn: </span>
-                                            <span>Bind trình độ chuyên môn</span>
-                                        </div>
-                                        <span>|</span>
-                                        <div className="ml-[4px]">
-                                            <span className="font-medium">Cấp bậc: </span>
-                                            <span>Bind cấp bậc</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">Bind kinh nghiệm</td>
-                            <td className="whitespace-nowrap px-6 py-4">bind trình độ chuyên môn</td>
-                            <td className="whitespace-nowrap px-6 py-4">Bind lương mong muốn</td>
-                            <td className="whitespace-nowrap px-6 py-4">bind khu vực làm việc</td>
-                        </tr>
+                        <CandidateItem />
                     </tbody>
                 </table>
             </div>

@@ -1,22 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faLocationDot,
-    faSuitcase,
-    faCoins,
-    faCalendarDays,
-    faUser,
-    faGraduationCap,
-    faVenusMars,
-    faSignal,
-    faUserGroup,
-    faUsers,
-    faCircleInfo,
-    faBuilding,
-    faFile,
-    faPlus,
-} from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faSuitcase, faBuilding, faFile, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { Combobox, JobItem } from '~/components';
 const DetailCompany = () => {
@@ -52,7 +37,7 @@ const DetailCompany = () => {
                                 <img
                                     src="https://cdn.topcv.vn/140/company_logos/ngan-hang-thuong-mai-co-phan-ky-thuong-viet-nam-632bbf5a763f7.jpg"
                                     alt=""
-                                    className="border-4 border-[#333] border-solid rounded-[4px] h-full object-contain"
+                                    className="border-1 border-[#333] border-solid rounded-[4px] h-full object-contain"
                                 />
                             </div>
                         </div>
@@ -76,6 +61,31 @@ const DetailCompany = () => {
                         <JobItem
                             job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
                         />
+                    </div>
+
+                    <div className="shadow-lg px-[32px] py-[20px]">
+                        <p>
+                            <FontAwesomeIcon icon={faPlus} className="mr-[8px]" />
+                            Công việc có cùng ngành nghề
+                        </p>
+                        <div className="my-[20px]">
+                            <JobItem
+                                job={{
+                                    name: 'test',
+                                    companyName: 'Công ty TNHH TEST',
+                                    salary: -1,
+                                    endDate: '24/10/2002',
+                                }}
+                            />
+                            <JobItem
+                                job={{
+                                    name: 'test',
+                                    companyName: 'Công ty TNHH TEST',
+                                    salary: -1,
+                                    endDate: '24/10/2002',
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className="col-span-4">
@@ -103,14 +113,6 @@ const DetailCompany = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="p-[16px] flex items-center shadow-lg rounded-[4px] text-[20px] my-[20px]">
-                <FontAwesomeIcon icon={faPlus} className="mr-[8px]" />
-                Công việc có cùng ngành nghề
-            </div>
-            <div className="my-[20px]">
-                <JobItem job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }} />
-                <JobItem job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }} />
             </div>
         </div>
     );

@@ -16,3 +16,4 @@ export { default as DetailCompany } from './Company/detail';
 export { default as CandidatePage } from './Candidate';
 export { default as ListCandidates } from './Candidate/listcandidates';
 export { default as CreateCandidate } from './Candidate/create';
+export { default as DetailCandidate } from './Candidate/detail';

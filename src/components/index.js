@@ -7,3 +7,4 @@ export { default as JobItem } from './JobItem';
 export { default as Combobox } from './SearchingCombobox';
 export { default as TextEditor } from './TextEditor';
 export { default as CompanyItem } from './CompanyItem';
+export { default as CandidateItem } from './CandidateItem';
