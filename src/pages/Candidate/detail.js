@@ -36,7 +36,7 @@ const DetailCandidate = () => {
                             className="w-full h-full object-contain"
                         />
                     </div>
-                    <div className="">
+                    <div className="text-[20px]">
                         <p>Ứng viên: bind tên</p>
                         <p>Ngày sinh: bind ngày sinh</p>
                         <p>Địa chỉ: bind địa chỉ</p>
@@ -47,7 +47,33 @@ const DetailCandidate = () => {
                 <div className="font-medium text-[24px] my-[24px] bg-slate-300 rounded-[4px]">
                     Thông tin nghề nghiệp
                 </div>
-                <div className="grid grid-cols-2">Cứu</div>
+                <div className="grid grid-cols-2 text-[20px] gap-[80px] my-[24px]">
+                    <div className="">
+                        <div className="flex justify-between">
+                            <span className="font-medium">Ngành nghề: </span>
+                            <span className="">bind ngành nghề</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="font-medium">Khu vực làm việc: </span>
+                            <span className="">bind ngành nghề</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="font-medium">Năm kinh nghiệm: </span>
+                            <span className="">bind năm kinh nghiệm</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="font-medium">Trình độ văn hoá: </span>
+                            <span className="">bind trình độ</span>
+                        </div>
+                    </div>
+                    <div className="">
+                        <div className="">chèn ảnh cv</div>
+                    </div>
+                </div>
+                <div className="flex ">
+                    <button className="">Chỉnh sửa</button>
+                    <button className="">Ẩn</button>
+                </div>
             </div>
         </div>
     );
