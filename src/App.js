@@ -16,7 +16,6 @@ function App() {
         <Router>
             <div>
                 <div className="flex fixed dark:bg-main-dark-bg">
-                    <h1 className="underline text-3xl">App</h1>
                     <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
                         <Tooltip title="Setting">
                             <IconButton className="text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white bg-blue-300 border-r-8">
