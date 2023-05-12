@@ -7,7 +7,7 @@ const CompanyItem = ({ item = {} }) => {
     return (
         <div className="flex bg-[#f1f3f5] rounded-[4px] relative">
             <div className="w-[120px] h-[120px] flex items-center justify-center bg-white rounded-l">
-                <Link href="/nha-tuyen-dung/:id" className="w-full h-full">
+                <Link to={`/nha-tuyen-dung/chi-tiet/1231`} className="w-full h-full">
                     <img
                         className="w-full h-full object-contain p-[16px]"
                         src="https://data.hcmjob.vn/hcmjob/2023/5/9/cong-ty-tnhh-systemgear-viet-nam-hcmjob.vn.jpg"
@@ -17,7 +17,11 @@ const CompanyItem = ({ item = {} }) => {
             </div>
             <div className="flex justify-between flex-1 p-[16px]">
                 <div>
-                    <p className="mb-[8px] text-black text-[20px] font-semibold line-clamp-1">Bind tên công ty vào</p>
+                    <Link to={`/nha-tuyen-dung/chi-tiet/1231`}>
+                        <p className="mb-[8px] text-black text-[20px] font-semibold line-clamp-1">
+                            Bind tên công ty vào
+                        </p>
+                    </Link>
                     <div className="flex items-center mb-[4px]">
                         <FontAwesomeIcon icon={faSuitcase} className="mr-[4px] w-[22px] h-[22px] text-[#2A80B9]" />
                         <span className="text-[14px]">Bind ngành nghề công ty vào.</span>

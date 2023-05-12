@@ -10,6 +10,7 @@ export { default as DetailPage } from './Jobpage/detail';
 export { default as CompanyPage } from './Company';
 export { default as ListCompanies } from './Company/listcompanies';
 export { default as CreateCompany } from './Company/create';
+export { default as DetailCompany } from './Company/detail';
 
 // Ứng viên
 export { default as CandidatePage } from './Candidate';

@@ -8,6 +8,7 @@ import {
     CreateCandidate,
     CreateCompany,
     CreatePost,
+    DetailCompany,
     DetailPage,
     Homepage,
     Jobpage,
@@ -56,6 +57,10 @@ export const publicRoutes = [
             {
                 path: 'tao-moi',
                 component: CreateCompany,
+            },
+            {
+                path: 'chi-tiet/:id',
+                component: DetailCompany,
             },
         ],
     },

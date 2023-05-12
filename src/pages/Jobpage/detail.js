@@ -54,18 +54,13 @@ const DetailPage = () => {
             <div className="my-[24px]">
                 <div className="w-full flex item-center justify-between p-[16px] shadow-lg rounded-[4px]">
                     <div className="w-[50%]">
-                        <h1 className="font-medium text-[24px]">dsadadsad</h1>
+                        <h1 className="font-medium text-[24px]">bind tên công việc</h1>
                         <div>
                             <div className="">
                                 <p className="leading-[32px] text-[16px] flex items-center gap-[4px]">
                                     <FontAwesomeIcon icon={faLocationDot} className="text-[#2A80B9] mr-[4px]" /> Địa
                                     điểm tuyển dụng:
                                 </p>
-                                <div className="flex flex-wrap gap-[8px]">
-                                    <div className="no-underline px-[12px] py-[8px] font-normal text-[16px] text-[#236997] bg-[#E7F5FF] text-center rounded-[4px]">
-                                        dsada
-                                    </div>
-                                </div>
                             </div>
                             <div className="">
                                 <p className="leading-[32px] text-[16px] flex items-center gap-[]">
