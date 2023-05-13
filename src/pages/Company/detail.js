@@ -12,8 +12,8 @@ const DetailCompany = () => {
                 <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
                     <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
                     <input
-                        className="w-[51%] h-[35px] border-solid border-1 rounded-[4px] border-transparent outline-none"
-                        placeholder="  Nhập tên công ty..."
+                        className="w-[51%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
+                        placeholder="Nhập tên công ty..."
                     />
                     <Combobox title="Chọn ngành nghề" className="w-[200px] h-[35px]" />
                     <Combobox title="Chọn tỉnh thành" className="w-[200px] h-[35px]" />
@@ -22,7 +22,7 @@ const DetailCompany = () => {
                     </button>
                 </div>
             </div>
-            <div className="my-[24px]">
+            <div className="mt-[20px] mb-[12px]">
                 <div className="w-full">
                     <div className="h-[268px] overflow-hidden">
                         <img
@@ -31,9 +31,9 @@ const DetailCompany = () => {
                             className="h-full w-full object-cover"
                         />
                     </div>
-                    <div className="flex items-center bg-white relative px-[24px]">
-                        <div className="h-[110px] mr-[24px] w-[140px]">
-                            <div className="border-4 border-white border-solid absolute top-[-100px] bg-white">
+                    <div className="flex bg-white relative px-[24px] pt-[12px]">
+                        <div className="h-[80px] mr-[24px] w-[140px]">
+                            <div className="border-4 border-white border-solid absolute top-[-100px] bg-white rounded">
                                 <img
                                     src="https://cdn.topcv.vn/140/company_logos/ngan-hang-thuong-mai-co-phan-ky-thuong-viet-nam-632bbf5a763f7.jpg"
                                     alt=""
@@ -42,22 +42,24 @@ const DetailCompany = () => {
                             </div>
                         </div>
                         <div className="break-words">
-                            <p className="text-[24px] text-[#333]">Bind tên công ty</p>
+                            <p className="text-[24px] font-semibold text-[#333]">Bind tên công ty</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="my-[40px] grid grid-cols-12 gap-[16px]">
+            <div className="my-[20px] grid grid-cols-12 gap-[16px]">
                 <div className="col-span-8 flex flex-col gap-[32px]">
                     <div className="shadow-lg px-[32px] py-[20px]">
-                        <p className="text-[24px] pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">
+                        <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">
                             Giới thiệu công ty
                         </p>
                         <div>Bind giới thiệu</div>
                     </div>
 
                     <div className="shadow-lg px-[32px] py-[20px]">
-                        <p className="text-[24px] pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">Đang tuyển dụng</p>
+                        <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">
+                            Đang tuyển dụng
+                        </p>
                         <JobItem
                             job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
                         />
@@ -92,7 +94,7 @@ const DetailCompany = () => {
                     <div className="px-[32px] py-[20px] shadow-lg ">
                         <div className=" mb-[12px] flex items-center text-[20px]">
                             <FontAwesomeIcon icon={faSuitcase} className="mr-[8px] p-[8px] bg-orange-300 text-white" />
-                            <span>Bind tên công ty</span>
+                            <span className="font-medium">Bind tên công ty</span>
                         </div>
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-4">
@@ -109,6 +111,11 @@ const DetailCompany = () => {
                                 <FontAwesomeIcon icon={faFile} />
                                 <span className="font-medium">Đã đăng:</span>
                                 <span>Bind số lượng bài</span>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <FontAwesomeIcon icon={faFile} />
+                                <span className="font-medium">Lĩnh vực:</span>
+                                <span>Bind ngành nghề</span>
                             </div>
                         </div>
                     </div>

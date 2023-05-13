@@ -58,7 +58,7 @@ const Navbar = () => {
     const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
     return (
-        <div className="flex justify-between mr-[16px]">
+        <div className="flex justify-between mx-[16px]">
             <div className="flex items-center gap-3">
                 <FontAwesomeIcon icon={faUserTie} style={{ color: '#3282f6' }} />
                 <span className="font-medium text-blue-500 pt-[4px]">JobProject</span>

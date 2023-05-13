@@ -4,15 +4,17 @@ import { CandidateItem, Combobox } from '~/components';
 const ListCandidates = () => {
     return (
         <div>
-            <div className="bg-blue-500 text-black">
-                <div className="px-[14px] py-[20px] flex gap-[10px] h-[80px]">
-                    <span className="text-[16px] text-white leading-[32px] block">Tìm người</span>
+            <div className="bg-blue-800 text-black">
+                <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
+                    <span className="text-[16px] text-white leading-[32px] block">Tìm người: </span>
                     <Combobox title="Chọn ngành nghề" className="w-[200px] h-[35px]" isMulti isSearchable />
                     <Combobox title="Chọn quận huyện" className="w-[200px] h-[35px]" isMulti isSearchable />
-                    <button className="w-[15%] cursor-pointer bg-slate-500 text-white h-[35px]">Tìm kiếm</button>
+                    <button className="w-[15%] cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
+                        Tìm kiếm
+                    </button>
                 </div>
                 Đoạn này xem xét tìm kiếm lại
-                <div className="px-[15px] pb-[20px] flex flex-wrap gap-[10px]">
+                <div className="px-[24px] pb-[20px] flex flex-wrap gap-[10px]">
                     <Combobox title="Cấp bậc" className="w-[240px]" />
                     <Combobox title="Loại hình" className="w-[240px]" />
                     <Combobox title="Kinh nghiệm" className="w-[240px]" />
@@ -25,14 +27,14 @@ const ListCandidates = () => {
                 </div>
             </div>
 
-            <div className="my-[48px] flex justify-between">
+            <div className="my-[48px] mx-[24px] flex justify-between">
                 <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
-                    <p className="text-[24px] font-medium leading-[1.4] mb-[4px]">Ứng viên</p>
+                    <p className="align-middle text-[24px] font-medium leading-[1.4] my-[2px]">Ứng viên</p>
                 </div>
                 <div className="flex items-center">
                     <Link
                         to="/ung-vien/tao-ung-vien"
-                        className="bg-blue-600 text-white rounded-[4px] border-transparent border-1 flex items-center p-[4px] hover:opacity-80 h-fit"
+                        className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80 h-fit"
                     >
                         Thêm mới ứng viên
                     </Link>
