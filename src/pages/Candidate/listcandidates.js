@@ -13,7 +13,6 @@ const ListCandidates = () => {
                         Tìm kiếm
                     </button>
                 </div>
-                Đoạn này xem xét tìm kiếm lại
                 <div className="px-[24px] pb-[20px] flex flex-wrap gap-[10px]">
                     <Combobox title="Cấp bậc" className="w-[240px]" />
                     <Combobox title="Loại hình" className="w-[240px]" />
