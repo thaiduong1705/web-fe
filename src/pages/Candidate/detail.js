@@ -71,7 +71,6 @@ const DetailCandidate = () => {
                     </div>
                 </div>
                 <div className="flex ">
-                    dsadadsa
                     <button className="">Chỉnh sửa</button>
                     <button className="">Ẩn</button>
                 </div>
