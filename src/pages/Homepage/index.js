@@ -8,7 +8,7 @@ import { Stacked, Pie, SparkLine, Button, JobItem } from '~/components';
 import styles from './Homepage.module.css';
 const Homepage = () => {
     return (
-        <div className="mt-12">
+        <div className="w-auto md:ml-96 ">
             <div className={clsx(styles['wrapper'])}>
                 <div className="flex flex-wrap lg:flex-nowrap justify-center ">
                     <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg  rounded-xl lg:w-full w-72 p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center">

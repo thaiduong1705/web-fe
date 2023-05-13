@@ -5,7 +5,7 @@ import { faSuitcase, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 const CompanyItem = ({ item = {} }) => {
     return (
-        <div className="flex bg-[#f1f3f5] rounded-[4px] relative">
+        <div className="flex bg-[#f1f3f5] rounded-[8px] relative">
             <div className="w-[120px] h-[120px] flex items-center justify-center bg-white rounded-l">
                 <Link to={`/nha-tuyen-dung/chi-tiet/1231`} className="w-full h-full">
                     <img
@@ -32,7 +32,7 @@ const CompanyItem = ({ item = {} }) => {
                     </div>
                 </div>
                 <div className="min-w-[185px] flex flex-col justify-center ">
-                    <span className="bg-[#2A80B9] min-h-[32px] flex items-center px-[16px] py-[4px] rounded-[32px] text-white">
+                    <span className="bg-[#2A80B9] min-h-[32px] flex items-center px-[16px] py-[4px] rounded-[8px] text-white">
                         Bind số công việc đang tuyển
                     </span>
                 </div>
