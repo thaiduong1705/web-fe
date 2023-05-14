@@ -7,7 +7,7 @@ import { Combobox, TextEditor } from '~/components';
 
 const CreateCandidate = () => {
     return (
-        <div className="w-full bg-gray-200 px-[8px] rounded-[4px] h-full mb-[20px] pb-[48px]">
+        <div className="w-full bg-gray-200 p-[8px] rounded-[8px] h-full mb-[20px] pb-[48px]">
             <form>
                 <p className="font-medium text-[24px]">
                     <FontAwesomeIcon icon={faUser} className="mr-[4px]" />

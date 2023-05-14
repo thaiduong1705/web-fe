@@ -8,7 +8,10 @@ function Dropdown() {
     const [dropdown, setDropdown] = useState(false);
 
     return (
-        <div className={dropdown ? 'hidden' : 'w-40 absolute text-start'} onClick={() => setDropdown(!dropdown)}>
+        <div
+            className={dropdown ? 'hidden' : 'w-[170px] absolute top-[40px] text-start bg-slate-50 p-3'}
+            onClick={() => setDropdown(!dropdown)}
+        >
             <ul>
                 <li key="" className="flex">
                     <FontAwesomeIcon icon={faRightFromBracket} className="m-2" />
