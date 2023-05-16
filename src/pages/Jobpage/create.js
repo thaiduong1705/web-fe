@@ -63,14 +63,13 @@ const CreatePost = () => {
 
     const handleSubmit = () => {};
     return (
-        <div className="w-full bg-gray-200 px-[8px] rounded-[4px] h-full mb-[20px]">
+        <div className="w-full bg-blue-100 pb-[12px] rounded-[4px] h-full">
             <form>
-                <p className="font-medium text-[24px]">
-                    <FontAwesomeIcon icon={faFileLines} className="mr-[4px]" />
+                <p className="font-medium text-[24px] py-5 pl-5 text-white bg-blue-700 items-center">
+                    <FontAwesomeIcon icon={faFileLines} className="mr-[12px]" />
                     Tạo bài tuyển dụng
                 </p>
-                <span className="w-full h-[5px] block bg-blue-300 my-[8px]"></span>
-                <div className="flex justify-between mb-[8px] gap-[10px]">
+                <div className="flex justify-between px-[8px] my-[8px] gap-[10px]">
                     <div className="flex-1">
                         <label htmlFor="JobName">Tên công việc</label>
                         <input
@@ -95,7 +94,7 @@ const CreatePost = () => {
                         />
                     </div>
                 </div>
-                <div className="flex justify-between gap-[10px]">
+                <div className="flex justify-between gap-[10px] px-[8px]">
                     <div className="w-[40%]">
                         <label htmlFor="JobName">Công ty</label>
                         <Combobox title="Công ty" className="w-[100%] h-[40px]" isSearchable />
@@ -125,8 +124,8 @@ const CreatePost = () => {
                         />
                     </div>
                 </div>
-                <div className="w-full h-[1px] bg-black my-[12px] opacity-20 "></div>
-                <div className="flex gap-[10px] mb-[8px]">
+                <div className="w-full h-[2px] bg-blue-700 my-[12px] px-[8px] opacity-60"></div>
+                <div className="flex gap-[10px] mb-[8px] px-[8px]">
                     <div className="w-[51%]">
                         <label htmlFor="">Ngành nghề</label>
                         <Combobox title="Ngành nghề" className="w-[100%] h-[40px]" isSearchables />
@@ -140,7 +139,7 @@ const CreatePost = () => {
                         <Combobox title="Loại hình làm việc" className="h-[40px]" />
                     </div>
                 </div>
-                <div className="flex gap-[10px] mb-[8px]">
+                <div className="flex gap-[10px] mb-[8px] px-[8px]">
                     <div className="w-[25%]">
                         <label>Trình độ</label>
                         <Combobox placeholder="Tìm kiếm" title="Trình độ" className="h-[40px]" />
@@ -194,7 +193,7 @@ const CreatePost = () => {
                         />
                     </div>
                 </div>
-                <div className="mb-[8px] flex  gap-[10px]">
+                <div className="mb-[8px] flex  gap-[10px] px-[8px]">
                     <div className="w-[70%]">
                         <label htmlFor="address">Địa chỉ làm việc</label>
                         <input
@@ -214,7 +213,7 @@ const CreatePost = () => {
                         />
                     </div>
                 </div>
-                <div className="mb-[8px]">
+                <div className="mb-[8px] px-[8px]">
                     <label>Yêu cầu ứng viên</label>
                     <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={handleRequirementChange} />
                     <label>Trách nhiệm công việc</label>
@@ -222,7 +221,7 @@ const CreatePost = () => {
                     <label>Quyền lợi công việc</label>
                     <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={handleRewardChange} />
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end px-[8px] pt-[8px]">
                     <button
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"

@@ -7,14 +7,13 @@ import { Combobox, TextEditor } from '~/components';
 
 const CreateCandidate = () => {
     return (
-        <div className="w-full bg-gray-200 p-[8px] rounded-[8px] h-full mb-[20px] pb-[48px]">
+        <div className="w-full bg-blue-100 rounded-[8px] h-full mb-[20px] pb-[24px]">
             <form>
-                <p className="font-medium text-[24px]">
-                    <FontAwesomeIcon icon={faUser} className="mr-[4px]" />
+                <p className="font-medium text-[24px] py-5 pl-5 text-white bg-blue-700 items-center rounded-[8px]">
+                    <FontAwesomeIcon icon={faUser} className="mr-[12px]" />
                     Thêm mới ứng viên
                 </p>
-                <span className="w-full h-[5px] block bg-blue-300 my-[8px]"></span>
-                <div className="flex justify-between mb-[8px] gap-[10px]">
+                <div className="flex justify-between my-[12px] gap-[10px] px-[8px]">
                     <div className="flex-1">
                         <label htmlFor="JobName">Tên ứng viên</label>
                         <input
@@ -25,7 +24,7 @@ const CreateCandidate = () => {
                         />
                     </div>
                 </div>
-                <div className="flex justify-between mb-[8px] gap-[10px]">
+                <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
                     <div className="w-[25%]">
                         <label>Ngày sinh</label>
                         <input
@@ -60,7 +59,7 @@ const CreateCandidate = () => {
                         />
                     </div>
                 </div>
-                <div className="flex justify-between mb-[8px] gap-[10px]">
+                <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
                     <div className="flex-1">
                         <label>Địa chỉ thường trú</label>
                         <input
@@ -70,7 +69,7 @@ const CreateCandidate = () => {
                         />
                     </div>
                 </div>
-                <div className="flex justify-between mb-[8px] gap-[10px]">
+                <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
                     <div className="w-[25%]">
                         <label>Ngành nghề mong muốn</label>
                         <Combobox title="Ngành nghề" isMulti isSearchable />
@@ -89,10 +88,10 @@ const CreateCandidate = () => {
                     </div>
                 </div>
 
-                <div className="mb-[8px]">
+                <div className="mb-[8px] px-[8px]">
                     <input type="file" className="w-full" />
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end px-[8px]">
                     <button
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"
