@@ -35,7 +35,7 @@ const ListPosts = () => {
                 </div>
             </div>
             <div className="w-full flex flex-col justify-center h-auto rounded-[3px] mt-[8px] bg-gray-50 px-[24px] py-[16px] max-h-[800px]">
-                <div className="flex justify-between">
+                <div className="flex justify-between mb-3">
                     <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
                         <p className="text-[24px] font-medium leading-[1.4] my-[2px] pt">Danh sách việc làm</p>
                     </div>
@@ -46,33 +46,106 @@ const ListPosts = () => {
                         Tạo mới bài tuyển dụng
                     </Link>
                 </div>
-                <div>
+                <div className="overflow-scroll">
                     <JobItem
-                        job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
+                        job={{
+                            name: 'test',
+                            companyName: 'Công ty TNHH TEST',
+                            salary: -1,
+                            endDate: '24/10/2002',
+                            position: 'Tester',
+                            district: 'Hồ Chí Minh',
+                        }}
                     />
                     <JobItem
-                        job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
+                        job={{
+                            name: 'test',
+                            companyName: 'Công ty TNHH TEST',
+                            salary: -1,
+                            endDate: '24/10/2002',
+                            position: 'Tester',
+                            district: 'Hồ Chí Minh',
+                        }}
                     />
                     <JobItem
-                        job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
+                        job={{
+                            name: 'test',
+                            companyName: 'Công ty TNHH TEST',
+                            salary: -1,
+                            endDate: '24/10/2002',
+                            position: 'Tester',
+                            district: 'Hồ Chí Minh',
+                        }}
                     />
                     <JobItem
-                        job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
+                        job={{
+                            name: 'test',
+                            companyName: 'Công ty TNHH TEST',
+                            salary: -1,
+                            endDate: '24/10/2002',
+                            position: 'Tester',
+                            district: 'Hồ Chí Minh',
+                        }}
                     />
                     <JobItem
-                        job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
+                        job={{
+                            name: 'test',
+                            companyName: 'Công ty TNHH TEST',
+                            salary: -1,
+                            endDate: '24/10/2002',
+                            position: 'Tester',
+                            district: 'Hồ Chí Minh',
+                        }}
                     />
                     <JobItem
-                        job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
+                        job={{
+                            name: 'test',
+                            companyName: 'Công ty TNHH TEST',
+                            salary: -1,
+                            endDate: '24/10/2002',
+                            position: 'Tester',
+                            district: 'Hồ Chí Minh',
+                        }}
                     />
                     <JobItem
-                        job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
+                        job={{
+                            name: 'test',
+                            companyName: 'Công ty TNHH TEST',
+                            salary: -1,
+                            endDate: '24/10/2002',
+                            position: 'Tester',
+                            district: 'Hồ Chí Minh',
+                        }}
                     />
                     <JobItem
-                        job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
+                        job={{
+                            name: 'test',
+                            companyName: 'Công ty TNHH TEST',
+                            salary: -1,
+                            endDate: '24/10/2002',
+                            position: 'Tester',
+                            district: 'Hồ Chí Minh',
+                        }}
                     />
                     <JobItem
-                        job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
+                        job={{
+                            name: 'test',
+                            companyName: 'Công ty TNHH TEST',
+                            salary: -1,
+                            endDate: '24/10/2002',
+                            position: 'Tester',
+                            district: 'Hồ Chí Minh',
+                        }}
+                    />
+                    <JobItem
+                        job={{
+                            name: 'test',
+                            companyName: 'Công ty TNHH TEST',
+                            salary: -1,
+                            endDate: '24/10/2002',
+                            position: 'Tester',
+                            district: 'Hồ Chí Minh',
+                        }}
                     />
                 </div>
             </div>

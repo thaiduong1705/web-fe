@@ -47,6 +47,10 @@ module.exports = {
             backgroundImage: {
                 'hero-pattern': "url('https://i.ibb.co/MkvLDfb/Rectangle-4389.png')",
             },
+            flex: {
+                2: '0 0 15%',
+                8: '0 0 80%',
+            },
         },
     },
     plugins: [],
