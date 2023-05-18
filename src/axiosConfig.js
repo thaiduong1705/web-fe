@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const instance = axios.create({
+const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_SERVER_URL,
 });
 
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
     function (config) {
         // Làm gì đó trước khi request dược gửi đi
         return config;
@@ -15,7 +15,7 @@ axios.interceptors.request.use(
     },
 );
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
     function (response) {
         // Bất kì mã trạng thái nào nằm trong tầm 2xx đều khiến hàm này được trigger
         // Làm gì đó với dữ liệu response
@@ -28,4 +28,4 @@ axios.interceptors.response.use(
     },
 );
 
-export default instance;
+export default axiosInstance;

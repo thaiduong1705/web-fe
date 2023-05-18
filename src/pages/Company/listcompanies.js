@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Combobox, CompanyItem } from '~/components';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { getCompanies } from '~/store/action/company';
 const ListCompanies = () => {
+    const { companies } = useSelector((state) => state.company);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getCompanies());
+        console.log(companies);
+    }, []);
     return (
         <div>
             <div className="bg-blue-800 text-black">
@@ -36,7 +44,9 @@ const ListCompanies = () => {
             </div>
 
             <div>
-                <CompanyItem />
+                {/* {companies.map((company, index) => {
+                    return <CompanyItem key={company.id} item={company} />;
+                })} */}
             </div>
         </div>
     );

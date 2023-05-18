@@ -19,7 +19,7 @@ const CompanyItem = ({ item = {} }) => {
                 <div>
                     <Link to={`/nha-tuyen-dung/chi-tiet/1231`}>
                         <p className="mb-[8px] text-black text-[20px] font-semibold line-clamp-1">
-                            Bind tên công ty vào
+                            {item}
                         </p>
                     </Link>
                     <div className="flex items-center mb-[4px]">
