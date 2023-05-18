@@ -25,7 +25,7 @@ const JobItem = ({ job, className }) => {
                     <span className="text-red-500 font-medium">{job.salary < 0 ? 'Thương lượng' : job.salary}</span>
                 </div>
 
-                <p>Công Ty TNHH TEST</p>
+                <p>{job.companyName}</p>
                 <p className="text-gray-500">TG hết hạn ứng tuyển: {job.endDate}</p>
                 <div className="columns-5 justify-between"></div>
                 <div className="flex mt-2 justify-between">
