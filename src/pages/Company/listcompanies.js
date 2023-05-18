@@ -1,12 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Combobox, CompanyItem } from '~/components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const ListCompanies = () => {
+    const [myData, setMyData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios
+                .get(`http://localhost:5000/api/v1/company/all`)
+                .then((response) => {
+                    if (response.status === 200) {
+                        console.log('API response success!');
+                        console.log(response.data);
+                        setMyData(response.data.res);
+                    } else {
+                        console.log('API response error!');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching data: ', error);
+                });
+        };
+        fetchData();
+    }, []);
+
     return (
-        <div>
-            <div className="bg-blue-800 text-black">
-                <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
+        <div className="">
+            <div className="bg-blue-700 text-black">
+                <div className="py-[24px] px-[24px] flex gap-[10px] h-[80px]">
                     <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
                     <input
                         className="w-[51%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
@@ -35,8 +58,16 @@ const ListCompanies = () => {
                 </div>
             </div>
 
-            <div>
-                <CompanyItem />
+            <div className="overflow-scroll mx-[24px]">
+                {myData &&
+                    myData.map((data, index) => (
+                        <CompanyItem
+                            company={{
+                                companyName: data.companyName,
+                                address: data.address,
+                            }}
+                        />
+                    ))}
             </div>
         </div>
     );

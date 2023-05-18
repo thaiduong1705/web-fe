@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSuitcase, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
-const CompanyItem = ({ item = {} }) => {
+const CompanyItem = ({ company, className }) => {
     return (
-        <div className="flex bg-[#f1f3f5] rounded-[8px] relative">
+        <div className="flex bg-[#f1f3f5] rounded-[8px] relative my-4">
             <div className="w-[120px] h-[120px] flex items-center justify-center bg-white rounded-l">
                 <Link to={`/nha-tuyen-dung/chi-tiet/1231`} className="w-full h-full">
                     <img
@@ -19,7 +19,7 @@ const CompanyItem = ({ item = {} }) => {
                 <div>
                     <Link to={`/nha-tuyen-dung/chi-tiet/1231`}>
                         <p className="mb-[8px] text-black text-[20px] font-semibold line-clamp-1">
-                            Bind tên công ty vào
+                            {company.companyName}
                         </p>
                     </Link>
                     <div className="flex items-center mb-[4px]">
@@ -28,7 +28,7 @@ const CompanyItem = ({ item = {} }) => {
                     </div>
                     <div className="flex items-center">
                         <FontAwesomeIcon icon={faLocationDot} className="mr-[4px] w-[22px] h-[22px] text-[#2A80B9]" />
-                        <span className="text-[14px] text-[#999999]">Bind ngành nghề địa chỉ vào.</span>
+                        <span className="text-[14px] text-[#999999]">{company.address}.</span>
                     </div>
                 </div>
                 <div className="min-w-[185px] flex flex-col justify-center ">
