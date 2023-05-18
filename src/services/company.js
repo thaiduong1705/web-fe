@@ -11,3 +11,15 @@ export const apiGetCompanies = async () => {
         return error;
     }
 };
+
+export const apiGetCompany = async (id) => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
+            url: `/api/v1/company/get-company/${id}`,
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};

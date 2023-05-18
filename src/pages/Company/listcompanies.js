@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getCompanies } from '~/store/action/company';
 const ListCompanies = () => {
-    const { companies } = useSelector((state) => state.company);
+    const companies = useSelector((state) => state.company.companies);
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getCompanies());
-        console.log(companies);
     }, []);
     return (
         <div>
@@ -44,9 +44,9 @@ const ListCompanies = () => {
             </div>
 
             <div>
-                {/* {companies.map((company, index) => {
+                {companies.map((company, index) => {
                     return <CompanyItem key={company.id} item={company} />;
-                })} */}
+                })}
             </div>
         </div>
     );

@@ -29,19 +29,17 @@ const Sidebar = () => {
                     <div className="mt-10">
                         {publicRoutes.map((route, index) => {
                             return (
-                                <div className="flex justify-between">
-                                    <NavLink
-                                        to={route.path}
-                                        key={index}
-                                        className={({ isActive }) => (isActive ? activeLink : normalLink) + ' flex-1'}
-                                        onClick={() => {
-                                            setActiveMenu((prev) => true);
-                                        }}
-                                    >
-                                        {route.icon}
-                                        <span className="capitalize">{route.title}</span>
-                                    </NavLink>
-                                </div>
+                                <NavLink
+                                    to={route.path}
+                                    key={index}
+                                    className={({ isActive }) => (isActive ? activeLink : normalLink) + ' flex-1'}
+                                    onClick={() => {
+                                        setActiveMenu((prev) => true);
+                                    }}
+                                >
+                                    {route.icon}
+                                    <span className="capitalize">{route.title}</span>
+                                </NavLink>
                             );
                         })}
                     </div>
