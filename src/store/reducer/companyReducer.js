@@ -21,6 +21,13 @@ const companyReducer = (state = initState, action) => {
                 msg: action.msg || '',
                 count: action.count || 0,
             };
+        case actionType.GET_COMPANIES_LIMIT:
+            return {
+                ...state,
+                companies: action.companies || [],
+                msg: action.msg || '',
+                count: action.count || 0,
+            };
         default:
             return state;
     }

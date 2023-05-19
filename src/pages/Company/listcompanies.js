@@ -3,23 +3,15 @@ import { Combobox, CompanyItem } from '~/components';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getCompanies } from '~/store/action/company';
+import { getCompanies, getCompanyLimit } from '~/store/action/company';
 import ReactPaginate from 'react-paginate';
 const ListCompanies = () => {
-    const companies = useSelector((state) => state.company.companies);
+    const { companies, count } = useSelector((state) => state.company);
     const careers = useSelector((state) => state.otherData.careers);
     const [selectedCareer, setSelectedCareer] = useState();
 
-    const [pageNumber, setPageNumber] = useState(0);
-    const companyPerPage = 5;
-    const companyVisited = pageNumber * companyPerPage;
-    const pageCount = Math.ceil(companies.length / companyPerPage);
-    const displayCompany = companies.splice(companyVisited, companyVisited + companyPerPage).map((item) => {
-        return <CompanyItem key={item.id} item={item} />;
-    });
-    const changePage = ({ selected }) => {
-        setPageNumber(selected);
-    };
+    const [pageCount, setPageCount] = useState(0);
+    let companyPerPage = 10;
 
     const handleChangeCareer = (career) => {
         setSelectedCareer((prev) => career);
@@ -27,8 +19,17 @@ const ListCompanies = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getCompanies());
-    }, []);
+        dispatch(getCompanyLimit());
+        setPageCount(Math.ceil(count / companyPerPage));
+    }, [companyPerPage]);
+
+    const fetchCompanies = (currentPage) => {
+        dispatch(getCompanyLimit({ page: currentPage }));
+    };
+    const handlePageClick = (data) => {
+        console.log(data);
+    };
+
     return (
         <div className="">
             <div className="bg-blue-700 text-black">
@@ -46,7 +47,7 @@ const ListCompanies = () => {
                         })}
                         onChange={handleChangeCareer}
                     />
-                    <Combobox title="Chọn tỉnh thành" className="w-[200px] h-[35px]" />
+                    <Combobox title="Chọn quận huyện" className="w-[200px] h-[35px]" />
                     <button className="w-[15%] cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
                         Tìm kiếm
                     </button>
@@ -69,12 +70,14 @@ const ListCompanies = () => {
             </div>
 
             <div className="">
-                {displayCompany}
+                {companies.map((company) => {
+                    return <CompanyItem key={company.id} item={company} />;
+                })}
                 <ReactPaginate
                     pageCount={pageCount}
                     previousLabel={'Prev'}
                     nextLabel={'Next'}
-                    onPageChange={changePage}
+                    onPageChange={handlePageClick}
                     breakLabel={'...'}
                     containerClassName="inline-flex -space-x-px items-center justify-center w-full"
                     pageClassName={''}
