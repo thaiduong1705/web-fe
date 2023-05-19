@@ -29,15 +29,18 @@ const ListCompanies = () => {
     return (
         <div className="">
             <div className="bg-blue-700 text-black">
-                <div className="py-[24px] px-[24px] flex gap-[10px] h-[80px]">
-                    <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
-                    <input
-                        className="w-[51%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
-                        placeholder="Nhập tên công ty..."
-                    />
-                    <Combobox title="Chọn ngành nghề" className="w-[200px] h-[35px]" />
-                    <Combobox title="Chọn tỉnh thành" className="w-[200px] h-[35px]" />
-                    <button className="w-[15%] cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
+                <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px] px-16">
+                    <div className="col-span-3 col-start-1 flex gap-[10px]">
+                        <span className="text-[16px] text-white leading-[32px] block ">Tìm việc: </span>
+                        <input
+                            className="w-[90%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
+                            placeholder="Nhập tên công ty..."
+                        />
+                    </div>
+
+                    <Combobox title="Chọn ngành nghề" className="h-[35px] col-start-4" />
+                    <Combobox title="Chọn quận huyện" className="h-[35px] col-start-5" />
+                    <button className="cursor-pointer col-start-6 bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
                         Tìm kiếm
                     </button>
                 </div>
