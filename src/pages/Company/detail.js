@@ -16,7 +16,7 @@ const DetailCompany = () => {
 
     return (
         <div>
-            <div className="bg-blue-800 text-black">
+            <div className="bg-blue-700 text-black">
                 <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
                     <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
                     <input

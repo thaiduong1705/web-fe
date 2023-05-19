@@ -20,8 +20,8 @@ const JobItem = ({ job, className }) => {
 
             <div className="flex-8 max-w[80%] lead-[300px] ">
                 <div className="flex justify-between">
-                    <Link className="text-[30px] font-medium" to="/">
-                        TÊN CÔNG VIỆC: BIND
+                    <Link className="text-[28px] font-medium" to={`/viec-lam/chi-tiet/1231`}>
+                        {job.name}
                     </Link>
                     <span className="text-red-500 font-medium">{job.salary < 0 ? 'Thương lượng' : job.salary}</span>
                 </div>

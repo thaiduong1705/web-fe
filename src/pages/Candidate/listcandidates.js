@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CandidateItem, Combobox } from '~/components';
+import axios from 'axios';
+
 const ListCandidates = () => {
+    const [myData, setMyData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios
+                .get(`http://localhost:5000/api/v1/candidate/all`)
+                .then((response) => {
+                    if (response.status === 200) {
+                        console.log('API response success!');
+                        console.log(response.data);
+                        setMyData(response.data.res);
+                    } else {
+                        console.log('API response error!');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching data: ', error);
+                });
+        };
+        fetchData();
+    }, []);
     return (
         <div>
-            <div className="bg-blue-800 text-black">
+            <div className="bg-blue-700 text-black">
                 <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
                     <span className="text-[16px] text-white leading-[32px] block">Tìm người: </span>
                     <Combobox title="Chọn ngành nghề" className="w-[200px] h-[35px]" isMulti isSearchable />

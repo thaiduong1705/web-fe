@@ -6,7 +6,7 @@ import { faSuitcase, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
 const CompanyItem = ({ item }) => {
     return (
-        <div className="flex bg-[#f1f3f5] rounded-[8px] relative">
+        <div className="flex bg-[#f1f3f5] rounded-[8px] relative my-4">
             <div className="w-[120px] h-[120px] flex items-center justify-center bg-white rounded-l">
                 <Link
                     to={`/nha-tuyen-dung/chi-tiet/${sanitizeVietnameseString(item.companyName).replaceAll('/', '')}/${

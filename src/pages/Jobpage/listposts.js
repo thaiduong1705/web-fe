@@ -1,15 +1,35 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Combobox, JobItem } from '~/components';
 
 const ListPosts = () => {
     const [myData, setMyData] = useState([]);
-    useEffect(() => {}, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios
+                .get(`http://localhost:5000/api/v1/post/all`)
+                .then((response) => {
+                    if (response.status === 200) {
+                        console.log('API response success!');
+                        console.log(response.data);
+                        setMyData(response.data.res);
+                    } else {
+                        console.log('API response error!');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching data: ', error);
+                });
+            console.log(myData);
+        };
+        fetchData();
+    }, []);
 
     return (
         <div className="">
-            <div className="bg-blue-800 text-black">
+            <div className="bg-blue-700 text-black">
                 <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
                     <span className="text-[16px] text-white leading-[32px] block ">Tìm việc: </span>
                     <input
@@ -55,8 +75,8 @@ const ListPosts = () => {
                         myData.map((data, index) => (
                             <JobItem
                                 job={{
-                                    name: 'test',
-                                    companyName: data.jobTitle,
+                                    name: data.jobTitle,
+                                    companyName: data.company.companyName,
                                     salary: -1,
                                     endDate: data.endDate,
                                     position: 'Tester',
