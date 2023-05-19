@@ -60,7 +60,7 @@ export const publicRoutes = [
                 component: CreateCompany,
             },
             {
-                path: 'chi-tiet/:id',
+                path: 'chi-tiet/:name/:id',
                 component: DetailCompany,
             },
         ],

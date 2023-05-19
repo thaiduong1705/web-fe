@@ -12,6 +12,7 @@ const JobItem = ({ job, className }) => {
                         <img
                             src="https://www.vietnamworks.com/_next/image?url=https%3A%2F%2Fimages.vietnamworks.com%2Fpictureofcompany%2F9a%2F10884460.png&w=128&q=75"
                             className=""
+                            alt=""
                         />
                     </div>
                 </div>

@@ -16,7 +16,7 @@ const TextEditor = ({ className, onChange = () => {} }) => {
     const [quill, setQuill] = useState('');
     const handleChange = (value) => {
         setQuill((prev) => value);
-        onChange(value);
+        onChange(quill);
     };
     return (
         <div className={clsx(className)}>

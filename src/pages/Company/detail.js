@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faSuitcase, faBuilding, faFile, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Combobox, JobItem } from '~/components';
+import { getCompanyById } from '~/store/action/company';
 const DetailCompany = () => {
     const { id } = useParams();
+    const companies = useSelector((state) => state.company.companies);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getCompanyById(id));
+    }, []);
+
     return (
         <div>
             <div className="bg-blue-700 text-black">
@@ -33,16 +41,16 @@ const DetailCompany = () => {
                     </div>
                     <div className="flex bg-white relative px-[24px] pt-[12px]">
                         <div className="h-[80px] mr-[24px] w-[140px]">
-                            <div className="border-4 border-white border-solid absolute top-[-100px] bg-white rounded">
+                            <div className="border-4 border-white border-solid absolute top-[-100px] bg-white rounded w-[140px] h-[140px]">
                                 <img
-                                    src="https://cdn.topcv.vn/140/company_logos/ngan-hang-thuong-mai-co-phan-ky-thuong-viet-nam-632bbf5a763f7.jpg"
-                                    alt=""
+                                    src={companies.imageLink}
+                                    alt={companies.companyName}
                                     className="border-1 border-[#333] border-solid rounded-[4px] h-full object-contain"
                                 />
                             </div>
                         </div>
                         <div className="break-words">
-                            <p className="text-[24px] font-semibold text-[#333]">Bind tên công ty</p>
+                            <p className="text-[24px] font-semibold text-[#333]">{companies.companyName}</p>
                         </div>
                     </div>
                 </div>
@@ -53,7 +61,7 @@ const DetailCompany = () => {
                         <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">
                             Giới thiệu công ty
                         </p>
-                        <div>Bind giới thiệu</div>
+                        <div>{companies.introduction || 'Chưa cập nhật'}</div>
                     </div>
 
                     <div className="shadow-lg px-[32px] py-[20px]">
@@ -100,22 +108,24 @@ const DetailCompany = () => {
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faLocationDot} />
                                 <span className="font-medium">Địa chỉ:</span>
-                                <span>Bind địa chỉ</span>
+                                <span>{companies.address}</span>
                             </div>
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faBuilding} />
                                 <span className="font-medium">Quy mô công ty:</span>
-                                <span>Bind quy mô</span>
+                                <span>{companies.companies || 'Chưa cập nhật'}</span>
                             </div>
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faFile} />
-                                <span className="font-medium">Đã đăng:</span>
-                                <span>Bind số lượng bài</span>
+                                <span className="font-medium">Đang đăng:</span>
+                                <span>{companies.Posts.length} bài tuyển dụng</span>
                             </div>
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faFile} />
                                 <span className="font-medium">Lĩnh vực:</span>
-                                <span>Bind ngành nghề</span>
+                                {companies.Career.map((cc, index) => {
+                                    return <span key={index}>{cc.careerName}</span>;
+                                })}
                             </div>
                         </div>
                     </div>

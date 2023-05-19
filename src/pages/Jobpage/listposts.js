@@ -2,7 +2,6 @@ import React from 'react';
 import { useEffect, useState, Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Combobox, JobItem } from '~/components';
-import axios from 'axios';
 
 const ListPosts = () => {
     const [myData, setMyData] = useState([]);

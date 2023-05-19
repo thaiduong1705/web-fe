@@ -1,28 +1,31 @@
 import axios from 'axios';
 
-const instance = axios.create({
+const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_SERVER_URL,
 });
 
-instance.interceptors.request.use(
+axiosInstance.interceptors.request.use(
     function (config) {
-        // Do something before request is sent
+        // Làm gì đó trước khi request dược gửi đi
         return config;
     },
     function (error) {
-        // Do something with request error
+        console.log(error);
         return Promise.reject(error);
     },
 );
 
-instance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
     function (response) {
-        // refresh token
+        // Bất kì mã trạng thái nào nằm trong tầm 2xx đều khiến hàm này được trigger
+        // Làm gì đó với dữ liệu response
         return response;
     },
     function (error) {
+        // Bất kì mã trạng thái nào lọt ra ngoài tầm 2xx đều khiến hàm này được trigger\
+        // Làm gì đó với lỗi response
         return Promise.reject(error);
     },
 );
 
-export default instance;
+export default axiosInstance;
