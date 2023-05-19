@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     company: companyReducer,
     otherData: otherReducer,
-    postData: postReducer,
+    post: postReducer,
 });
 
 export default rootReducer;

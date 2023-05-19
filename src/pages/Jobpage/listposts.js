@@ -2,29 +2,16 @@ import React from 'react';
 import { useEffect, useState, Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Combobox, JobItem } from '~/components';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getPosts } from '~/store/action/post';
 
 const ListPosts = () => {
-    const [myData, setMyData] = useState([]);
+    const posts = useSelector((state) => state.post.posts);
 
+    const dispatch = useDispatch();
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios
-                .get(`http://localhost:5000/api/v1/post/all`)
-                .then((response) => {
-                    if (response.status === 200) {
-                        console.log('API response success!');
-                        console.log(response.data);
-                        setMyData(response.data.res);
-                    } else {
-                        console.log('API response error!');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error fetching data: ', error);
-                });
-            console.log(myData);
-        };
-        fetchData();
+        dispatch(getPosts());
     }, []);
 
     return (
@@ -74,8 +61,8 @@ const ListPosts = () => {
                     </Link>
                 </div>
                 <div className="overflow-scroll">
-                    {myData &&
-                        myData.map((data, index) => (
+                    {posts &&
+                        posts.map((data, index) => (
                             <JobItem
                                 job={{
                                     name: data.jobTitle,
