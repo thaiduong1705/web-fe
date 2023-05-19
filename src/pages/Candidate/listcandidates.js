@@ -27,7 +27,7 @@ const ListCandidates = () => {
     }, []);
     return (
         <div>
-            <div className="bg-blue-700 text-black px-16">
+            <div className="bg-blue-700 text-black px-[64px]">
                 <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px]">
                     <div className="col-span-3 col-start-1 flex gap-[10px]">
                         <span className="text-[16px] text-white leading-[32px] block ">Tìm việc: </span>
@@ -56,7 +56,7 @@ const ListCandidates = () => {
                 </div>
             </div>
 
-            <div className="my-[48px] mx-[24px] flex justify-between">
+            <div className="my-[48px] px-[64px] flex justify-between">
                 <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
                     <p className="align-middle text-[24px] font-medium leading-[1.4] my-[2px]">Ứng viên</p>
                 </div>
@@ -70,7 +70,7 @@ const ListCandidates = () => {
                 </div>
             </div>
 
-            <div className="my-[40px]">
+            <div className="my-[40px] px-[64px]">
                 <table className="table-auto min-w-full text-left text-[14px] font-light">
                     <thead className="border-b dark:border-neutral-500">
                         <tr>

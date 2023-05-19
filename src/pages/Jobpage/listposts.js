@@ -66,7 +66,7 @@ const ListPosts = () => {
                             <JobItem
                                 job={{
                                     name: data.jobTitle,
-                                    companyName: data.company.companyName,
+                                    companyName: data.Company.companyName,
                                     salary: -1,
                                     endDate: data.endDate,
                                     position: 'Tester',

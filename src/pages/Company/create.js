@@ -1,11 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding } from '@fortawesome/free-solid-svg-icons';
-
+import { apiCreateCompany } from '~/services/company';
 import { Combobox, TextEditor } from '~/components';
 
 const CreateCompany = () => {
+    const [companyName, setCompanyName] = useState('');
+    const [address, setAddress] = useState('');
+    const [introduction, setIntroduction] = useState('');
+    const [companySize, setCompanySize] = useState('');
+    const [careerList, setCareerList] = useState('');
+
+    const [companyData, setCompanyData] = useState({
+        CompanyName: companyName,
+        Address: address,
+        Introduction: introduction,
+        CompanySize: companySize,
+        CareerList: careerList,
+    });
+    const handleCreateCompany = ({ companyName, address, introduction, companySize, careerList }) => {
+        setCompanyData({
+            CompanyName: companyName,
+            Address: address,
+            Introduction: introduction,
+            CompanySize: companySize,
+            CareerList: careerList,
+        });
+        apiCreateCompany(companyData);
+    };
+
     return (
         <div className="w-full bg-blue-100 rounded-[4px] h-full pb-[24px]">
             <form>
@@ -21,6 +45,8 @@ const CreateCompany = () => {
                             name="TenCongViec"
                             id="JobName"
                             placeholder="Công ty TNHH ABC"
+                            type="text"
+                            onChange={(e) => setCompanyName(e.target.value)}
                         />
                     </div>
                 </div>
@@ -49,17 +75,25 @@ const CreateCompany = () => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="TenCongViec"
                             placeholder="Địa chỉ của công ty"
+                            type="text"
+                            onChange={(e) => setAddress(e.target.value)}
                         />
                     </div>
                 </div>
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
                     <div className="flex-1">
                         <label>Lĩnh vực</label>
-                        <Combobox title="Lĩnh vực" isMulti isSearchable />
+                        <Combobox
+                            title="Lĩnh vực"
+                            isMulti
+                            isSearchable
+                            type="text"
+                            onChange={(e) => setCareerList(e.target.value)}
+                        />
                     </div>
                     <div className="w-[20%]">
                         <label>Quy mô</label>
-                        <Combobox title="Quy mô" />
+                        <Combobox title="Quy mô" onChange={(e) => setCompanySize(e.target.value)} />
                     </div>
                 </div>
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
@@ -74,13 +108,16 @@ const CreateCompany = () => {
                 </div>
                 <div className="mb-[8px] px-[8px]">
                     <label>Giới thiệu công ty</label>
-                    <TextEditor className="w-[100%] h-[400px] mb-[8px]" />
+                    <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={setIntroduction} />
                 </div>
 
                 <div className="flex justify-end px-[8px] pt-[8px]">
                     <button
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"
+                        onClick={() =>
+                            handleCreateCompany({ companyName, address, introduction, companySize, careerList })
+                        }
                     >
                         Tạo mới
                     </button>
