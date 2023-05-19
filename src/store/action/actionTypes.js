@@ -1,6 +1,9 @@
 const actionType = {
     //User
 
+    //Post
+    GET_POSTS: 'GET_POSTS',
+
     //Company
     GET_COMPANIES: 'GET_COMPANIES',
     GET_COMPANY_BY_ID: 'GET_COMPANY_BY_ID',
