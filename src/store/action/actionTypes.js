@@ -9,6 +9,11 @@ const actionType = {
     //Candidate
 
     //Other Data
+    GET_CAREER: 'GET_CAREER',
+    GET_ACADEMIC_LEVEL: 'GET_ACADEMIC_LEVEL',
+    GET_DISTRICT: 'GET_DISTRICT',
+    GET_POSITION: 'GET_POSITION',
+    GET_WORKING_TYPE: 'GET_WORKING_TYPE',
 };
 
 export default actionType;

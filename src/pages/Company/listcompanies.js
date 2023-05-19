@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Combobox, CompanyItem } from '~/components';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,8 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCompanies } from '~/store/action/company';
 const ListCompanies = () => {
     const companies = useSelector((state) => state.company.companies);
-    const dispatch = useDispatch();
+    const careers = useSelector((state) => state.otherData.careers);
+    const [selectedCareer, setSelectedCareer] = useState();
 
+    const handleChangeCareer = (career) => {
+        setSelectedCareer((prev) => career);
+    };
+
+    const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getCompanies());
     }, []);
@@ -17,10 +23,17 @@ const ListCompanies = () => {
                 <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
                     <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
                     <input
-                        className="w-[51%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
+                        className="w-[40%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
                         placeholder="Nhập tên công ty..."
                     />
-                    <Combobox title="Chọn ngành nghề" className="w-[200px] h-[35px]" />
+                    <Combobox
+                        title="Chọn ngành nghề"
+                        className="w[] h-[35px]"
+                        items={careers.map((obj) => {
+                            return { id: obj.id, value: obj.careerName };
+                        })}
+                        onChange={handleChangeCareer}
+                    />
                     <Combobox title="Chọn tỉnh thành" className="w-[200px] h-[35px]" />
                     <button className="w-[15%] cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
                         Tìm kiếm

@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { publicRoutes, privateRoutes } from './routes';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import { useStateContext } from '~/contexts/Context';
+import { getAcademicLevels, getCareers, getDistricts, getPositions, getWorkingTypes } from './store/action/otherData';
 import './App.css';
 
 function App() {
     const { activeMenu, setActiveMenu } = useStateContext();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getAcademicLevels());
+        dispatch(getCareers());
+        dispatch(getDistricts());
+        dispatch(getPositions());
+        dispatch(getWorkingTypes());
+    }, [])
     return (
         <Router>
             {activeMenu ? (

@@ -1,6 +1,7 @@
 import authReducer from './authReducer';
 import userReducer from './userReducer';
 import companyReducer from './companyReducer';
+import otherReducer from './otherReducer';
 
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
     auth: persistReducer(authConfig, authReducer),
     user: userReducer,
     company: companyReducer,
+    otherData: otherReducer
 });
 
 export default rootReducer;
