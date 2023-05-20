@@ -24,6 +24,19 @@ export const apiGetCompany = async (id) => {
     }
 };
 
+export const apiGetCompanyLimit = async (query) => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
+            url: `/api/v1/company/limit`,
+            params: query,
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
+
 export const apiCreateCompany = async (company) => {
     try {
         const request = await axiosInstance({
