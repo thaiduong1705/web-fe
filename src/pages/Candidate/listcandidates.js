@@ -27,29 +27,36 @@ const ListCandidates = () => {
     }, []);
     return (
         <div>
-            <div className="bg-blue-700 text-black">
-                <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
-                    <span className="text-[16px] text-white leading-[32px] block">Tìm người: </span>
-                    <Combobox title="Chọn ngành nghề" className="w-[200px] h-[35px]" isMulti isSearchable />
-                    <Combobox title="Chọn quận huyện" className="w-[200px] h-[35px]" isMulti isSearchable />
-                    <button className="w-[15%] cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
+            <div className="bg-blue-700 text-black px-[64px]">
+                <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px]">
+                    <div className="col-span-3 col-start-1 flex gap-[10px]">
+                        <span className="text-[16px] text-white leading-[32px] block ">Tìm việc: </span>
+                        <input
+                            className="w-[90%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
+                            placeholder="Nhập từ khoá tìm kiếm..."
+                        />
+                    </div>
+
+                    <Combobox title="Chọn ngành nghề" className="h-[35px] col-start-4" />
+                    <Combobox title="Chọn quận huyện" className="h-[35px] col-start-5" />
+                    <button className="cursor-pointer col-start-6 bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
                         Tìm kiếm
                     </button>
                 </div>
-                <div className="px-[24px] pb-[20px] flex flex-wrap gap-[10px]">
-                    <Combobox title="Cấp bậc" className="w-[240px]" />
-                    <Combobox title="Loại hình" className="w-[240px]" />
-                    <Combobox title="Kinh nghiệm" className="w-[240px]" />
-                    <Combobox title="Thời gian" className="w-[240px]" />
-                    <Combobox title="Giới tính" className="w-[240px]" />
-                    <Combobox title="Độ tuổi" className="w-[240px]" />
-                    <Combobox title="Trình độ" className="w-[240px]" />
-                    <Combobox title="Mức lương" className="w-[240px]" />
-                    <Combobox title="Ngành nghề" className="w-[240px]" />
+                <div className="grid grid-cols-5 grid-rows-2 pb-[20px] gap-[16px]">
+                    <Combobox title="Cấp bậc" />
+                    <Combobox title="Loại hình" />
+                    <Combobox title="Kinh nghiệm" />
+                    <Combobox title="Thời gian" />
+                    <Combobox title="Giới tính" />
+                    <Combobox title="Độ tuổi" />
+                    <Combobox title="Trình độ" />
+                    <Combobox title="Mức lương" />
+                    <Combobox title="Ngành nghề" />
                 </div>
             </div>
 
-            <div className="my-[48px] mx-[24px] flex justify-between">
+            <div className="my-[48px] px-[64px] flex justify-between">
                 <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
                     <p className="align-middle text-[24px] font-medium leading-[1.4] my-[2px]">Ứng viên</p>
                 </div>
@@ -63,7 +70,7 @@ const ListCandidates = () => {
                 </div>
             </div>
 
-            <div className="my-[40px]">
+            <div className="my-[40px] px-[64px]">
                 <table className="table-auto min-w-full text-left text-[14px] font-light">
                     <thead className="border-b dark:border-neutral-500">
                         <tr>

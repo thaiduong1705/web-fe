@@ -59,15 +59,16 @@ const ListCompanies = () => {
 
     return (
         <div className="">
-            <div className="bg-blue-700 text-black">
-                <div className="py-[24px] px-[24px] flex gap-[10px] h-[80px]">
-                    <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
-                    <input
-                        className="w-[30%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
-                        placeholder="Nhập tên công ty..."
-                        value={searchName}
-                        onChange={(e) => setSearchText((prev) => e.target.value)}
-                    />
+            <div className="bg-blue-700 text-black px-[64px]">
+                <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px]">
+                    <div className="col-span-3 col-start-1 flex gap-[10px]">
+                        <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
+                        <input
+                            className="w-[86.5%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
+                            placeholder="Nhập tên công ty..."
+                        />
+                    </div>
+
                     <Combobox
                         title="Chọn ngành nghề"
                         className="w-[40%] h-[35px]"
@@ -95,7 +96,7 @@ const ListCompanies = () => {
                 </div>
             </div>
 
-            <div className="my-[48px] mx-[24px] flex justify-between">
+            <div className="my-[48px] px-[64px] flex justify-between">
                 <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
                     <p className="text-[24px] font-medium leading-[1.4] mb-[4px]">Nhà tuyển dụng</p>
                     <p className="text-[#999999]">Danh sách nhà tuyển dụng tại TP Hồ Chí Minh</p>
@@ -110,8 +111,8 @@ const ListCompanies = () => {
                 </div>
             </div>
 
-            <div className="">
-                {companies.map((company) => {
+            <div className="px-[64px]">
+                {companies.map((company, index) => {
                     return <CompanyItem key={company.id} item={company} />;
                 })}
                 <ReactPaginate

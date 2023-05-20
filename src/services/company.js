@@ -36,3 +36,15 @@ export const apiGetCompanyLimit = async (query) => {
         return error;
     }
 };
+
+export const apiCreateCompany = async (company) => {
+    try {
+        const request = await axiosInstance({
+            method: 'post',
+            url: '/api/v1/company/create-company',
+            data: company,
+        });
+    } catch (error) {
+        return error;
+    }
+};
