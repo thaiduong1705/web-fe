@@ -26,7 +26,6 @@ export const apiGetCompany = async (id) => {
 
 export const apiGetCompanyLimit = async (query) => {
     try {
-        console.log(query);
         const response = await axiosInstance({
             method: 'get',
             url: `/api/v1/company/limit`,

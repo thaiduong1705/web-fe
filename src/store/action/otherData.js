@@ -5,7 +5,6 @@ export const getCareers = () => async (dispatch) => {
     try {
         const response = await careerAPI.apiGetCareers();
         if (response?.data.err === 0) {
-            console.log("success")
             dispatch({
                 type: actionType.GET_CAREER,
                 careers: response.data.res,

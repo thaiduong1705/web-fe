@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Combobox, CompanyItem } from '~/components';
-import { Link } from 'react-router-dom';
+import { Link, createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getCompanies, getCompanyLimit } from '~/store/action/company';
 import ReactPaginate from 'react-paginate';
 const ListCompanies = () => {
+    const [params] = useSearchParams();
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { companies, count } = useSelector((state) => state.company);
-    const careers = useSelector((state) => state.otherData.careers);
+    const { careers, districts } = useSelector((state) => state.otherData);
     const [selectedCareer, setSelectedCareer] = useState();
+    const [searchName, setSearchText] = useState('');
 
     const [pageCount, setPageCount] = useState(0);
     let companyPerPage = 10;
@@ -16,18 +21,40 @@ const ListCompanies = () => {
     const handleChangeCareer = (career) => {
         setSelectedCareer((prev) => career);
     };
-
-    const dispatch = useDispatch();
+    console.log({ pageCount, count });
     useEffect(() => {
-        dispatch(getCompanyLimit());
-        setPageCount(Math.ceil(count / companyPerPage));
-    }, [companyPerPage]);
+        dispatch(getCompanyLimit({ careerId: params.get('careerId'), companyName: params.get('companyName') }));
+        console.log({ pageCount, count });
+    }, [params]);
+
+    useEffect(() => {
+        setPageCount((prev) => Math.ceil(count / companyPerPage));
+    }, [count]);
 
     const fetchCompanies = (currentPage) => {
         dispatch(getCompanyLimit({ page: currentPage }));
     };
     const handlePageClick = (data) => {
-        console.log(data);
+        let currentPage = data.selected + 1;
+        dispatch(
+            getCompanyLimit({
+                page: currentPage,
+                careerId: params.get('careerId'),
+                companyName: params.get('companyName'),
+            }),
+        );
+    };
+
+    const handleSearch = () => {
+        setSearchText('');
+        setSelectedCareer((prev) => null);
+        navigate({
+            pathname: '/nha-tuyen-dung',
+            search: createSearchParams({
+                careerId: selectedCareer ? selectedCareer.id : '',
+                companyName: searchName,
+            }).toString(),
+        });
     };
 
     return (
@@ -36,19 +63,33 @@ const ListCompanies = () => {
                 <div className="py-[24px] px-[24px] flex gap-[10px] h-[80px]">
                     <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
                     <input
-                        className="w-[40%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
+                        className="w-[30%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
                         placeholder="Nhập tên công ty..."
+                        value={searchName}
+                        onChange={(e) => setSearchText((prev) => e.target.value)}
                     />
                     <Combobox
                         title="Chọn ngành nghề"
-                        className="w[] h-[35px]"
-                        items={careers.map((obj) => {
-                            return { id: obj.id, value: obj.careerName };
-                        })}
+                        className="w-[40%] h-[35px]"
+                        items={[
+                            { id: '', value: 'Tất cả ngành nghề' },
+                            ...careers.map((obj) => {
+                                return { id: obj.id, value: obj.careerName };
+                            }),
+                        ]}
                         onChange={handleChangeCareer}
                     />
-                    <Combobox title="Chọn quận huyện" className="w-[200px] h-[35px]" />
-                    <button className="w-[15%] cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
+                    <Combobox
+                        title="Chọn quận huyện"
+                        className="w-[200px] h-[35px]"
+                        items={districts.map((obj) => {
+                            return { id: obj.id, value: obj.districtName };
+                        })}
+                    />
+                    <button
+                        className="cursor-pointer bg-blue-500 hover:bg-blue-400 text-white h-[35px] rounded-[8px] font-[550] px-[8px]"
+                        onClick={handleSearch}
+                    >
                         Tìm kiếm
                     </button>
                 </div>
@@ -75,15 +116,16 @@ const ListCompanies = () => {
                 })}
                 <ReactPaginate
                     pageCount={pageCount}
-                    previousLabel={'Prev'}
-                    nextLabel={'Next'}
+                    previousLabel={'<'}
+                    nextLabel={'>'}
                     onPageChange={handlePageClick}
                     breakLabel={'...'}
-                    containerClassName="inline-flex -space-x-px items-center justify-center w-full"
-                    pageClassName={''}
+                    disabledLinkClassName="text-red"
+                    containerClassName="inline-flex -space-x-px items-center justify-center gap-[8px] w-full"
                     pageLinkClassName="px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    previousLinkClassName="block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    nextLinkClassName="block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    previousLinkClassName={`block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                    nextLinkClassName={`block px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                    activeLinkClassName=""
                 />
             </div>
         </div>

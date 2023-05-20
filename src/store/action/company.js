@@ -1,4 +1,3 @@
-import { type } from '@testing-library/user-event/dist/type';
 import actionType from './actionTypes';
 import { companyAPI } from '~/services';
 export const getCompanies = () => async (dispatch) => {
