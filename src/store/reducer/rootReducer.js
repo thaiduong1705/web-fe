@@ -3,6 +3,7 @@ import userReducer from './userReducer';
 import companyReducer from './companyReducer';
 import otherReducer from './otherReducer';
 import postReducer from './postReducer';
+import candidateReducer from './candidateReducer';
 
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     company: companyReducer,
     otherData: otherReducer,
     post: postReducer,
+    candidate: candidateReducer,
 });
 
 export default rootReducer;

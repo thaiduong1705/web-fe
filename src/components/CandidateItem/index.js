@@ -7,7 +7,7 @@ const CandidateItem = ({ item }) => {
             <td className="whitespace-nowrap px-6 py-4">
                 <div>
                     <Link to={`chi-tiet/123`} className="uppercase text-[16px] font-medium">
-                        Bind tên ở đây
+                        {item.candidateName}
                     </Link>
 
                     <div className="flex">

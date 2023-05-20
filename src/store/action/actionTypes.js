@@ -7,9 +7,9 @@ const actionType = {
     //Company
     GET_COMPANIES: 'GET_COMPANIES',
     GET_COMPANY_BY_ID: 'GET_COMPANY_BY_ID',
-    //User
 
     //Candidate
+    GET_CANDIDATES: 'GET_CANDIDATES',
 
     //Other Data
     GET_CAREER: 'GET_CAREER',
