@@ -1,16 +1,58 @@
 import React from 'react';
 import { useEffect, useState, Component } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Combobox, JobItem } from '~/components';
+import { Combobox, JobItem, Loading } from '~/components';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getPosts, getPostsLimit } from '~/store/action/post';
+import { getPostsLimit } from '~/store/action/post';
 import ReactPaginate from 'react-paginate';
+import { Exp, Gender, Salary, CreatedAt } from '~/data';
 
 const ListPosts = () => {
     const dispatch = useDispatch();
     const { posts, count } = useSelector((state) => state.post);
     const { careers, districts, academicLevels, workingTypes, positions } = useSelector((state) => state.otherData);
+    const [gender, setGender] = useState('');
+    const [expYear, setExpYear] = useState('');
+    const [salary, setSalary] = useState([]);
+    const [position, setPosition] = useState('');
+    const [al, setAL] = useState('');
+    const [wt, setWT] = useState('');
+    const [career, setCareer] = useState([]);
+    const [district, setDistrict] = useState([]);
+    const [createdAt, setCreatedAt] = useState([]);
+    const handleChangeGender = (value) => {
+        setGender((prev) => value.data);
+    };
+    const handleChangeExp = (value) => {
+        setExpYear((prev) => value.data);
+    };
+    const handleChangeSalary = (value) => {
+        const newCareerIds = value.data;
+        setSalary((prev) => newCareerIds);
+    };
+    const handleChangePosition = (value) => {
+        setPosition((prev) => value.id);
+    };
+    const handleChangeAL = (value) => {
+        setAL((prev) => value.id);
+    };
+    const handleChangeWT = (value) => {
+        setWT((prev) => value.id);
+    };
+    const handleChangeCareer = (value) => {
+        const newCareerIds = value.map((item) => item.id);
+        setCareer(newCareerIds);
+    };
+    const handleChangeDistrict = (value) => {
+        const newDistrictIds = value.map((item) => item.id);
+        setDistrict(newDistrictIds);
+    };
+    const handleChangeCreatedAt = (value) => {
+        const newCreatedAt = value.data;
+        setCreatedAt(newCreatedAt);
+    };
+
     const [pageCount, setPageCount] = useState(0);
     let companyPerPage = 10;
 
@@ -24,15 +66,35 @@ const ListPosts = () => {
 
     const handlePageClick = (data) => {
         let currentPage = data.selected + 1;
-        console.log(currentPage);
         dispatch(
             getPostsLimit({
                 page: currentPage,
             }),
         );
     };
-    console.log({ posts, count });
+    const handleFilter = () => {
+        console.log({ gender, salary, expYear, position, al, wt, career, district, createdAt });
+        dispatch(
+            getPostsLimit({
+                sex: gender,
+                experienceYear: expYear,
+                createdAt: createdAt,
+                academicLevelId: al,
+                positionId: position,
+                workingTypeId: wt,
+                career: career,
+                district: district,
+            }),
+        );
+    };
 
+    if (posts.length === 0) {
+        return (
+            <div className="flex justify-center items-center">
+                <Loading />
+            </div>
+        );
+    }
     return (
         <div className="">
             <div className="bg-blue-700 text-black px-[64px]">
@@ -44,10 +106,10 @@ const ListPosts = () => {
                             placeholder="Nhập từ khoá tìm kiếm..."
                         />
                     </div>
-
-                    <Combobox title="Chọn kinh nghiệm" className="h-[35px] col-start-4" />
-                    <Combobox title="Chọn quận huyện" className="h-[35px] col-start-5" />
-                    <button className="cursor-pointer col-start-6 bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
+                    <button
+                        className="cursor-pointer col-start-6 bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]"
+                        onClick={handleFilter}
+                    >
                         Tìm kiếm
                     </button>
                 </div>
@@ -60,6 +122,7 @@ const ListPosts = () => {
                                 return { id: obj.id, value: obj.positionName };
                             }),
                         ]}
+                        onChange={handleChangePosition}
                     />
                     <Combobox
                         title="Loại hình"
@@ -69,10 +132,11 @@ const ListPosts = () => {
                                 return { id: obj.id, value: obj.workingTypeName };
                             }),
                         ]}
+                        onChange={handleChangeWT}
                     />
-                    <Combobox title="Kinh nghiệm" />
-                    <Combobox title="Thời gian" />
-                    <Combobox title="Giới tính" />
+                    <Combobox title="Kinh nghiệm" items={Exp} onChange={handleChangeExp} />
+                    <Combobox title="Thời gian" items={CreatedAt} onChange={handleChangeCreatedAt} />
+                    <Combobox title="Giới tính" items={Gender} onChange={handleChangeGender} />
                     <Combobox title="Độ tuổi" />
                     <Combobox
                         title="Trình độ"
@@ -82,16 +146,27 @@ const ListPosts = () => {
                                 return { id: obj.id, value: obj.academicLevelName };
                             }),
                         ]}
+                        onChange={handleChangeAL}
                     />
-                    <Combobox title="Mức lương" />
+                    <Combobox title="Mức lương" items={Salary} onChange={handleChangeSalary} />
                     <Combobox
                         title="Ngành nghề"
-                        items={[
-                            { id: '', value: 'Tất cả trình độ' },
-                            ...academicLevels.map((obj) => {
-                                return { id: obj.id, value: obj.academicLevelName };
-                            }),
-                        ]}
+                        items={careers.map((obj) => {
+                            return { id: obj.id, value: obj.careerName };
+                        })}
+                        isMulti={true}
+                        isSearchable={true}
+                        onChange={handleChangeCareer}
+                    />
+                    <Combobox
+                        title="Quận huyện"
+                        className="h-[35px] col-start-5"
+                        items={districts.map((obj) => {
+                            return { id: obj.id, value: obj.districtName };
+                        })}
+                        isMulti={true}
+                        isSearchable={true}
+                        onChange={handleChangeDistrict}
                     />
                 </div>
             </div>

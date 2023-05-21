@@ -1,35 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faSuitcase, faBuilding, faFile, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Combobox, JobItem } from '~/components';
-import { getCompanyById } from '~/store/action/company';
+import { getCompanyById, setDetailCompanyNull } from '~/store/action/company';
+import { apiGetPostsFromCareer } from '~/services/career';
 const DetailCompany = () => {
     const { id } = useParams();
-    const companies = useSelector((state) => state.company.companies);
+    const { detailCompany } = useSelector((state) => state.company);
+    const [careerRelatedPosts, setCareerRelatedPosts] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getCompanyById(id));
+        return () => {
+            dispatch(setDetailCompanyNull());
+        };
     }, []);
-
+    useEffect(() => {
+        if (detailCompany) {
+            const fetchingRelatedPosts = async () => {
+                for (const career of detailCompany.Career) {
+                    const id = career.id;
+                    const response = await apiGetPostsFromCareer(id);
+                    console.log(response);
+                    if (response?.data.err === 0) {
+                        setCareerRelatedPosts((prev) => [...prev, ...response.data.res.Posts]);
+                    }
+                }
+            };
+            fetchingRelatedPosts();
+        }
+    }, [detailCompany]);
     return (
         <div>
-            <div className="bg-blue-700 text-black">
-                <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
-                    <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
-                    <input
-                        className="w-[51%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
-                        placeholder="Nhập tên công ty..."
-                    />
-                    <Combobox title="Chọn ngành nghề" className="w-[200px] h-[35px]" />
-                    <Combobox title="Chọn tỉnh thành" className="w-[200px] h-[35px]" />
-                    <button className="w-[15%] cursor-pointer bg-blue-400 text-white h-[35px] rounded-[4px] font-[550]">
-                        Tìm kiếm
-                    </button>
-                </div>
-            </div>
             <div className="mt-[20px] mb-[12px]">
                 <div className="w-full">
                     <div className="h-[268px] overflow-hidden">
@@ -43,34 +48,38 @@ const DetailCompany = () => {
                         <div className="h-[80px] mr-[24px] w-[140px]">
                             <div className="border-4 border-white border-solid absolute top-[-100px] bg-white rounded w-[140px] h-[140px]">
                                 <img
-                                    src={companies.imageLink}
-                                    alt={companies.companyName}
+                                    src={detailCompany?.imageLink}
+                                    alt={detailCompany?.companyName}
                                     className="border-1 border-[#333] border-solid rounded-[4px] h-full object-contain"
                                 />
                             </div>
                         </div>
                         <div className="break-words">
-                            <p className="text-[24px] font-semibold text-[#333]">{companies.companyName}</p>
+                            <p className="text-[24px] font-semibold text-[#333]">{detailCompany?.companyName}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="my-[20px] grid grid-cols-12 gap-[16px]">
-                <div className="col-span-8 flex flex-col gap-[32px]">
+                <div className="col-span-7 flex flex-col gap-[32px]">
                     <div className="shadow-lg px-[32px] py-[20px]">
                         <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">
                             Giới thiệu công ty
                         </p>
-                        <div>{companies.introduction || 'Chưa cập nhật'}</div>
+                        <div>{detailCompany?.introduction || 'Chưa cập nhật'}</div>
                     </div>
 
                     <div className="shadow-lg px-[32px] py-[20px]">
                         <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">
                             Đang tuyển dụng
                         </p>
-                        <JobItem
-                            job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
-                        />
+                        <div className="my-[20px]">
+                            {detailCompany?.Posts?.length === 0
+                                ? 'Hiện tại công ty chưa đăng bài tuyển dụng'
+                                : detailCompany?.Posts?.map((item) => {
+                                      return <JobItem job={item} key={item.id} />;
+                                  })}
+                        </div>
                     </div>
 
                     <div className="shadow-lg px-[32px] py-[20px]">
@@ -79,26 +88,15 @@ const DetailCompany = () => {
                             Công việc có cùng ngành nghề
                         </p>
                         <div className="my-[20px]">
-                            <JobItem
-                                job={{
-                                    name: 'test',
-                                    companyName: 'Công ty TNHH TEST',
-                                    salary: -1,
-                                    endDate: '24/10/2002',
-                                }}
-                            />
-                            <JobItem
-                                job={{
-                                    name: 'test',
-                                    companyName: 'Công ty TNHH TEST',
-                                    salary: -1,
-                                    endDate: '24/10/2002',
-                                }}
-                            />
+                            {careerRelatedPosts.length === 0
+                                ? 'Hiện tại các bài tuyển dụng chưa có ngành nghề liên quan đến ngành nghề công ty'
+                                : careerRelatedPosts.map((item) => {
+                                      return <JobItem job={item} key={item.id} />;
+                                  })}
                         </div>
                     </div>
                 </div>
-                <div className="col-span-4">
+                <div className="col-span-5">
                     <div className="px-[32px] py-[20px] shadow-lg ">
                         <div className=" mb-[12px] flex items-center text-[20px]">
                             <FontAwesomeIcon icon={faSuitcase} className="mr-[8px] p-[8px] bg-orange-300 text-white" />
@@ -108,22 +106,22 @@ const DetailCompany = () => {
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faLocationDot} />
                                 <span className="font-medium">Địa chỉ:</span>
-                                <span>{companies.address}</span>
+                                <span>{detailCompany?.address}</span>
                             </div>
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faBuilding} />
                                 <span className="font-medium">Quy mô công ty:</span>
-                                <span>{companies.companies || 'Chưa cập nhật'}</span>
+                                <span>{detailCompany?.companySize || 'Chưa cập nhật'}</span>
                             </div>
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faFile} />
                                 <span className="font-medium">Đang đăng:</span>
-                                <span>{companies.Posts.length} bài tuyển dụng</span>
+                                <span> bài tuyển dụng</span>
                             </div>
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faFile} />
                                 <span className="font-medium">Lĩnh vực:</span>
-                                {companies.Career.map((cc, index) => {
+                                {detailCompany?.Career?.map((cc, index) => {
                                     return <span key={index}>{cc.careerName}</span>;
                                 })}
                             </div>

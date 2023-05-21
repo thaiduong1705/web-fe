@@ -3,6 +3,7 @@ const initState = {
     msg: '',
     companies: [],
     count: 0,
+    detailCompany: null,
 };
 
 const companyReducer = (state = initState, action) => {
@@ -17,9 +18,14 @@ const companyReducer = (state = initState, action) => {
         case actionType.GET_COMPANY_BY_ID:
             return {
                 ...state,
-                companies: action.companies || [],
+                detailCompany: action.detailCompany || null,
                 msg: action.msg || '',
-                count: action.count || 0,
+            };
+        case actionType.SET_COMPANY_NULL:
+            return {
+                ...state,
+                detailCompany: action.detailCompany || null,
+                msg: action.msg || '',
             };
         case actionType.GET_COMPANIES_LIMIT:
             return {

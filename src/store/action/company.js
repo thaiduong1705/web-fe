@@ -28,7 +28,7 @@ export const getCompanyById = (id) => async (dispatch) => {
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_COMPANY_BY_ID,
-                companies: response.data.res,
+                detailCompany: response.data.res,
             });
         } else {
             dispatch({
@@ -39,7 +39,7 @@ export const getCompanyById = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: actionType.GET_COMPANY_BY_ID,
-            companies: null,
+            detailCompany: null,
         });
     }
 };
@@ -65,4 +65,11 @@ export const getCompanyLimit = (query) => async (dispatch) => {
             companies: null,
         });
     }
+};
+
+export const setDetailCompanyNull = () => (dispatch) => {
+    dispatch({
+        type: actionType.SET_COMPANY_NULL,
+        detailCompany: null,
+    });
 };
