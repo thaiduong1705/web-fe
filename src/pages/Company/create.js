@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBuilding } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { apiCreateCompany } from '~/services/company';
-import { Combobox, TextEditor } from '~/components';
-
+import { Combobox, Loading, TextEditor } from '~/components';
+import { apiUploadImagesCompany } from '~/services/image';
 const CreateCompany = () => {
     const [companyName, setCompanyName] = useState('');
     const [address, setAddress] = useState('');
     const [introduction, setIntroduction] = useState('');
     const [companySize, setCompanySize] = useState('');
-    const [careerList, setCareerList] = useState('');
+    const [careerList, setCareerList] = useState([]);
+    const [imagePreview, setImagePreview] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const [companyData, setCompanyData] = useState({
         CompanyName: companyName,
@@ -19,6 +21,28 @@ const CreateCompany = () => {
         CompanySize: companySize,
         CareerList: careerList,
     });
+
+    const handleFiles = async (e) => {
+        e.stopPropagation();
+        setIsLoading(true);
+        let imageLink;
+        let files = e.target.files;
+        let formData = new FormData();
+        for (let i of files) {
+            formData.append('file', i);
+            formData.append('upload_preset', process.env.REACT_APP_UPLOAD_ASSETS_NAME);
+            let response = await apiUploadImagesCompany(formData);
+            if (response.status === 200) imageLink = response?.data.secure_url;
+        }
+        console.log(imageLink);
+        setIsLoading(false);
+        setImagePreview((prev) => imageLink);
+    };
+
+    const handleDeleteImage = () => {
+        setImagePreview('');
+    };
+
     const handleCreateCompany = ({ companyName, address, introduction, companySize, careerList }) => {
         setCompanyData({
             CompanyName: companyName,
@@ -28,6 +52,9 @@ const CreateCompany = () => {
             CareerList: careerList,
         });
         apiCreateCompany(companyData);
+    };
+    const handleChangeCareer = (career) => {
+        setCareerList((prev) => career);
     };
 
     return (
@@ -88,12 +115,16 @@ const CreateCompany = () => {
                             isMulti
                             isSearchable
                             type="text"
-                            onChange={(e) => setCareerList(e.target.value)}
+                            items={[
+                                { id: 1, value: 'fdsfds' },
+                                { id: 2, value: 'ádada' },
+                            ]}
+                            onChange={handleChangeCareer}
                         />
                     </div>
                     <div className="w-[20%]">
                         <label>Quy mô</label>
-                        <Combobox title="Quy mô" onChange={(e) => setCompanySize(e.target.value)} />
+                        <Combobox title="Quy mô" />
                     </div>
                 </div>
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
@@ -109,6 +140,64 @@ const CreateCompany = () => {
                 <div className="mb-[8px] px-[8px]">
                     <label>Giới thiệu công ty</label>
                     <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={setIntroduction} />
+                </div>
+                <div className="mb-[8px] px-[8px]">
+                    <label
+                        className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md hover:cursor-pointer"
+                        htmlFor="file"
+                    >
+                        {isLoading ? (
+                            <Loading />
+                        ) : (
+                            <div className="flex flex-col items-center justify-center ">
+                                <FontAwesomeIcon icon={faCamera} />
+                                Thêm ảnh của công ty
+                            </div>
+                        )}
+                    </label>
+                    <input hidden type="file" id="file" onChange={handleFiles} />
+                    <div className="w-full">
+                        <h3 className="font-medium py-4">Ảnh đã chọn</h3>
+                        <div className="flex gap-4 items-center">
+                            {/* {imagesPreview?.map((item) => {
+                                return (
+                                    <div key={item} className="relative w-1/3 h-1/3 ">
+                                        <img
+                                            src={item}
+                                            alt="preview"
+                                            className="w-full h-full object-cover rounded-md"
+                                        />
+                                        <span
+                                            title="Xóa"
+                                            onClick={() => handleDeleteImage(item)}
+                                            className="absolute top-0 right-0 p-2 cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-full"
+                                        >
+                                            <ImBin />
+                                        </span>
+                                    </div>
+                                );
+                            })} */}
+
+                            <div className="relative w-1/3 h-1/3 ">
+                                {imagePreview && (
+                                    <>
+                                        <img
+                                            src={imagePreview}
+                                            alt="preview"
+                                            className="w-full h-full object-cover rounded-md"
+                                        />
+                                        <span
+                                            title="Xóa"
+                                            onClick={() => handleDeleteImage()}
+                                            className="absolute top-0 right-0 p-2 cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-full w-[30px] h-[30px] flex justify-center items-center"
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </span>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="flex justify-end px-[8px] pt-[8px]">

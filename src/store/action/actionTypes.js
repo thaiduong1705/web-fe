@@ -3,7 +3,7 @@ const actionType = {
 
     //Post
     GET_POSTS: 'GET_POSTS',
-
+    GET_POSTS_LIMIT: 'GET_POSTS_LIMIT',
     //Company
     GET_COMPANIES: 'GET_COMPANIES',
     GET_COMPANY_BY_ID: 'GET_COMPANY_BY_ID',

@@ -17,7 +17,7 @@ const SearchingCombobox = ({
     const [searchValue, setSearchValue] = useState('');
     const searchRef = useRef();
     const inputRef = useRef();
-
+    console.log(selectedValue);
     useEffect(() => {
         setSearchValue('');
         if (showMenu && searchRef.current) {
@@ -45,7 +45,7 @@ const SearchingCombobox = ({
     const onTagRemove = (e, values) => {
         e.stopPropagation();
         const newValues = removeOption(values);
-        setSelectedValue();
+        setSelectedValue(newValues);
         onChange(newValues);
     };
     const getDisplay = () => {

@@ -95,11 +95,7 @@ const Homepage = () => {
                     </div>
                 </div>
 
-                <div className="w-full flex items-center justify-center">
-                    <JobItem
-                        job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }}
-                    />
-                </div>
+                <div className="w-full flex items-center justify-center"></div>
             </div>
         </div>
     );

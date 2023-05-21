@@ -24,16 +24,12 @@ const ListCompanies = () => {
     console.log({ pageCount, count });
     useEffect(() => {
         dispatch(getCompanyLimit({ careerId: params.get('careerId'), companyName: params.get('companyName') }));
-        console.log({ pageCount, count });
     }, [params]);
 
     useEffect(() => {
         setPageCount((prev) => Math.ceil(count / companyPerPage));
     }, [count]);
 
-    const fetchCompanies = (currentPage) => {
-        dispatch(getCompanyLimit({ page: currentPage }));
-    };
     const handlePageClick = (data) => {
         let currentPage = data.selected + 1;
         dispatch(
@@ -60,8 +56,8 @@ const ListCompanies = () => {
     return (
         <div className="">
             <div className="bg-blue-700 text-black px-[64px]">
-                <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px]">
-                    <div className="col-span-3 col-start-1 flex gap-[10px]">
+                <div className="grid grid-cols-12 py-[24px] gap-[16px] h-[80px]">
+                    <div className="col-span-6 col-start-1 flex gap-[10px]">
                         <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
                         <input
                             className="w-[86.5%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
@@ -71,7 +67,7 @@ const ListCompanies = () => {
 
                     <Combobox
                         title="Chọn ngành nghề"
-                        className="w-[40%] h-[35px]"
+                        className="col-span-3 h-[35px]"
                         items={[
                             { id: '', value: 'Tất cả ngành nghề' },
                             ...careers.map((obj) => {
@@ -82,13 +78,13 @@ const ListCompanies = () => {
                     />
                     <Combobox
                         title="Chọn quận huyện"
-                        className="w-[200px] h-[35px]"
+                        className="col-span-2 h-[35px]"
                         items={districts.map((obj) => {
                             return { id: obj.id, value: obj.districtName };
                         })}
                     />
                     <button
-                        className="cursor-pointer bg-blue-500 hover:bg-blue-400 text-white h-[35px] rounded-[8px] font-[550] px-[8px]"
+                        className="cursor-pointer bg-blue-500 hover:bg-blue-400 text-white h-[35px] rounded-[8px] font-[550] px-[8px] col-auto"
                         onClick={handleSearch}
                     >
                         Tìm kiếm

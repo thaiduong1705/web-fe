@@ -17,7 +17,7 @@ export const getCompanies = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: actionType.GET_COMPANIES,
-            data: null,
+            companies: null,
         });
     }
 };
