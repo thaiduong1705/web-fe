@@ -11,6 +11,7 @@ const actionType = {
     //User
 
     //Candidate
+    GET_CANDIDATES: 'GET_CANDIDATES',
 
     //Other Data
     GET_CAREER: 'GET_CAREER',

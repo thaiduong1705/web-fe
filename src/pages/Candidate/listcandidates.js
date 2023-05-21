@@ -1,30 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CandidateItem, Combobox } from '~/components';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getCandidates } from '~/store/action/candidate';
 
 const ListCandidates = () => {
-    const [myData, setMyData] = useState([]);
+    const candidates = useSelector((state) => state.candidate.candidates);
 
+    const dispatch = useDispatch();
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios
-                .get(`http://localhost:5000/api/v1/candidate/all`)
-                .then((response) => {
-                    if (response.status === 200) {
-                        console.log('API response success!');
-                        console.log(response.data);
-                        setMyData(response.data.res);
-                    } else {
-                        console.log('API response error!');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error fetching data: ', error);
-                });
-        };
-        fetchData();
+        dispatch(getCandidates());
     }, []);
+
     return (
         <div>
             <div className="bg-blue-700 text-black px-[64px]">
@@ -92,7 +80,15 @@ const ListCandidates = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <CandidateItem />
+                        {candidates.map((data, index) => {
+                            <CandidateItem
+                                item={{
+                                    candidateName: data.candidateName,
+                                    experienceYear: data.experienceYear,
+                                    academicLevel: data.academicLevelName,
+                                }}
+                            />;
+                        })}
                     </tbody>
                 </table>
             </div>
