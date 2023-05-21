@@ -21,10 +21,17 @@ const JobItem = ({ job = {} }) => {
 
             <div className="flex-8 max-w[80%] lead-[300px] ">
                 <div className="flex justify-between">
-                    <Link className="text-[28px] font-medium" to={`/viec-lam/chi-tiet/${job.id}`}>
-                        {job.jobTitle}
+                    <Link
+                        className="text-[28px] font-medium"
+                        to={`/viec-lam/chi-tiet/${sanitizeVietnameseString(job?.jobTitle)}/${job?.id}`}
+                    >
+                        {job?.jobTitle}
                     </Link>
-                    <span className="text-red-500 font-medium">{job.salaryMin < 0 ? 'Thương lượng' : job.salary}</span>
+                    <span className="text-red-500 font-medium">
+                        {job?.salaryMin !== 0 && `${job?.salaryMin} triệu `}
+                        {job?.salaryMax !== 999 && job?.salaryMax !== 0 && ' - '}
+                        {job?.salaryMax !== 999 && `${job?.salaryMax} triệu`}
+                    </span>
                 </div>
 
                 <p>{job.companyName}</p>
@@ -32,19 +39,23 @@ const JobItem = ({ job = {} }) => {
                 <div className="columns-5 justify-between"></div>
                 <div className="flex mt-2 justify-between">
                     <div className="flex gap-2 items-center">
-                        <div className="border-[#DDDDDD] border-[0.5px] py-[2px] px-2 rounded-[4px] bg-[#FBFBFB] text-[#333333] max-h-[30px]">
-                            <label>{job?.Position?.positionName}</label>
-                        </div>
-                        {/* {job.District.map((item, index) => {
-                            return (
-                                <div
-                                    key={index}
-                                    className="border-[#DDDDDD] border-[0.5px]  p-[2px] px-2 rounded-[4px] bg-[#FBFBFB] text-[#333333] max-h-[30px]"
-                                >
-                                    {item.districtName}
-                                </div>
-                            );
-                        })} */}
+                        {job?.Position && (
+                            <div className="border-[#DDDDDD] border-[0.5px] py-[2px] px-2 rounded-[4px] bg-[#FBFBFB] text-[#333333] max-h-[30px]">
+                                {job?.Position?.positionName}
+                            </div>
+                        )}
+
+                        {job?.District &&
+                            job?.District.map((item, index) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className="border-[#DDDDDD] border-[0.5px]  p-[2px] px-2 rounded-[4px] bg-[#FBFBFB] text-[#333333] max-h-[30px]"
+                                    >
+                                        {item.districtName}
+                                    </div>
+                                );
+                            })}
                     </div>
                     <div className="flex gap-4 items-center">
                         <Link className="text-blue-400 underline" to="/">

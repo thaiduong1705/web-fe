@@ -1,15 +1,15 @@
 export const Gender = [
     {
+        data: null,
+        value: 'Tất cả giới tính',
+    },
+    {
         data: 0,
         value: 'Nam',
     },
     {
         data: 1,
         value: 'Nữ',
-    },
-    {
-        data: 2,
-        value: 'Tất cả',
     },
 ];
 
@@ -46,8 +46,8 @@ export const Exp = [
 
 export const Salary = [
     {
-        data: null,
-        value: 'Tất cả',
+        data: [],
+        value: 'Tất cả mức lương',
     },
     {
         data: [0, 3],
@@ -97,27 +97,27 @@ export const Age = [
 
 export const CreatedAt = [
     {
-        data: null,
-        value: 'Tất cả',
+        data: [],
+        value: 'Tất cả thời gian',
     },
     {
-        data: [new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), Date.now()],
+        data: [new Date(new Date() - 3 * 24 * 60 * 60 * 1000), new Date()],
         value: '3 ngày trước',
     },
     {
-        data: [new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), Date.now()],
+        data: [new Date(new Date() - 5 * 24 * 60 * 60 * 1000), new Date()],
         value: '5 ngày trước',
     },
     {
-        data: [new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), Date.now()],
+        data: [new Date(new Date() - 7 * 24 * 60 * 60 * 1000), new Date()],
         value: '1 tuần trước',
     },
     {
-        data: [new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), Date.now()],
+        data: [new Date(new Date() - 14 * 24 * 60 * 60 * 1000), new Date()],
         value: '2 tuần trước',
     },
     {
-        data: [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), Date.now()],
+        data: [new Date(new Date() - 30 * 24 * 60 * 60 * 1000), new Date()],
         value: '1 tháng trước',
     },
 ];

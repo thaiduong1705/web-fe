@@ -49,7 +49,8 @@ const SearchingCombobox = ({
     };
     const getDisplay = () => {
         if (!selectedValue || selectedValue.length === 0) {
-            return title;
+            if (isMulti) return title;
+            return items[0]?.value || title;
         }
         if (isMulti) {
             return (
