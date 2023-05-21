@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { apiCreateCompany } from '~/services/company';
+import { useDispatch, useSelector } from 'react-redux';
 import { Combobox, Loading, TextEditor } from '~/components';
 import { apiUploadImagesCompany } from '~/services/image';
+
+import { getCareers } from '~/store/action/otherData';
 const CreateCompany = () => {
+    const careerListData = useSelector((state) => state.otherData.careers);
     const [companyName, setCompanyName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [introduction, setIntroduction] = useState('');
     const [companySize, setCompanySize] = useState('');
@@ -14,13 +20,24 @@ const CreateCompany = () => {
     const [imagePreview, setImagePreview] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getCareers());
+    }, []);
+
     const [companyData, setCompanyData] = useState({
-        CompanyName: companyName,
-        Address: address,
-        Introduction: introduction,
-        CompanySize: companySize,
-        CareerList: careerList,
+        companyName: companyName,
+        email: email,
+        phone: phone,
+        address: address,
+        introduction: introduction,
+        companySize: companySize,
+        careerList: careerList,
     });
+
+    useEffect(() => {
+        apiCreateCompany(companyData);
+    }, [companyData]);
 
     const handleFiles = async (e) => {
         e.stopPropagation();
@@ -43,18 +60,23 @@ const CreateCompany = () => {
         setImagePreview('');
     };
 
-    const handleCreateCompany = ({ companyName, address, introduction, companySize, careerList }) => {
+    const handleCreateCompany = ({ companyName, email, phone, address, introduction, companySize, careerList }) => {
         setCompanyData({
-            CompanyName: companyName,
-            Address: address,
-            Introduction: introduction,
-            CompanySize: companySize,
-            CareerList: careerList,
+            companyName: companyName,
+            email: email,
+            phone: phone,
+            address: address,
+            introduction: introduction,
+            companySize: companySize,
+            careerList: careerList,
         });
-        apiCreateCompany(companyData);
     };
     const handleChangeCareer = (career) => {
-        setCareerList((prev) => career);
+        console.log(career);
+        setCareerList((careerList) => []);
+        career.map((data, index) => {
+            setCareerList((careerList) => [...careerList, data.id]);
+        });
     };
 
     return (
@@ -84,6 +106,7 @@ const CreateCompany = () => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="TenCongViec"
                             placeholder=""
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                     <div className="w-[20%]">
@@ -92,6 +115,7 @@ const CreateCompany = () => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="SoLuong"
                             maxLength={10}
+                            onChange={(e) => setPhone(e.target.value)}
                         />
                     </div>
                 </div>
@@ -111,20 +135,22 @@ const CreateCompany = () => {
                     <div className="flex-1">
                         <label>Lĩnh vực</label>
                         <Combobox
+                            className="h-[40px]"
                             title="Lĩnh vực"
                             isMulti
                             isSearchable
                             type="text"
-                            items={[
-                                { id: 1, value: 'fdsfds' },
-                                { id: 2, value: 'ádada' },
-                            ]}
+                            items={careerListData}
                             onChange={handleChangeCareer}
                         />
                     </div>
                     <div className="w-[20%]">
                         <label>Quy mô</label>
-                        <Combobox title="Quy mô" />
+                        <input
+                            className="w-full h-[40px] rounded-md outline-none px-[8px]"
+                            title="Quy mô"
+                            onChange={(e) => setCompanySize(e.target.value)}
+                        />
                     </div>
                 </div>
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
@@ -134,6 +160,10 @@ const CreateCompany = () => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="TenCongViec"
                             placeholder=""
+                            onClick={() => {
+                                console.log(careerList);
+                                console.log(companyData);
+                            }}
                         />
                     </div>
                 </div>
@@ -201,15 +231,23 @@ const CreateCompany = () => {
                 </div>
 
                 <div className="flex justify-end px-[8px] pt-[8px]">
-                    <button
+                    <div
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"
                         onClick={() =>
-                            handleCreateCompany({ companyName, address, introduction, companySize, careerList })
+                            handleCreateCompany({
+                                companyName,
+                                email,
+                                phone,
+                                address,
+                                introduction,
+                                companySize,
+                                careerList,
+                            })
                         }
                     >
                         Tạo mới
-                    </button>
+                    </div>
                     <Link
                         to="/posts"
                         className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"
