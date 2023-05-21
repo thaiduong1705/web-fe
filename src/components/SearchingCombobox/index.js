@@ -17,7 +17,6 @@ const SearchingCombobox = ({
     const [searchValue, setSearchValue] = useState('');
     const searchRef = useRef();
     const inputRef = useRef();
-    console.log(selectedValue);
     useEffect(() => {
         setSearchValue('');
         if (showMenu && searchRef.current) {

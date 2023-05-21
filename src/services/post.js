@@ -25,3 +25,14 @@ export const apiGetPostLimit = async (query) => {
         return error;
     }
 };
+export const apiGetPost = async (id) => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
+            url: `/api/v1/post/get-post/${id}`,
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};

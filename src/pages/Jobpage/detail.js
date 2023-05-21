@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -17,65 +17,56 @@ import {
     faUserGroup,
     faUsers,
 } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPostById, setDetailPostNull } from '~/store/action/post';
 
 import { Combobox, JobItem } from '~/components';
 const DetailPage = () => {
     const { id } = useParams();
-
+    const { detailPost } = useSelector((state) => state.post);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getPostById(id));
+        return () => {
+            dispatch(setDetailPostNull());
+        };
+    }, []);
+    useEffect(() => {}, [detailPost]);
     return (
         <div>
-            <div className="bg-blue-700 text-black">
-                <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
-                    <span className="text-[16px] text-white leading-[32px] block">Tìm việc</span>
-                    <input
-                        className="w-[52.7%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
-                        placeholder="Nhập từ khoá tìm kiếm..."
-                    />
-                    <Combobox
-                        title="Chọn kinh nghiệm"
-                        className="w-[200px] h-[35px]"
-                        items={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-                    />
-                    <Combobox title="Chọn quận huyện" className="w-[200px] h-[35px]" />
-                    <button className="w-[15%] cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
-                        Tìm kiếm
-                    </button>
-                </div>
-                <div className="px-[24px] pb-[20px] flex flex-wrap gap-[10px]">
-                    <Combobox title="Cấp bậc" className="w-[19.43%]" />
-                    <Combobox title="Loại hình" className="w-[19.43%]" />
-                    <Combobox title="Kinh nghiệm" className="w-[19.43%]" />
-                    <Combobox title="Thời gian" className="w-[19.43%]" />
-                    <Combobox title="Giới tính" className="w-[19.43%]" />
-                    <Combobox title="Độ tuổi" className="w-[19.43%]" />
-                    <Combobox title="Trình độ" className="w-[19.43%]" />
-                    <Combobox title="Mức lương" className="w-[19.43%]" />
-                    <Combobox title="Ngành nghề" className="w-[19.43%]" />
-                </div>
-            </div>
             <div className="my-[24px]">
                 <div className="w-full flex item-center justify-between p-[16px] shadow-lg rounded-[4px]">
                     <div className="w-[50%]">
-                        <h1 className="font-medium text-[24px]">bind tên công việc</h1>
+                        <h1 className="font-medium text-[24px]">{detailPost?.jobTitle}</h1>
                         <div>
                             <div className="">
                                 <p className="leading-[32px] text-[16px] flex items-center gap-[4px]">
                                     <FontAwesomeIcon icon={faLocationDot} className="text-[#2A80B9] mr-[4px]" /> Địa
-                                    điểm tuyển dụng:
+                                    điểm tuyển dụng: {detailPost?.District?.length === 0 && 'chưa cập nhật'}
                                 </p>
+                                <div className="flex flex-wrap gap-[12px] items-center mt-3">
+                                    {detailPost?.District?.map((item) => {
+                                        return (
+                                            <div className="no-underline px-[12px] py-[4px] font-normal text-[16px] text-[#236997] bg-[#E7F5FF] text-center rounded-[4px]">
+                                                {item.districtName}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                             <div className="">
                                 <p className="leading-[32px] text-[16px] flex items-center gap-[]">
                                     <FontAwesomeIcon icon={faSuitcase} className="text-[#2A80B9] mr-[4px]" /> Ngành
-                                    nghề:
+                                    nghề: {detailPost?.Career?.length === 0 && 'chưa cập nhật'}
                                 </p>
                                 <div className="flex flex-wrap gap-[12px] items-center mt-3">
-                                    <div className="no-underline px-[12px] py-[4px] font-normal text-[16px] text-[#236997] bg-[#E7F5FF] text-center rounded-[4px]">
-                                        dsada
-                                    </div>
-                                    <div className="no-underline px-[12px] py-[4px] font-normal text-[16px] text-[#236997] bg-[#E7F5FF] text-center rounded-[4px]">
-                                        dsada
-                                    </div>
+                                    {detailPost?.Career?.map((item) => {
+                                        return (
+                                            <div className="no-underline px-[12px] py-[4px] font-normal text-[16px] text-[#236997] bg-[#E7F5FF] text-center rounded-[4px]">
+                                                {item.careerName}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>

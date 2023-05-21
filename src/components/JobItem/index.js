@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Experimental_CssVarsProvider } from '@mui/material';
 import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
 
-const JobItem = ({ job }) => {
+const JobItem = ({ job = {} }) => {
     return (
         <div className="flex relative border-[1px] border-blue-400 bg-[#f0f7ff] h-64 rounded-lg w-full my-4 py-4">
             <div className="flex flex-2 items-center justify-center after:h-full after:w-[2px] after:bg-[#2A80B9] after:ml-12 ">
@@ -21,12 +21,7 @@ const JobItem = ({ job }) => {
 
             <div className="flex-8 max-w[80%] lead-[300px] ">
                 <div className="flex justify-between">
-                    <Link
-                        className="text-[28px] font-medium"
-                        to={`/viec-lam/chi-tiet/${sanitizeVietnameseString(job.jobTitle).replaceAll('/', '')}/${
-                            job.id
-                        }`}
-                    >
+                    <Link className="text-[28px] font-medium" to={`/viec-lam/chi-tiet/${job.id}`}>
                         {job.jobTitle}
                     </Link>
                     <span className="text-red-500 font-medium">{job.salaryMin < 0 ? 'Thương lượng' : job.salary}</span>
@@ -40,7 +35,7 @@ const JobItem = ({ job }) => {
                         <div className="border-[#DDDDDD] border-[0.5px] py-[2px] px-2 rounded-[4px] bg-[#FBFBFB] text-[#333333] max-h-[30px]">
                             <label>{job?.Position?.positionName}</label>
                         </div>
-                        {job.District.map((item, index) => {
+                        {/* {job.District.map((item, index) => {
                             return (
                                 <div
                                     key={index}
@@ -49,7 +44,7 @@ const JobItem = ({ job }) => {
                                     {item.districtName}
                                 </div>
                             );
-                        })}
+                        })} */}
                     </div>
                     <div className="flex gap-4 items-center">
                         <Link className="text-blue-400 underline" to="/">

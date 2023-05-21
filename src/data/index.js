@@ -1,19 +1,23 @@
 export const Gender = [
     {
-        id: 0,
+        data: 0,
         value: 'Nam',
     },
     {
-        id: 1,
+        data: 1,
         value: 'Nữ',
     },
     {
-        id: 2,
+        data: 2,
         value: 'Tất cả',
     },
 ];
 
 export const Exp = [
+    {
+        data: null,
+        value: 'Tất cả kinh nghiệm',
+    },
     {
         data: 1,
         value: 'Dưới 1 năm',
@@ -40,51 +44,46 @@ export const Exp = [
     },
 ];
 
-export const salary = [
+export const Salary = [
     {
-        min: 0,
-        max: 3,
+        data: null,
+        value: 'Tất cả',
+    },
+    {
+        data: [0, 3],
         value: 'Dưới 3 triệu',
     },
     {
-        min: 3,
-        max: 5,
-        value: 'Dưới 3 triệu',
+        data: [3, 5],
+        value: 'Từ 3 đến 5 triệu',
     },
     {
-        min: 5,
-        max: 7,
+        data: [5, 7],
         value: 'Từ 5 đến 7 triệu',
     },
     {
-        min: 7,
-        max: 10,
+        data: [7, 10],
         value: 'Từ 7 đến 10 triệu',
     },
     {
-        min: 10,
-        max: 12,
+        data: [10, 12],
         value: 'Từ 10 đến 12 triệu',
     },
     {
-        min: 12,
-        max: 15,
+        data: [12, 15],
         value: 'Từ 12 đến 15 triệu',
     },
     {
-        min: 15,
-        max: 20,
+        data: [15, 20],
         value: 'Từ 15 đến 20 triệu',
     },
     {
-        min: 20,
-        max: 25,
+        data: [20, 25],
         value: 'Từ 20 đến 25 triệu',
     },
     {
-        min: 25,
-        max: 30,
-        value: 'Từ 25 đến 30 triệu',
+        data: [0, 0],
+        value: 'Thoả thuận',
     },
 ];
 
@@ -93,5 +92,32 @@ export const Age = [
         min: 18,
         max: 25,
         value: 'Từ 18 đến 25 tuổi ',
+    },
+];
+
+export const CreatedAt = [
+    {
+        data: null,
+        value: 'Tất cả',
+    },
+    {
+        data: [new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), Date.now()],
+        value: '3 ngày trước',
+    },
+    {
+        data: [new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), Date.now()],
+        value: '5 ngày trước',
+    },
+    {
+        data: [new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), Date.now()],
+        value: '1 tuần trước',
+    },
+    {
+        data: [new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), Date.now()],
+        value: '2 tuần trước',
+    },
+    {
+        data: [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), Date.now()],
+        value: '1 tháng trước',
     },
 ];

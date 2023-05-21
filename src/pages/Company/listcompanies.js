@@ -21,7 +21,6 @@ const ListCompanies = () => {
     const handleChangeCareer = (career) => {
         setSelectedCareer((prev) => career);
     };
-    console.log({ pageCount, count });
     useEffect(() => {
         dispatch(getCompanyLimit({ careerId: params.get('careerId'), companyName: params.get('companyName') }));
     }, [params]);
