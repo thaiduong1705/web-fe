@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,26 @@ import { Link } from 'react-router-dom';
 import { Combobox, TextEditor } from '~/components';
 
 const CreateCandidate = () => {
+    const currentYear = new Date().getFullYear();
+
+    const [candidateName, setCandidateName] = useState('');
+    const [candidateAge, setCandidateAge] = useState(0);
+    const [candidateCivilId, setCandidateCivilId] = useState('');
+    const [candidatePhonenumber, setCandidatePhonenumber] = useState('');
+    const [candidateEmail, setCandidateEmail] = useState('');
+    const [candidateAddress, setCandidateAddress] = useState('');
+    const [candidateGender, setCandidateGender] = useState(''); // 1: Nam, 0: Nữ
+
+    const handleChangeCandidateGender = (gender) => {
+        console.log(gender.value);
+        if (gender.value == 'Nam') {
+            setCandidateGender((prev) => 1);
+        } else if (gender.value == 'Nữ') {
+            setCandidateGender((prev) => 0);
+        }
+        console.log(candidateGender);
+    };
+
     return (
         <div className="w-full bg-blue-100 rounded-[8px] h-full mb-[20px] pb-[24px]">
             <form>
@@ -14,13 +34,29 @@ const CreateCandidate = () => {
                     Thêm mới ứng viên
                 </p>
                 <div className="flex justify-between my-[12px] gap-[10px] px-[8px]">
-                    <div className="flex-1">
+                    <div className="w-[70%]">
                         <label htmlFor="JobName">Tên ứng viên</label>
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="TenCongViec"
                             id="JobName"
                             placeholder=""
+                            onChange={(e) => {
+                                setCandidateName(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div className="w-[30%]">
+                        <label>Giới tính</label>
+                        <Combobox
+                            className="w-full h-[40px]"
+                            name="GioiTinh"
+                            id="startDate"
+                            items={[
+                                { id: 1, value: 'Nam' },
+                                { id: 2, value: 'Nữ' },
+                            ]}
+                            onChange={handleChangeCandidateGender}
                         />
                     </div>
                 </div>
@@ -32,6 +68,9 @@ const CreateCandidate = () => {
                             name="NgayDangTuyen"
                             id="startDate"
                             type="date"
+                            onChange={(e) => {
+                                setCandidateAge((prev) => currentYear - e.target.value);
+                            }}
                         />
                     </div>
                     <div className="w-[25%]">
@@ -55,7 +94,7 @@ const CreateCandidate = () => {
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="SoLuong"
-                            maxLength={10}
+                            type="email"
                         />
                     </div>
                 </div>
@@ -70,19 +109,15 @@ const CreateCandidate = () => {
                     </div>
                 </div>
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
-                    <div className="w-[25%]">
+                    <div className="w-[33.333%]">
                         <label>Ngành nghề mong muốn</label>
                         <Combobox title="Ngành nghề" isMulti isSearchable />
                     </div>
-                    <div className="w-[25%]">
+                    <div className="w-[33.333%]">
                         <label>Cấp bậc mong muốn</label>
                         <Combobox title="Cấp bậc" />
                     </div>
-                    <div className="w-[25%]">
-                        <label>Mức lương mong muốn</label>
-                        <Combobox title="Mức lương" />
-                    </div>
-                    <div className="w-[25%]">
+                    <div className="w-[33.333%]">
                         <label>Khu vực làm việc</label>
                         <Combobox title="Khu vực làm việc" />
                     </div>

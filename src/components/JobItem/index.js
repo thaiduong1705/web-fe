@@ -22,7 +22,7 @@ const JobItem = ({ job }) => {
             <div className="flex-8 max-w[80%] lead-[300px] ">
                 <div className="flex justify-between">
                     <Link
-                        className="text-[28px] font-medium"
+                        className="text-[28px] font-medium line-clamp-1"
                         to={`/viec-lam/chi-tiet/${sanitizeVietnameseString(job.jobTitle).replaceAll('/', '')}/${
                             job.id
                         }`}

@@ -72,7 +72,6 @@ const CreateCompany = () => {
         });
     };
     const handleChangeCareer = (career) => {
-        console.log(career);
         setCareerList((careerList) => []);
         career.map((data, index) => {
             setCareerList((careerList) => [...careerList, data.id]);
@@ -141,7 +140,7 @@ const CreateCompany = () => {
                             isSearchable
                             type="text"
                             items={careerListData}
-                            onChange={handleChangeCareer}
+                            onChange={() => handleChangeCareer}
                         />
                     </div>
                     <div className="w-[20%]">
@@ -160,10 +159,6 @@ const CreateCompany = () => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="TenCongViec"
                             placeholder=""
-                            onClick={() => {
-                                console.log(careerList);
-                                console.log(companyData);
-                            }}
                         />
                     </div>
                 </div>
