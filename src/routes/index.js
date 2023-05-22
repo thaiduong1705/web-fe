@@ -39,7 +39,7 @@ export const publicRoutes = [
                 component: CreatePost,
             },
             {
-                path: 'chi-tiet/:id',
+                path: 'chi-tiet/:name/:id',
                 component: DetailPage,
             },
         ],

@@ -44,3 +44,32 @@ export const getPostsLimit = (query) => async (dispatch) => {
         });
     }
 };
+
+export const getPostById = (id) => async (dispatch) => {
+    try {
+        const response = await postAPI.apiGetPost(id);
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionType.GET_POST_BY_ID,
+                detailPost: response.data.res,
+            });
+        } else {
+            dispatch({
+                type: actionType.GET_POST_BY_ID,
+                msg: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionType.GET_POST_BY_ID,
+            detailPost: null,
+        });
+    }
+};
+
+export const setDetailPostNull = () => (dispatch) => {
+    dispatch({
+        type: actionType.SET_POST_NULL,
+        detailPost: null,
+    });
+};

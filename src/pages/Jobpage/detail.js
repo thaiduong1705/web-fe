@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -17,65 +17,59 @@ import {
     faUserGroup,
     faUsers,
 } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPostById, setDetailPostNull } from '~/store/action/post';
 
 import { Combobox, JobItem } from '~/components';
+import convertDatetime from '~/utils/convertDate';
 const DetailPage = () => {
     const { id } = useParams();
-
+    const { detailPost } = useSelector((state) => state.post);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getPostById(id));
+        return () => {
+            dispatch(setDetailPostNull());
+        };
+    }, []);
+    useEffect(() => {
+        console.log(detailPost);
+    }, [detailPost]);
     return (
         <div>
-            <div className="bg-blue-700 text-black">
-                <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
-                    <span className="text-[16px] text-white leading-[32px] block">Tìm việc</span>
-                    <input
-                        className="w-[52.7%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
-                        placeholder="Nhập từ khoá tìm kiếm..."
-                    />
-                    <Combobox
-                        title="Chọn kinh nghiệm"
-                        className="w-[200px] h-[35px]"
-                        items={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-                    />
-                    <Combobox title="Chọn quận huyện" className="w-[200px] h-[35px]" />
-                    <button className="w-[15%] cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
-                        Tìm kiếm
-                    </button>
-                </div>
-                <div className="px-[24px] pb-[20px] flex flex-wrap gap-[10px]">
-                    <Combobox title="Cấp bậc" className="w-[19.43%]" />
-                    <Combobox title="Loại hình" className="w-[19.43%]" />
-                    <Combobox title="Kinh nghiệm" className="w-[19.43%]" />
-                    <Combobox title="Thời gian" className="w-[19.43%]" />
-                    <Combobox title="Giới tính" className="w-[19.43%]" />
-                    <Combobox title="Độ tuổi" className="w-[19.43%]" />
-                    <Combobox title="Trình độ" className="w-[19.43%]" />
-                    <Combobox title="Mức lương" className="w-[19.43%]" />
-                    <Combobox title="Ngành nghề" className="w-[19.43%]" />
-                </div>
-            </div>
             <div className="my-[24px]">
                 <div className="w-full flex item-center justify-between p-[16px] shadow-lg rounded-[4px]">
                     <div className="w-[50%]">
-                        <h1 className="font-medium text-[24px]">bind tên công việc</h1>
+                        <h1 className="font-medium text-[24px]">{detailPost?.jobTitle}</h1>
                         <div>
                             <div className="">
                                 <p className="leading-[32px] text-[16px] flex items-center gap-[4px]">
                                     <FontAwesomeIcon icon={faLocationDot} className="text-[#2A80B9] mr-[4px]" /> Địa
-                                    điểm tuyển dụng:
+                                    điểm tuyển dụng: {detailPost?.District?.length === 0 && 'chưa cập nhật'}
                                 </p>
+                                <div className="flex flex-wrap gap-[12px] items-center mt-3">
+                                    {detailPost?.District?.map((item) => {
+                                        return (
+                                            <div className="no-underline px-[12px] py-[4px] font-normal text-[16px] text-[#236997] bg-[#E7F5FF] text-center rounded-[4px]">
+                                                {item.districtName}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                             <div className="">
                                 <p className="leading-[32px] text-[16px] flex items-center gap-[]">
                                     <FontAwesomeIcon icon={faSuitcase} className="text-[#2A80B9] mr-[4px]" /> Ngành
-                                    nghề:
+                                    nghề: {detailPost?.Career?.length === 0 && 'chưa cập nhật'}
                                 </p>
                                 <div className="flex flex-wrap gap-[12px] items-center mt-3">
-                                    <div className="no-underline px-[12px] py-[4px] font-normal text-[16px] text-[#236997] bg-[#E7F5FF] text-center rounded-[4px]">
-                                        dsada
-                                    </div>
-                                    <div className="no-underline px-[12px] py-[4px] font-normal text-[16px] text-[#236997] bg-[#E7F5FF] text-center rounded-[4px]">
-                                        dsada
-                                    </div>
+                                    {detailPost?.Career?.map((item) => {
+                                        return (
+                                            <div className="no-underline px-[12px] py-[4px] font-normal text-[16px] text-[#236997] bg-[#E7F5FF] text-center rounded-[4px]">
+                                                {item.careerName}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -84,17 +78,20 @@ const DetailPage = () => {
                         <div className="flex gap-[5px] item-center no-underline flex-wrap">
                             <FontAwesomeIcon icon={faCoins} className="text-[#236997] text-[20px]" />
                             <span>Mức lương: </span>
-                            <span>Bind</span>
+                            <span>
+                                {detailPost?.salaryMin !== 0 && `từ ${detailPost?.salaryMin} triệu `}
+                                {detailPost?.salaryMax !== 999 && `đến ${detailPost?.salaryMax} triệu`}
+                            </span>
                         </div>
                         <div className="flex gap-[8px] item-center no-underline flex-wrap">
                             <FontAwesomeIcon icon={faCalendarDays} className="text-[#236997] text-[20px]" />
                             <span>Ngày tạo: </span>
-                            <span>Bind</span>
+                            <span>{convertDatetime(detailPost?.createdAt)}</span>
                         </div>
                         <div className="flex gap-[8px] item-center no-underline flex-wrap">
                             <FontAwesomeIcon icon={faCalendarDays} className="text-[#236997] text-[20px]" />
                             <span>Ngày hết hạn: </span>
-                            <span>Bind</span>
+                            <span>{convertDatetime(detailPost?.endDate)}</span>
                         </div>
                     </div>
                 </div>
@@ -105,37 +102,42 @@ const DetailPage = () => {
                         <div className="flex items-center gap-[8px] text-[16px]">
                             <FontAwesomeIcon icon={faUser} className="w-[20px] h-[20px]" />
                             <span>Kinh nghiệm: </span>
-                            <span>bind kinh nghiệm</span>
+                            <span>
+                                {detailPost?.experienceYear ? `${detailPost?.experienceYear} năm` : 'chưa cập nhật'}
+                            </span>
                         </div>
                         <div className="flex items-center gap-[8px] text-[16px]">
                             <FontAwesomeIcon icon={faGraduationCap} className="w-[20px] h-[20px]" />
                             <span>Bằng cấp: </span>
-                            <span>bind bằng cấp</span>
+                            <span>{detailPost?.AcademicLevel?.academicLevelName || 'chưa cập nhật'}</span>
                         </div>
                         <div className="flex items-center gap-[8px] text-[16px]">
                             <FontAwesomeIcon icon={faVenusMars} className="w-[20px] h-[20px]" />
                             <span>Giới tính: </span>
-                            <span>bind giới tính</span>
+                            <span>{detailPost?.sex === 0 ? 'Nam' : detailPost?.sex === 1 ? 'Nữ' : 'Nam/Nữ'}</span>
                         </div>
                         <div className="flex items-center gap-[8px] text-[16px]">
                             <FontAwesomeIcon icon={faSuitcase} className="w-[20px] h-[20px]" />
                             <span>Hình thức làm việc: </span>
-                            <span>bind hình thức</span>
+                            <span>{detailPost?.WorkingType?.workingTypeName || 'chưa cập nhật'}</span>
                         </div>
                         <div className="flex items-center gap-[8px] text-[16px]">
                             <FontAwesomeIcon icon={faSignal} className="w-[20px] h-[20px]" />
                             <span>Chức vụ: </span>
-                            <span>bind chức vụ</span>
+                            <span>{detailPost?.Position?.positionName || 'chưa cập nhật'}</span>
                         </div>
                         <div className="flex items-center gap-[8px] text-[16px]">
                             <FontAwesomeIcon icon={faUserGroup} className="w-[20px] h-[20px]" />
                             <span>Độ tuổi: </span>
-                            <span>bind độ tuổi</span>
+                            <span>
+                                {detailPost?.ageMin !== 0 && `từ ${detailPost?.ageMin} tuổi `}
+                                {detailPost?.ageMax !== 999 && `đến ${detailPost?.ageMax} tuổi`}
+                            </span>
                         </div>
                         <div className="flex items-center gap-[8px] text-[16px]">
                             <FontAwesomeIcon icon={faUsers} className="w-[20px] h-[20px]" />
                             <span>Số lượng: </span>
-                            <span>bind số luognwj</span>
+                            <span>{detailPost?.needNumber ? `${detailPost?.needNumber} người` : 'chưa cập nhật'}</span>
                         </div>
                     </div>
 
@@ -144,20 +146,20 @@ const DetailPage = () => {
                             <FontAwesomeIcon icon={faCircleInfo} className="text-[20px] text-blue-400" />
                             <h2 className="text-[20px] font-medium">Mô tả công việc</h2>
                         </div>
-                        <div className="mb-[16px] text-justify">Bind mô tả</div>
+                        <div className="mb-[16px] text-justify">{detailPost?.jobDescribe || 'Chưa cập nhật'}</div>
                         <div className="flex items-center gap-[16px] pb-[20px] border-b-1 border-gray-500">
                             <FontAwesomeIcon icon={faCircleInfo} className="text-[20px] text-blue-400" />
                             <h2 className="text-[20px] font-medium">Quyền lợi được hưởng</h2>
                         </div>
-                        <div className="mb-[16px] text-justify">Bind quyền lợi</div>
+                        <div className="mb-[16px] text-justify">{detailPost?.benefits || 'Chưa cập nhật'}</div>
                         <div className="flex items-center gap-[16px] pb-[20px] border-b-1 border-gray-500">
                             <FontAwesomeIcon icon={faCircleInfo} className="text-[20px] text-blue-400" />
                             <h2 className="text-[20px] font-medium">Yêu cầu công việc</h2>
                         </div>
-                        <div className="mb-[32px] text-justify">Bind yêu cầu công việc</div>
+                        <div className="mb-[32px] text-justify">{detailPost?.jobRequirement || 'Chưa cập nhật'}</div>
                         <div className="flex items-center gap-[16px] pb-[20px]">
                             <FontAwesomeIcon icon={faCircleInfo} className="text-[20px] text-blue-400" />
-                            <h2 className="text-[20px] font-medium">Cách thức ứng tuyển</h2>
+                            <h2 className="text-[20px] font-medium">Cách thức ứng tuyển: </h2>
                         </div>
                         <div className="mb-[16px] text-justify">
                             <button className="text-white bg-[#326ffc] hover:bg-[#14388c] rounded-[4px] py-[4px] px-[16px] h-[44px]">
@@ -170,18 +172,18 @@ const DetailPage = () => {
                     <div className="px-[32px] py-[20px] shadow-lg ">
                         <div className=" mb-[12px] flex items-center text-[20px]">
                             <FontAwesomeIcon icon={faSuitcase} className="mr-[8px] p-[8px] bg-orange-300 text-white" />
-                            <span>Bind tên công ty</span>
+                            <span>{detailPost?.Company?.companyName}</span>
                         </div>
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faLocationDot} />
                                 <span className="font-medium">Địa chỉ:</span>
-                                <span>Bind địa chỉ</span>
+                                <span>{detailPost?.Company?.address || 'chưa cập nhật'}</span>
                             </div>
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faBuilding} />
                                 <span className="font-medium">Quy mô công ty:</span>
-                                <span>Bind quy mô</span>
+                                <span>{detailPost?.Company?.companySize || 'chưa cập nhật'}</span>
                             </div>
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faFile} />
