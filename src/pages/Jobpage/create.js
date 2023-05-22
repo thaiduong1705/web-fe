@@ -6,47 +6,21 @@ import { Link } from 'react-router-dom';
 import { Combobox, TextEditor } from '~/components';
 
 // Restricts input for the given textbox to the given inputFilter.
-function setInputFilter(textbox, inputFilter, errMsg) {
-    ['input', 'keydown', 'keyup', 'mousedown', 'mouseup', 'select', 'contextmenu', 'drop', 'focusout'].forEach(
-        function (event) {
-            textbox.addEventListener(event, function (e) {
-                if (inputFilter(this.value)) {
-                    // Accepted value
-                    if (['keydown', 'mousedown', 'focusout'].indexOf(e.type) >= 0) {
-                        this.classList.remove('input-error');
-                        this.setCustomValidity('');
-                    }
-                    this.oldValue = this.value;
-                    this.oldSelectionStart = this.selectionStart;
-                    this.oldSelectionEnd = this.selectionEnd;
-                } else if (this.hasOwnProperty('oldValue')) {
-                    // Rejected value - restore the previous one
-                    this.classList.add('input-error');
-                    this.setCustomValidity(errMsg);
-                    this.reportValidity();
-                    this.value = this.oldValue;
-                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-                } else {
-                    // Rejected value - nothing to restore
-                    this.value = '';
-                }
-            });
-        },
-    );
-}
 
 const CreatePost = () => {
     const currentDate = new Date().toISOString().split('T')[0];
     const [jobName, setJobName] = useState('');
-    const [recruitAmount, setRecruitAmount] = useState(0);
-    const [startDate, setStartDate] = useState(currentDate);
-    const [endDate, setEndDate] = useState();
+    const [needNumber, setNeedNumber] = useState(0);
+    const [endDate, setEndDate] = useState(currentDate);
     const [address, setAddress] = useState('');
     const [expYear, setExpYear] = useState(0);
-    const [salary, setSalary] = useState([0, 100000000]);
+    const [salary, setSalary] = useState([0, 0]);
     const [requirement, setRequirement] = useState('');
     const [response, setResponse] = useState('');
     const [reward, setReward] = useState('');
+    const [career, setCareer] = useState([]);
+    const [district, setDistrict] = useState([]);
+    const [company, setCompany] = useState('');
 
     const handleRequirementChange = (value) => {
         setRequirement((prev) => value);
@@ -60,6 +34,15 @@ const CreatePost = () => {
         setReward((prev) => value);
         console.log(reward);
     };
+    const handleChangeCareer = (value) => {
+        setCareer((prev) => value);
+    };
+    const handleChangeDistrict = (value) => {
+        setDistrict((prev) => value);
+    };
+    const handleChangeCompany = (value) => {
+        setCompany((prev) => value);
+    };
 
     const handleSubmit = () => {};
     return (
@@ -71,7 +54,7 @@ const CreatePost = () => {
                 </p>
                 <div className="flex justify-between px-[8px] my-[8px] gap-[10px]">
                     <div className="flex-1">
-                        <label htmlFor="JobName">Tên công việc</label>
+                        <label>Tên công việc</label>
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="TenCongViec"
@@ -86,31 +69,25 @@ const CreatePost = () => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="SoLuong"
                             id="amount"
-                            value={recruitAmount}
+                            value={needNumber}
                             onChange={(e) => {
                                 const input = e.target.value.replace(/[^0-9]/g, '');
-                                setRecruitAmount((prev) => (isNaN(input) || input === '' ? 0 : parseInt(input, 10)));
+                                setNeedNumber((prev) => (isNaN(input) || input === '' ? 0 : parseInt(input, 10)));
                             }}
                         />
                     </div>
                 </div>
                 <div className="flex justify-between gap-[10px] px-[8px]">
-                    <div className="w-[40%]">
+                    <div className="w-[60%]">
                         <label htmlFor="JobName">Công ty</label>
-                        <Combobox title="Công ty" className="w-[100%] h-[40px]" isSearchable />
-                    </div>
-                    <div className="w-[40%]">
-                        <label htmlFor="startDate">Ngày đăng tuyển</label>
-                        <input
-                            className="w-full h-[40px] rounded-md outline-none px-[8px] hover:opacity-80 hover:cursor-pointer"
-                            name="NgayDangTuyen"
-                            id="startDate"
-                            type="date"
-                            min={currentDate}
-                            value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
+                        <Combobox
+                            title="Công ty"
+                            className="w-[100%] h-[40px]"
+                            isSearchable={true}
+                            onChange={handleChangeCompany}
                         />
                     </div>
+
                     <div className="w-[40%]">
                         <label htmlFor="endDate">Ngày hết hạn</label>
                         <input
@@ -128,7 +105,12 @@ const CreatePost = () => {
                 <div className="flex gap-[10px] mb-[8px] px-[8px]">
                     <div className="w-[51%]">
                         <label htmlFor="">Ngành nghề</label>
-                        <Combobox title="Ngành nghề" className="w-[100%] h-[40px]" isSearchables />
+                        <Combobox
+                            title="Ngành nghề"
+                            className="w-[100%] h-[40px]"
+                            isSearchables={true}
+                            onChange={handleChangeCareer}
+                        />
                     </div>
                     <div className="w-[25%]">
                         <label>Vị trí tuyển dụng</label>
@@ -205,11 +187,12 @@ const CreatePost = () => {
                         />
                     </div>
                     <div className="w-[30%]">
-                        <label htmlFor="province">Tỉnh thành</label>
+                        <label htmlFor="province">Quận huyện</label>
                         <Combobox
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
-                            title="Tỉnh thành"
-                            isSearchable
+                            title="Quận huyện"
+                            isSearchable={true}
+                            onChange={handleChangeDistrict}
                         />
                     </div>
                 </div>
