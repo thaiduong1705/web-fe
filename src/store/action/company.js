@@ -73,3 +73,10 @@ export const setDetailCompanyNull = () => (dispatch) => {
         detailCompany: null,
     });
 };
+
+export const setCompaniesToNull = () => (dispatch) => {
+    dispatch({
+        type: actionType.SET_COMPANIES_NULL,
+        companies: [],
+    });
+};

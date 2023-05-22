@@ -11,6 +11,7 @@ const SearchingCombobox = ({
     onChange,
     isMulti = false,
     isSearchable = false,
+    needTilte = false,
 }) => {
     const [showMenu, setshowMenu] = useState(false);
     const [selectedValue, setSelectedValue] = useState(isMulti ? [] : null);
@@ -50,7 +51,7 @@ const SearchingCombobox = ({
     const getDisplay = () => {
         if (!selectedValue || selectedValue.length === 0) {
             if (isMulti) return title;
-            return items[0]?.value || title;
+            return needTilte && (title || items[0]?.value);
         }
         if (isMulti) {
             return (

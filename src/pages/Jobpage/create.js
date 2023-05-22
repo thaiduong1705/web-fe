@@ -1,50 +1,139 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
-import { Link } from 'react-router-dom';
-import { Combobox, TextEditor } from '~/components';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { Combobox, Loading, TextEditor } from '~/components';
+import { getCompanies, setCompaniesToNull } from '~/store/action/company';
+import { apiCreatePost } from '~/services/post';
 // Restricts input for the given textbox to the given inputFilter.
 
 const CreatePost = () => {
+    const { companies } = useSelector((state) => state.company);
+    const { careers, districts, positions, academicLevels, workingTypes } = useSelector((state) => state.otherData);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    useEffect(() => {
+        dispatch(getCompanies());
+        return () => {
+            dispatch(setCompaniesToNull());
+        };
+    }, []);
+
     const currentDate = new Date().toISOString().split('T')[0];
     const [jobName, setJobName] = useState('');
     const [needNumber, setNeedNumber] = useState(0);
     const [endDate, setEndDate] = useState(currentDate);
     const [address, setAddress] = useState('');
     const [expYear, setExpYear] = useState(0);
+    const [ageMin, setAgeMin] = useState(18);
+    const [ageMax, setAgeMax] = useState(60);
     const [salary, setSalary] = useState([0, 0]);
-    const [requirement, setRequirement] = useState('');
-    const [response, setResponse] = useState('');
-    const [reward, setReward] = useState('');
+    const [jobDescribe, setJobDescribe] = useState('');
+    const [benefits, setBenefits] = useState('');
+    const [jobRequirement, setJobRequirement] = useState('');
     const [career, setCareer] = useState([]);
     const [district, setDistrict] = useState([]);
     const [company, setCompany] = useState('');
-
+    const [position, setPosition] = useState('');
+    const [workingType, setWorkingType] = useState('');
+    const [academicLevel, setAcademicLevel] = useState('');
+    const handleDescribeChange = (value) => {
+        setJobDescribe((prev) => value);
+    };
     const handleRequirementChange = (value) => {
-        setRequirement((prev) => value);
-        console.log(requirement);
+        setJobRequirement((prev) => value);
     };
-    const handleResponseChange = (value) => {
-        setResponse((prev) => value);
-        console.log(response);
-    };
-    const handleRewardChange = (value) => {
-        setReward((prev) => value);
-        console.log(reward);
+    const handleBenefitsChange = (value) => {
+        setBenefits((prev) => value);
     };
     const handleChangeCareer = (value) => {
-        setCareer((prev) => value);
+        let newCareerId = value.map((item) => {
+            return item.id;
+        });
+        setCareer((prev) => newCareerId);
     };
     const handleChangeDistrict = (value) => {
-        setDistrict((prev) => value);
+        let newDistrictId = value.map((item) => {
+            return item.id;
+        });
+        setDistrict((prev) => newDistrictId);
     };
     const handleChangeCompany = (value) => {
-        setCompany((prev) => value);
+        setCompany((prev) => value.id);
+        setAddress((prev) => value.address);
+    };
+    const handleChangePosition = (value) => {
+        setPosition(value.id);
+    };
+    const handleChangeWT = (value) => {
+        setWorkingType(value.id);
+    };
+    const handleChangeAL = (value) => {
+        setAcademicLevel(value.id);
     };
 
-    const handleSubmit = () => {};
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log({
+            jobTitle: jobName,
+            needNumber,
+            companyId: company,
+            positionId: position,
+            workingTypeId: workingType,
+            academicLevelId: academicLevel,
+            endDate,
+            workingAddress: address,
+            experienceYear: expYear,
+            ageMin,
+            ageMax,
+            salaryMin: salary[0] / 1000000,
+            salaryMax: salary[1] / 1000000,
+            jobDescribe,
+            jobRequirement,
+            benefits,
+            careerList: career,
+            districtList: district,
+        });
+        const response = await apiCreatePost({
+            jobTitle: jobName,
+            needNumber,
+            companyId: company,
+            positionId: position,
+            workingTypeId: workingType,
+            academicLevelId: academicLevel,
+            endDate,
+            workingAddress: address,
+            experienceYear: expYear,
+            ageMin,
+            ageMax,
+            salaryMin: salary[0] / 1000000,
+            salaryMax: salary[1] / 1000000,
+            jobDescribe,
+            jobRequirement,
+            benefits,
+            careerList: career,
+            districtList: district,
+        });
+        console.log(response);
+        if (response?.data?.err === 0) {
+            Swal.fire('Đã tạo thành công', '', 'success');
+            navigate('/viec-lam');
+        } else if (!response || response?.data?.err !== 0) {
+            Swal.fire('Có lỗi của server', '', 'error');
+        }
+    };
+
+    if (companies.length === 0) {
+        return (
+            <div className="flex justify-center item-center">
+                <Loading />
+            </div>
+        );
+    }
     return (
         <div className="w-full bg-blue-100 pb-[12px] rounded-[4px] h-full">
             <form>
@@ -85,6 +174,10 @@ const CreatePost = () => {
                             className="w-[100%] h-[40px]"
                             isSearchable={true}
                             onChange={handleChangeCompany}
+                            items={companies.map((item) => {
+                                return { id: item.id, value: item.companyName, address: item.address };
+                            })}
+                            needTilte={true}
                         />
                     </div>
 
@@ -95,7 +188,7 @@ const CreatePost = () => {
                             name="NgayHetHan"
                             id="endDate"
                             type="date"
-                            min={startDate}
+                            min={currentDate}
                             value={endDate}
                             onChange={(e) => setEndDate(e.target.value)}
                         />
@@ -104,29 +197,79 @@ const CreatePost = () => {
                 <div className="w-full h-[2px] bg-blue-700 my-[12px] px-[8px] opacity-60"></div>
                 <div className="flex gap-[10px] mb-[8px] px-[8px]">
                     <div className="w-[51%]">
-                        <label htmlFor="">Ngành nghề</label>
+                        <label>Ngành nghề</label>
                         <Combobox
-                            title="Ngành nghề"
+                            title=""
                             className="w-[100%] h-[40px]"
-                            isSearchables={true}
+                            isMulti={true}
                             onChange={handleChangeCareer}
+                            items={careers.map((item) => {
+                                return { id: item.id, value: item.careerName };
+                            })}
+                            isSearchable={true}
                         />
                     </div>
                     <div className="w-[25%]">
                         <label>Vị trí tuyển dụng</label>
-                        <Combobox title="Vị trí tuyển dụng" className="h-[40px]" />
+                        <Combobox
+                            title="Vị trí tuyển dụng"
+                            className="h-[40px]"
+                            onChange={handleChangePosition}
+                            items={positions.map((item) => {
+                                return { id: item.id, value: item.positionName };
+                            })}
+                        />
                     </div>
                     <div className="w-[25%]">
                         <label>Loại hình</label>
-                        <Combobox title="Loại hình làm việc" className="h-[40px]" />
+                        <Combobox
+                            title="Loại hình làm việc"
+                            className="h-[40px]"
+                            onChange={handleChangeWT}
+                            items={workingTypes.map((item) => {
+                                return { id: item.id, value: item.workingTypeName };
+                            })}
+                        />
                     </div>
                 </div>
                 <div className="flex gap-[10px] mb-[8px] px-[8px]">
-                    <div className="w-[25%]">
+                    <div className="flex-1">
                         <label>Trình độ</label>
-                        <Combobox placeholder="Tìm kiếm" title="Trình độ" className="h-[40px]" />
+                        <Combobox
+                            placeholder="Tìm kiếm"
+                            title="Trình độ"
+                            className="h-[40px]"
+                            onChange={handleChangeAL}
+                            items={academicLevels.map((item) => {
+                                return { id: item.id, value: item.academicLevelName };
+                            })}
+                        />
                     </div>
-                    <div className="w-[25%]">
+                    <div className="w-[10%]">
+                        <label>Tuổi tối thiểu</label>
+                        <input
+                            className="w-full h-[40px] rounded-md outline-none px-[8px]"
+                            name="SoNamKinhNghiem"
+                            value={ageMin}
+                            onChange={(e) => {
+                                const input = e.target.value.replace(/[^0-9]/g, '');
+                                setAgeMin((prev) => (isNaN(input) || input === '' ? 0 : parseInt(input, 10)));
+                            }}
+                        />
+                    </div>
+                    <div className="w-[10%]">
+                        <label>Tuổi tối đa</label>
+                        <input
+                            className="w-full h-[40px] rounded-md outline-none px-[8px]"
+                            name="SoNamKinhNghiem"
+                            value={ageMax}
+                            onChange={(e) => {
+                                const input = e.target.value.replace(/[^0-9]/g, '');
+                                setAgeMax((prev) => (isNaN(input) || input === '' ? 0 : parseInt(input, 10)));
+                            }}
+                        />
+                    </div>
+                    <div className="w-[10%]">
                         <label htmlFor="expYear">Số năm kinh nghiệm</label>
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
@@ -139,13 +282,12 @@ const CreatePost = () => {
                             }}
                         />
                     </div>
-                    <div className="w-[25%]">
+                    <div className="w-[10%]">
                         <label htmlFor="salaryMin">Lương tối thiểu</label>
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="salaryMin"
                             id="salary"
-                            pattern="[0-9]*"
                             value={salary[0].toLocaleString('vi-VN')}
                             onChange={(e) => {
                                 const input = e.target.value.replace(/[^0-9]/g, '');
@@ -157,7 +299,7 @@ const CreatePost = () => {
                             }}
                         />
                     </div>
-                    <div className="w-[25%]">
+                    <div className="w-[10%]">
                         <label htmlFor="salaryMin">Lương tối đa</label>
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
@@ -189,31 +331,37 @@ const CreatePost = () => {
                     <div className="w-[30%]">
                         <label htmlFor="province">Quận huyện</label>
                         <Combobox
-                            className="w-full h-[40px] rounded-md outline-none px-[8px]"
+                            className="w-full h-[40px] rounded-md outline-none"
                             title="Quận huyện"
                             isSearchable={true}
+                            isMulti={true}
                             onChange={handleChangeDistrict}
+                            items={districts.map((item) => {
+                                return { id: item.id, value: item.districtName };
+                            })}
                         />
                     </div>
                 </div>
                 <div className="mb-[8px] px-[8px]">
                     <label>Yêu cầu ứng viên</label>
                     <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={handleRequirementChange} />
-                    <label>Trách nhiệm công việc</label>
-                    <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={handleResponseChange} />
+                    <label>Mô tả công việc</label>
+                    <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={handleDescribeChange} />
                     <label>Quyền lợi công việc</label>
-                    <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={handleRewardChange} />
+                    <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={handleBenefitsChange} />
                 </div>
                 <div className="flex justify-end px-[8px] pt-[8px]">
                     <button
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"
-                        onClick={handleSubmit}
+                        onClick={(e) => {
+                            handleSubmit(e);
+                        }}
                     >
                         Xác nhận
                     </button>
                     <Link
-                        to="/posts"
+                        to="/bai-tuyen-dung"
                         className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"
                     >
                         Quay lại

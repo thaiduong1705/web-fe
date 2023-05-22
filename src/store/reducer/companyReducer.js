@@ -34,6 +34,12 @@ const companyReducer = (state = initState, action) => {
                 msg: action.msg || '',
                 count: action.count || 0,
             };
+        case actionType.SET_COMPANIES_NULL:
+            return {
+                ...state,
+                companies: action.companies || [],
+                msg: action.msg || '',
+            };
         default:
             return state;
     }
