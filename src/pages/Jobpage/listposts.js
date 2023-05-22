@@ -69,6 +69,14 @@ const ListPosts = () => {
         dispatch(
             getPostsLimit({
                 page: currentPage,
+                sex: gender,
+                experienceYear: expYear,
+                createdAt: createdAt,
+                academicLevelId: al,
+                positionId: position,
+                workingTypeId: wt,
+                career: career,
+                district: district,
             }),
         );
     };

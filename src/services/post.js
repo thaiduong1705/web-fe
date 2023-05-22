@@ -36,3 +36,17 @@ export const apiGetPost = async (id) => {
         return error;
     }
 };
+
+export const apiCreatePost = async (post) => {
+    try {
+        const request = await axiosInstance({
+            method: 'post',
+            url: '/api/v1/post/create-post',
+            data: post,
+        });
+        console.log(request);
+        return request;
+    } catch (error) {
+        return error;
+    }
+};

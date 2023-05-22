@@ -3,17 +3,14 @@ import { Combobox, CompanyItem } from '~/components';
 import { Link, createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getCompanies, getCompanyLimit } from '~/store/action/company';
+import { getCompanyLimit, setCompaniesToNull } from '~/store/action/company';
 import ReactPaginate from 'react-paginate';
 const ListCompanies = () => {
-    const [params] = useSearchParams();
-
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { companies, count } = useSelector((state) => state.company);
     const { careers, districts } = useSelector((state) => state.otherData);
     const [selectedCareer, setSelectedCareer] = useState();
-    const [searchName, setSearchText] = useState('');
+    const [searchName, setSearchName] = useState('');
 
     const [pageCount, setPageCount] = useState(0);
     let companyPerPage = 10;
@@ -22,8 +19,11 @@ const ListCompanies = () => {
         setSelectedCareer((prev) => career);
     };
     useEffect(() => {
-        dispatch(getCompanyLimit({ careerId: params.get('careerId'), companyName: params.get('companyName') }));
-    }, [params]);
+        dispatch(getCompanyLimit());
+        return () => {
+            dispatch(setCompaniesToNull());
+        };
+    }, []);
 
     useEffect(() => {
         setPageCount((prev) => Math.ceil(count / companyPerPage));
@@ -34,22 +34,19 @@ const ListCompanies = () => {
         dispatch(
             getCompanyLimit({
                 page: currentPage,
-                careerId: params.get('careerId'),
-                companyName: params.get('companyName'),
+                careerId: selectedCareer.id,
+                companyName: searchName,
             }),
         );
     };
 
     const handleSearch = () => {
-        setSearchText('');
-        setSelectedCareer((prev) => null);
-        navigate({
-            pathname: '/nha-tuyen-dung',
-            search: createSearchParams({
+        dispatch(
+            getCompanyLimit({
                 careerId: selectedCareer ? selectedCareer.id : '',
                 companyName: searchName,
-            }).toString(),
-        });
+            }),
+        );
     };
 
     return (
@@ -61,6 +58,8 @@ const ListCompanies = () => {
                         <input
                             className="w-[86.5%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
                             placeholder="Nhập tên công ty..."
+                            value={searchName}
+                            onChange={(e) => setSearchName(e.target.value)}
                         />
                     </div>
 
@@ -78,9 +77,12 @@ const ListCompanies = () => {
                     <Combobox
                         title="Chọn quận huyện"
                         className="col-span-2 h-[35px]"
-                        items={districts.map((obj) => {
-                            return { id: obj.id, value: obj.districtName };
-                        })}
+                        items={[
+                            { id: '', value: 'Tất cả quận huyện' },
+                            ...districts.map((obj) => {
+                                return { id: obj.id, value: obj.districtName };
+                            }),
+                        ]}
                     />
                     <button
                         className="cursor-pointer bg-blue-500 hover:bg-blue-400 text-white h-[35px] rounded-[8px] font-[550] px-[8px] col-auto"
