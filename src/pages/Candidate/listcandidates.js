@@ -1,58 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CandidateItem, Combobox } from '~/components';
-import axios from 'axios';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getCandidates } from '~/store/action/candidate';
+import { Age, Exp } from '~/data';
+import ReactPaginate from 'react-paginate';
 const ListCandidates = () => {
-    const [myData, setMyData] = useState([]);
-
+    const dispatch = useDispatch();
+    const { candidates, count } = useSelector((state) => state.candidate);
+    const { academicLevels } = useSelector((state) => state.otherData);
+    const [academicLevelId, setAcademicLevelId] = useState('');
+    const [experienceYear, setExperienceYear] = useState('');
+    const [age, setAge] = useState([]);
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios
-                .get(`http://localhost:5000/api/v1/candidate/all`)
-                .then((response) => {
-                    if (response.status === 200) {
-                        console.log('API response success!');
-                        console.log(response.data);
-                        setMyData(response.data.res);
-                    } else {
-                        console.log('API response error!');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error fetching data: ', error);
-                });
-        };
-        fetchData();
+        dispatch(getCandidates());
     }, []);
+
+    const [pageCount, setPageCount] = useState(0);
+    let companyPerPage = 10;
+    useEffect(() => {
+        setPageCount((prev) => Math.ceil(count / companyPerPage));
+    }, [count]);
+    const handlePageClick = (data) => {
+        let currentPage = data.selected + 1;
+    };
     return (
         <div>
             <div className="bg-blue-700 text-black px-[64px]">
-                <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px]">
-                    <div className="col-span-3 col-start-1 flex gap-[10px]">
-                        <span className="text-[16px] text-white leading-[32px] block ">Tìm việc: </span>
-                        <input
-                            className="w-[90%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
-                            placeholder="Nhập từ khoá tìm kiếm..."
-                        />
-                    </div>
-
-                    <Combobox title="Chọn ngành nghề" className="h-[35px] col-start-4" />
-                    <Combobox title="Chọn quận huyện" className="h-[35px] col-start-5" />
-                    <button className="cursor-pointer col-start-6 bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
+                <div className="grid grid-cols-10 py-[24px] gap-[16px] h-[80px]">
+                    <Combobox
+                        title="Trình độ học vấn"
+                        className="h-[35px] col-span-5"
+                        items={academicLevels.map((obj) => {
+                            return { id: obj.id, value: obj.academicLevelName };
+                        })}
+                    />
+                    <Combobox title="Năm kinh nghiệm" className="h-[35px] col-span-2" items={Exp} />
+                    <Combobox title="Tuổi" className="h-[35px] col-span-2" items={Age} />
+                    <button className="cursor-pointer  bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
                         Tìm kiếm
                     </button>
-                </div>
-                <div className="grid grid-cols-5 grid-rows-2 pb-[20px] gap-[16px]">
-                    <Combobox title="Cấp bậc" />
-                    <Combobox title="Loại hình" />
-                    <Combobox title="Kinh nghiệm" />
-                    <Combobox title="Thời gian" />
-                    <Combobox title="Giới tính" />
-                    <Combobox title="Độ tuổi" />
-                    <Combobox title="Trình độ" />
-                    <Combobox title="Mức lương" />
-                    <Combobox title="Ngành nghề" />
                 </div>
             </div>
 
@@ -95,6 +82,18 @@ const ListCandidates = () => {
                         <CandidateItem />
                     </tbody>
                 </table>
+                <ReactPaginate
+                    pageCount={pageCount}
+                    previousLabel={'<'}
+                    nextLabel={'>'}
+                    onPageChange={handlePageClick}
+                    breakLabel={'...'}
+                    disabledLinkClassName="text-red"
+                    containerClassName="inline-flex -space-x-px items-center justify-center gap-[8px] w-full"
+                    pageLinkClassName="px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    previousLinkClassName={`block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                    nextLinkClassName={`block px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                />
             </div>
         </div>
     );

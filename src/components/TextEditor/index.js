@@ -12,8 +12,8 @@ const TOOLBAR_OPTIONS = [
     [{ align: [] }],
     ['clean'],
 ];
-const TextEditor = ({ className, onChange = () => {} }) => {
-    const [quill, setQuill] = useState('');
+const TextEditor = ({ className, onChange = () => {}, initialValue }) => {
+    const [quill, setQuill] = useState(initialValue || '');
     const handleChange = (value) => {
         setQuill((prev) => value);
         onChange(quill);

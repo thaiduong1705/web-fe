@@ -73,3 +73,20 @@ export const setDetailPostNull = () => (dispatch) => {
         detailPost: null,
     });
 };
+
+export const setPostsToNull = () => (dispatch) => {
+    dispatch({
+        type: actionType.SET_POSTS_NULL,
+        posts: [],
+    });
+};
+
+export const editData = (dataEdit) => ({
+    type: actionType.GET_POST_EDIT,
+    postDataEdit: dataEdit,
+});
+
+export const setEditDataNull = () => ({
+    type: actionType.SET_POST_EDIT_NULL,
+    postDataEdit: null,
+});

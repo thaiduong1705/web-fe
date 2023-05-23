@@ -4,12 +4,15 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Combobox, JobItem, Loading } from '~/components';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getPostsLimit } from '~/store/action/post';
+import { editData, getPostsLimit } from '~/store/action/post';
 import ReactPaginate from 'react-paginate';
 import { Exp, Gender, Salary, CreatedAt } from '~/data';
+import UpdatePost from '~/components/UpdatePost';
 
 const ListPosts = () => {
     const dispatch = useDispatch();
+    const [isEdit, setIsEdit] = useState(false);
+
     const { posts, count } = useSelector((state) => state.post);
     const { careers, districts, academicLevels, workingTypes, positions } = useSelector((state) => state.otherData);
     const [gender, setGender] = useState('');
@@ -191,7 +194,17 @@ const ListPosts = () => {
                     </Link>
                 </div>
                 <div className="overflow-scroll">
-                    {posts && posts.map((data, index) => <JobItem key={data.id} job={data} />)}
+                    {posts &&
+                        posts.map((data, index) => (
+                            <JobItem
+                                key={data.id}
+                                job={data}
+                                onClick={(e) => {
+                                    setIsEdit(true);
+                                    dispatch(editData(data));
+                                }}
+                            />
+                        ))}
                     <ReactPaginate
                         pageCount={pageCount}
                         previousLabel={'<'}
@@ -206,6 +219,7 @@ const ListPosts = () => {
                     />
                 </div>
             </div>
+            {isEdit && <UpdatePost setIsEdit={setIsEdit} />}
         </div>
     );
 };
