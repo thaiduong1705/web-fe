@@ -38,7 +38,7 @@ const DetailPage = () => {
     return (
         <div>
             <div className="my-[24px]">
-                <div className="w-full flex item-center justify-between p-[16px] shadow-lg rounded-[4px]">
+                <div className="w-full flex item-center justify-between px-[40px] py-[16px] shadow-lg rounded-[4px]">
                     <div className="w-[50%]">
                         <h1 className="font-medium text-[24px]">{detailPost?.jobTitle}</h1>
                         <div>

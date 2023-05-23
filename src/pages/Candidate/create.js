@@ -29,6 +29,10 @@ const CreateCandidate = () => {
     const [districtList, setCandidateDistrict] = useState([]);
 
     const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getAcademicLevels(), getCareers(), getDistricts(), getPositions());
+        console.log(careerListData);
+    }, []);
 
     const [candidateData, setCandidateData] = useState({
         candidateName: candidateName,
@@ -44,11 +48,6 @@ const CreateCandidate = () => {
         candidatePosition: candidatePosition,
         districtList: districtList,
     });
-
-    useEffect(() => {
-        console.log(candidateData);
-        apiCreateCandidate(candidateData);
-    }, [candidateData]);
 
     const handleChangeCareer = (career) => {
         console.log(career);
@@ -78,20 +77,14 @@ const CreateCandidate = () => {
         setCandidateAge((prev) => currentYear - date);
     };
 
-    const handleCreateCandidate = ({
-        candidateName,
-        gender,
-        age,
-        candidateCivilId,
-        phoneNumber,
-        email,
-        homeAddress,
-        academicLevelId,
-        careerList,
-        experienceYear,
-        candidatePosition,
-        districtList,
-    }) => {
+    useEffect(() => {
+        apiCreateCandidate(candidateData);
+        console.log('success');
+    }, [candidateData]);
+
+    const handleCreateCandidate = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
         setCandidateData({
             candidateName: candidateName,
             gender: gender,
@@ -106,6 +99,7 @@ const CreateCandidate = () => {
             candidatePosition: candidatePosition,
             districtList: districtList,
         });
+        console.log(candidateData);
     };
 
     return (
@@ -244,8 +238,8 @@ const CreateCandidate = () => {
                             isSearchable={true}
                             items={[
                                 { id: '', value: 'Tất cả ngành nghề' },
-                                ...careerListData.map((obj) => {
-                                    return { id: obj.id, value: obj.careerName };
+                                ...positionListData.map((obj) => {
+                                    return { id: obj.id, value: obj.positionName };
                                 }),
                             ]}
                             onChange={(e) => setCandidatePosition(e.id)}
@@ -270,28 +264,13 @@ const CreateCandidate = () => {
                     <input type="file" className="w-full" />
                 </div>
                 <div className="flex justify-end px-[8px]">
-                    <div
+                    <button
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"
-                        onClick={() =>
-                            handleCreateCandidate({
-                                candidateName,
-                                gender,
-                                age,
-                                candidateCivilId,
-                                phoneNumber,
-                                email,
-                                homeAddress,
-                                academicLevelId,
-                                careerList,
-                                experienceYear,
-                                candidatePosition,
-                                districtList,
-                            })
-                        }
+                        onClick={(e) => handleCreateCandidate(e)}
                     >
                         Tạo mới
-                    </div>
+                    </button>
                     <Link
                         to="/posts"
                         className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"

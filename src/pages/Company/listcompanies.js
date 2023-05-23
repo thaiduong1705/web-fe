@@ -9,14 +9,14 @@ const ListCompanies = () => {
     const dispatch = useDispatch();
     const { companies, count } = useSelector((state) => state.company);
     const { careers, districts } = useSelector((state) => state.otherData);
-    const [selectedCareer, setSelectedCareer] = useState();
+    const [selectedCareer, setSelectedCareer] = useState('');
     const [searchName, setSearchName] = useState('');
 
     const [pageCount, setPageCount] = useState(0);
     let companyPerPage = 10;
 
     const handleChangeCareer = (career) => {
-        setSelectedCareer((prev) => career);
+        setSelectedCareer((prev) => career.id);
     };
     useEffect(() => {
         dispatch(getCompanyLimit());
@@ -31,10 +31,11 @@ const ListCompanies = () => {
 
     const handlePageClick = (data) => {
         let currentPage = data.selected + 1;
+        console.log(selectedCareer);
         dispatch(
             getCompanyLimit({
                 page: currentPage,
-                careerId: selectedCareer.id,
+                careerId: selectedCareer,
                 companyName: searchName,
             }),
         );
@@ -43,7 +44,7 @@ const ListCompanies = () => {
     const handleSearch = () => {
         dispatch(
             getCompanyLimit({
-                careerId: selectedCareer ? selectedCareer.id : '',
+                careerId: selectedCareer,
                 companyName: searchName,
             }),
         );
@@ -109,22 +110,28 @@ const ListCompanies = () => {
             </div>
 
             <div className="px-[64px]">
-                {companies.map((company, index) => {
-                    return <CompanyItem key={company.id} item={company} />;
-                })}
-                <ReactPaginate
-                    pageCount={pageCount}
-                    previousLabel={'<'}
-                    nextLabel={'>'}
-                    onPageChange={handlePageClick}
-                    breakLabel={'...'}
-                    disabledLinkClassName="text-red"
-                    containerClassName="inline-flex -space-x-px items-center justify-center gap-[8px] w-full"
-                    pageLinkClassName="px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    previousLinkClassName={`block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
-                    nextLinkClassName={`block px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
-                    activeLinkClassName=""
-                />
+                {companies.length === 0 ? (
+                    'Không có kết quả'
+                ) : (
+                    <>
+                        {companies.map((company, index) => {
+                            return <CompanyItem key={company.id} item={company} />;
+                        })}
+                        <ReactPaginate
+                            pageCount={pageCount}
+                            previousLabel={'<'}
+                            nextLabel={'>'}
+                            onPageChange={handlePageClick}
+                            breakLabel={'...'}
+                            disabledLinkClassName="text-red"
+                            containerClassName="inline-flex -space-x-px items-center justify-center gap-[8px] w-full"
+                            pageLinkClassName="px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                            previousLinkClassName={`block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                            nextLinkClassName={`block px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                            activeLinkClassName=""
+                        />
+                    </>
+                )}
             </div>
         </div>
     );

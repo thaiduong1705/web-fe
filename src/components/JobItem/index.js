@@ -22,7 +22,7 @@ const JobItem = ({ job = {} }) => {
             <div className="flex-8 max-w[80%] lead-[300px] ">
                 <div className="flex justify-between">
                     <Link
-                        className="text-[28px] font-medium"
+                        className="text-[28px] font-medium line-clamp-1"
                         to={`/viec-lam/chi-tiet/${sanitizeVietnameseString(job?.jobTitle)}/${job?.id}`}
                     >
                         {job?.jobTitle}
@@ -36,6 +36,7 @@ const JobItem = ({ job = {} }) => {
 
                 <p>{job.companyName}</p>
                 <p className="text-gray-500">TG hết hạn ứng tuyển: {job.endDate}</p>
+                <p className="text-black">Công ty đăng tuyển: {job?.Company?.companyName}</p>
                 <div className="columns-5 justify-between"></div>
                 <div className="flex mt-2 justify-between">
                     <div className="flex gap-2 items-center">

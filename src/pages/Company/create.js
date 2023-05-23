@@ -72,11 +72,18 @@ const CreateCompany = () => {
         });
     };
     const handleChangeCareer = (career) => {
-        setCareerList((careerList) => []);
-        career.map((data, index) => {
-            setCareerList((careerList) => [...careerList, data.id]);
+        const newCareerIds = career.map((data, index) => {
+            return data.id;
         });
+        setCareerList(newCareerIds);
     };
+
+    // const handleChangeDistrictList = (district) => {
+    //     const newDistrictIds = district.map((item) => {
+    //         return item.id;
+    //     });
+    //     setCandidateDistrict(newDistrictIds);
+    // };
 
     return (
         <div className="w-full bg-blue-100 rounded-[4px] h-full pb-[24px]">
@@ -136,11 +143,16 @@ const CreateCompany = () => {
                         <Combobox
                             className="h-[40px]"
                             title="Lĩnh vực"
-                            isMulti
-                            isSearchable
+                            isMulti={true}
+                            isSearchable={true}
                             type="text"
-                            items={careerListData}
-                            onChange={() => handleChangeCareer}
+                            items={careerListData.map((obj) => {
+                                return { id: obj.id, value: obj.careerName };
+                            })}
+                            onChange={(e) => {
+                                console.log(e);
+                                handleChangeCareer(e);
+                            }}
                         />
                     </div>
                     <div className="w-[20%]">
@@ -159,6 +171,7 @@ const CreateCompany = () => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="TenCongViec"
                             placeholder=""
+                            onClick={() => console.log(companyData)}
                         />
                     </div>
                 </div>

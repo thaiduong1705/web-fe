@@ -13,6 +13,8 @@ const ListCandidates = () => {
         dispatch(getCandidates());
     }, []);
 
+    console.log(candidates);
+
     return (
         <div>
             <div className="bg-blue-700 text-black px-[64px]">
@@ -85,7 +87,7 @@ const ListCandidates = () => {
                                 item={{
                                     candidateName: data.candidateName,
                                     experienceYear: data.experienceYear,
-                                    academicLevel: data.academicLevelName,
+                                    academicLevel: data.academicLevelId,
                                 }}
                             />;
                         })}
