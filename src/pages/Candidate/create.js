@@ -272,7 +272,7 @@ const CreateCandidate = () => {
                         Tạo mới
                     </button>
                     <Link
-                        to="/posts"
+                        to="/ung-vien"
                         className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"
                     >
                         Quay lại

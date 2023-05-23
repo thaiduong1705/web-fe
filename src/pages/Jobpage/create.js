@@ -361,7 +361,7 @@ const CreatePost = () => {
                         Xác nhận
                     </button>
                     <Link
-                        to="/bai-tuyen-dung"
+                        to="/viec-lam"
                         className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"
                     >
                         Quay lại

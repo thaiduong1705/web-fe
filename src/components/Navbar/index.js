@@ -71,7 +71,7 @@ const Navbar = () => {
                 >
                     <img
                         className="rounded-full w-12 h-12"
-                        src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/sb9bSAPV1fYDP9hKyhctQSprqtn.jpg"
+                        src="https://cdn4.iconfinder.com/data/icons/green-shopper/1068/user.png"
                         alt="user-profile"
                     />
                     <FontAwesomeIcon icon={faCaretDown} style={{ color: '#4B5563' }} />

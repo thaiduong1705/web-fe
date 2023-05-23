@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const CandidateItem = ({ item }) => {
+const CandidateItem = (item = {}) => {
     return (
         <tr className="border-b dark:border-neutral-500">
             <td className="whitespace-nowrap px-6 py-4">
@@ -23,8 +23,8 @@ const CandidateItem = ({ item }) => {
                     </div>
                 </div>
             </td>
-            <td className="whitespace-nowrap px-6 py-4">Bind kinh nghiệm</td>
-            <td className="whitespace-nowrap px-6 py-4">bind trình độ chuyên môn</td>
+            <td className="whitespace-nowrap px-6 py-4">{item.AcademicLevel.academicLevelName}</td>
+            <td className="whitespace-nowrap px-6 py-4">{item.experienceYear} Năm</td>
             <td className="whitespace-nowrap px-6 py-4">Bind lương mong muốn</td>
             <td className="whitespace-nowrap px-6 py-4">bind khu vực làm việc</td>
         </tr>

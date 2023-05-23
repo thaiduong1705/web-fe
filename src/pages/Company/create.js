@@ -257,7 +257,7 @@ const CreateCompany = () => {
                         Tạo mới
                     </div>
                     <Link
-                        to="/posts"
+                        to="/nha-tuyen-dung"
                         className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"
                     >
                         Quay lại
