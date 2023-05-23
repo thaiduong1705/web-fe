@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { apiCreateCompany } from '~/services/company';
 import { useDispatch, useSelector } from 'react-redux';
+import * as yup from 'yup';
+
+import { companySchema } from './companyValidation';
+import { apiCreateCompany } from '~/services/company';
 import { Combobox, Loading, TextEditor } from '~/components';
 import { apiUploadImagesCompany } from '~/services/image';
 
@@ -34,6 +37,12 @@ const CreateCompany = () => {
         companySize: companySize,
         careerList: careerList,
     });
+
+    const createCompany = async () => {
+        let validationData = companyData;
+        const isValid = await companySchema.isValid(validationData);
+        console.log(isValid);
+    };
 
     useEffect(() => {
         apiCreateCompany(companyData);

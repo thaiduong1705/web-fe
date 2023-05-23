@@ -39,7 +39,7 @@ const DetailCompany = () => {
                 <div className="w-full">
                     <div className="h-[268px] overflow-hidden">
                         <img
-                            src="https://static.topcv.vn/company_covers/ngan-hang-thuong-mai-co-phan-ky-thuong-viet-nam-5cd6348b681a5844910fad42207a58b1-632bbebd378e8.jpg"
+                            src="https://th.bing.com/th/id/R.1a1327c422ca5f362b20a7aa976c8819?rik=wjtTFl%2bT7wCs0A&pid=ImgRaw&r=0"
                             alt=""
                             className="h-full w-full object-cover"
                         />
