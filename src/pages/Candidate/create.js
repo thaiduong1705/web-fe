@@ -4,6 +4,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
+import swal from 'sweetalert';
 
 import { candidateSchema } from './candidateValidation';
 import { Combobox, TextEditor } from '~/components';
@@ -121,8 +122,9 @@ const CreateCandidate = () => {
                 candidatePosition: candidatePosition,
                 districtList: districtList,
             });
+            swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success');
         } else {
-            console.log('Truyền dữ liệu thất bại, vui lòng kiểm tra lại');
+            swal('Lỗi!', 'Vui lòng kiểm tra lại dữ liệu đã đúng hoặc đủ hay chưa!', 'warning');
         }
     };
 
