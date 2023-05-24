@@ -37,13 +37,27 @@ export const apiGetCandidateLimit = async (query) => {
     }
 };
 
-export const apiCreateCandidate = async (company) => {
+export const apiCreateCandidate = async (candiate) => {
     try {
         const request = await axiosInstance({
             method: 'post',
             url: '/api/v1/candidate/create-candidate',
-            data: company,
+            data: candiate,
         });
+        return request;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const apiUpdateCandidate = async (candiate) => {
+    try {
+        const request = await axiosInstance({
+            method: 'put',
+            url: '/api/v1/candidate/update-candidate',
+            data: candiate,
+        });
+        return request;
     } catch (error) {
         return error;
     }

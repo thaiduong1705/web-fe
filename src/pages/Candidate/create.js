@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 import { candidateSchema } from './candidateValidation';
-import { Combobox, TextEditor } from '~/components';
+import { Combobox, Loading, TextEditor } from '~/components';
 import { getCareers, getPositions, getDistricts, getAcademicLevels } from '~/store/action/otherData';
 import { apiCreateCandidate } from '~/services/candidate';
+import { editCandidateData, setEditCandidateDataNull } from '~/store/action/candidate';
 
-const CreateCandidate = () => {
+const CreateCandidate = ({ isEdit = false }) => {
+    const { id } = useParams();
     const currentYear = new Date().getFullYear();
     const academicLevelData = useSelector((state) => state.otherData.academicLevels);
     const careerListData = useSelector((state) => state.otherData.careers);
     const positionListData = useSelector((state) => state.otherData.positions);
     const districtListData = useSelector((state) => state.otherData.districts);
+    const { candidateDataEdit } = useSelector((state) => state.candidate);
 
     const [candidateName, setCandidateName] = useState('');
     const [age, setCandidateAge] = useState(0);
@@ -29,28 +32,61 @@ const CreateCandidate = () => {
     const [careerList, setCandidateCareer] = useState([]);
     const [candidatePosition, setCandidatePosition] = useState('');
     const [districtList, setCandidateDistrict] = useState([]);
+
+    //valdiation
     const [isValid, setIsValid] = useState(false);
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getAcademicLevels(), getCareers(), getDistricts(), getPositions());
-        console.log(careerListData);
+        if (isEdit) {
+            dispatch(editCandidateData(id));
+        }
+        return () => {
+            dispatch(setEditCandidateDataNull());
+        };
     }, []);
+    //Đợi load ảnh
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [candidateData, setCandidateData] = useState({
-        candidateName: candidateName,
-        gender: gender,
-        age: age,
-        candidateCivilId: candidateCivilId,
-        phoneNumber: phoneNumber,
-        email: email,
-        homeAddress: homeAddress,
-        academicLevelId: academicLevelId,
-        careerList: careerList,
-        experienceYear: experienceYear,
-        candidatePosition: candidatePosition,
-        districtList: districtList,
-    });
+    //Edit
+    const [careerOldList, setCareerOldList] = useState(null);
+    const [districtOldList, setDistrictOldList] = useState(null);
+
+    useEffect(() => {
+        if (candidateDataEdit) {
+            setCandidateName(candidateDataEdit.candidateName || '');
+            setCandidateAge(candidateDataEdit.candidateName || 0);
+            setCandidateCivilId(candidateDataEdit.candidateCivilId || '');
+            setCandidateGender(candidateDataEdit.sex || 2);
+            setExperienceYear(candidateDataEdit.experienceYear || 0);
+            setCandidateAcademicLevels(candidateDataEdit.academicLevelId || '');
+            setCandidatePosition(candidateDataEdit.positionId || '');
+            setCareerOldList((prev) => {
+                if (candidateDataEdit?.Career.length === 0) {
+                    return [];
+                }
+                return candidateDataEdit?.Career.map((c) => c.id);
+            });
+            setCandidateCareer((prev) => {
+                if (candidateDataEdit?.Career.length === 0) {
+                    return [];
+                }
+                return candidateDataEdit?.Career.map((c) => c.id);
+            });
+            setDistrictOldList((prev) => {
+                if (candidateDataEdit?.District.length === 0) {
+                    return [];
+                }
+                return candidateDataEdit?.District.map((c) => c.id);
+            });
+            setCandidateDistrict((prev) => {
+                if (candidateDataEdit?.District.length === 0) {
+                    return [];
+                }
+                return candidateDataEdit?.District.map((c) => c.id);
+            });
+        }
+    }, [candidateDataEdit]);
 
     const handleChangeCareer = (career) => {
         console.log(career);
@@ -80,10 +116,8 @@ const CreateCandidate = () => {
         setCandidateAge((prev) => currentYear - date);
     };
 
-    useEffect(() => {
-        apiCreateCandidate(candidateData);
-        console.log('success');
-    }, [candidateData]);
+    const [candidateData, setCandidateData] = useState(null);
+    const [editData, setEditData] = useState(null);
 
     const createCandidate = async (event) => {
         event.stopPropagation();
@@ -102,29 +136,78 @@ const CreateCandidate = () => {
             candidatePosition: candidatePosition,
             districtList: districtList,
         };
+        console.log({
+            candidateName: candidateName,
+            gender: gender,
+            age: age,
+            candidateCivilId: candidateCivilId,
+            phoneNumber: phoneNumber,
+            email: email,
+            homeAddress: homeAddress,
+            academicLevelId: academicLevelId,
+            careerList: careerList,
+            experienceYear: experienceYear,
+            candidatePosition: candidatePosition,
+            districtList: districtList,
+        });
         console.log(ValidData);
         const isValid_temp = await candidateSchema.isValid(ValidData);
         console.log(isValid_temp);
         setIsValid(isValid_temp);
         if (isValid_temp === true) {
-            setCandidateData({
-                candidateName: candidateName,
-                gender: gender,
-                age: age,
-                candidateCivilId: candidateCivilId,
-                phoneNumber: phoneNumber,
-                email: email,
-                homeAddress: homeAddress,
-                academicLevelId: academicLevelId,
-                careerList: careerList,
-                experienceYear: experienceYear,
-                candidatePosition: candidatePosition,
-                districtList: districtList,
-            });
+            if (!isEdit) {
+                setCandidateData({
+                    candidateName: candidateName,
+                    gender: gender,
+                    age: age,
+                    candidateCivilId: candidateCivilId,
+                    phoneNumber: phoneNumber,
+                    email: email,
+                    homeAddress: homeAddress,
+                    academicLevelId: academicLevelId,
+                    careerList: careerList,
+                    experienceYear: experienceYear,
+                    candidatePosition: candidatePosition,
+                    districtList: districtList,
+                });
+            } else {
+                setEditData({
+                    id: candidateDataEdit.id,
+                    candidateName: candidateName,
+                    gender: gender,
+                    age: age,
+                    candidateCivilId: candidateCivilId,
+                    phoneNumber: phoneNumber,
+                    email: email,
+                    homeAddress: homeAddress,
+                    academicLevelId: academicLevelId,
+                    careerList: careerList,
+                    experienceYear: experienceYear,
+                    candidatePosition: candidatePosition,
+                    districtList: districtList,
+                });
+            }
         } else {
             console.log('Truyền dữ liệu thất bại, vui lòng kiểm tra lại');
         }
     };
+
+    useEffect(() => {
+        if (candidateData) apiCreateCandidate(candidateData);
+    }, [candidateData]);
+    useEffect(() => {
+        if (editData) apiCreateCandidate(editData);
+    }, [editData]);
+
+    if (isEdit) {
+        if (!candidateDataEdit) {
+            return (
+                <div className="flex justify-center item-center">
+                    <Loading />
+                </div>
+            );
+        }
+    }
 
     return (
         <div className="w-full bg-blue-100 rounded-[8px] h-full mb-[20px] pb-[24px]">
@@ -144,20 +227,35 @@ const CreateCandidate = () => {
                             onChange={(e) => {
                                 setCandidateName(e.target.value);
                             }}
+                            value={candidateName}
                         />
                     </div>
                     <div className="w-[30%]">
                         <label>Giới tính</label>
-                        <Combobox
-                            className="w-full h-[40px]"
-                            name="GioiTinh"
-                            id="startDate"
-                            items={[
-                                { id: 1, value: 'Nam' },
-                                { id: 2, value: 'Nữ' },
-                            ]}
-                            onChange={(e) => handleChangeCandidateGender(e)}
-                        />
+                        {isEdit && gender !== 2 && (
+                            <Combobox
+                                className="w-full h-[40px]"
+                                title="Giới tính"
+                                items={[
+                                    { id: 1, value: 'Nam' },
+                                    { id: 2, value: 'Nữ' },
+                                ]}
+                                onChange={(e) => handleChangeCandidateGender(e)}
+                                initialValue={isEdit && gender !== 2 ? gender : null}
+                            />
+                        )}
+                        {!isEdit && (
+                            <Combobox
+                                className="w-full h-[40px]"
+                                title="Giới tính"
+                                items={[
+                                    { id: 1, value: 'Nam' },
+                                    { id: 2, value: 'Nữ' },
+                                ]}
+                                onChange={(e) => handleChangeCandidateGender(e)}
+                                needTilte={true}
+                            />
+                        )}
                     </div>
                 </div>
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
@@ -178,6 +276,7 @@ const CreateCandidate = () => {
                             name="SoLuong"
                             maxLength={12}
                             onChange={(e) => setCandidateCivilId(e.target.value)}
+                            value={candidateCivilId}
                         />
                     </div>
                     <div className="w-[25%]">
@@ -187,6 +286,7 @@ const CreateCandidate = () => {
                             name="SoLuong"
                             maxLength={10}
                             onChange={(e) => setCandidatePhonenumber(e.target.value)}
+                            value={phoneNumber}
                         />
                     </div>
                     <div className="w-[25%]">
@@ -196,6 +296,7 @@ const CreateCandidate = () => {
                             name="SoLuong"
                             type="email"
                             onChange={(e) => setCandidateEmail(e.target.value)}
+                            value={email}
                         />
                     </div>
                 </div>
@@ -207,42 +308,76 @@ const CreateCandidate = () => {
                             name="TenCongViec"
                             placeholder=""
                             onChange={(e) => setCandidateAddress(e.target.value)}
+                            value={homeAddress}
                         />
                     </div>
                 </div>
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
                     <div className="w-[25%]">
                         <label>Trình độ văn hóa</label>
-                        <Combobox
-                            title="Trình độ văn hóa"
-                            className="h-[40px]"
-                            isSearchable={true}
-                            items={academicLevelData.map((obj) => {
-                                return { id: obj.id, value: obj.academicLevelName };
-                            })}
-                            onChange={(e) => {
-                                setCandidateAcademicLevels(e.id);
-                            }}
-                        />
+                        {isEdit && academicLevelId && (
+                            <Combobox
+                                title="Trình độ văn hóa"
+                                className="h-[40px]"
+                                items={academicLevelData.map((obj) => {
+                                    return { id: obj.id, value: obj.academicLevelName };
+                                })}
+                                onChange={(e) => {
+                                    setCandidateAcademicLevels(e.id);
+                                }}
+                                initialValue={isEdit && academicLevelId ? academicLevelId : null}
+                            />
+                        )}
+                        {!isEdit && (
+                            <Combobox
+                                title="Trình độ văn hóa"
+                                className="h-[40px]"
+                                items={academicLevelData.map((obj) => {
+                                    return { id: obj.id, value: obj.academicLevelName };
+                                })}
+                                onChange={(e) => {
+                                    setCandidateAcademicLevels(e.id);
+                                }}
+                                needTilte={true}
+                            />
+                        )}
                     </div>
                     <div className="w-[25%]">
                         <label>Ngành nghề mong muốn</label>
-                        <Combobox
-                            title="Ngành nghề"
-                            className="h-[40px]"
-                            isMulti
-                            isSearchable
-                            items={[
-                                { id: '', value: 'Tất cả ngành nghề' },
-                                ...careerListData.map((obj) => {
-                                    return { id: obj.id, value: obj.careerName };
-                                }),
-                            ]}
-                            onChange={(e) => {
-                                console.log(e);
-                                handleChangeCareer(e);
-                            }}
-                        />
+                        {isEdit && careerOldList && (
+                            <Combobox
+                                title="Ngành nghề"
+                                className="h-[40px]"
+                                isMulti
+                                isSearchable
+                                items={[
+                                    ...careerListData.map((obj) => {
+                                        return { id: obj.id, value: obj.careerName };
+                                    }),
+                                ]}
+                                onChange={(e) => {
+                                    handleChangeCareer(e);
+                                }}
+                                initialValue={isEdit && careerOldList ? careerOldList : null}
+                            />
+                        )}
+                        {!isEdit && (
+                            <Combobox
+                                title="Ngành nghề"
+                                className="h-[40px]"
+                                isMulti
+                                isSearchable
+                                items={[
+                                    ...careerListData.map((obj) => {
+                                        return { id: obj.id, value: obj.careerName };
+                                    }),
+                                ]}
+                                onChange={(e) => {
+                                    handleChangeCareer(e);
+                                }}
+                                needTilte={true}
+                            />
+                        )}
                     </div>
                     <div className="w-[25%]">
                         <label>Thâm niên làm việc:</label>
@@ -252,35 +387,73 @@ const CreateCandidate = () => {
                             onChange={(e) => {
                                 setExperienceYear(parseInt(e.target.value));
                             }}
+                            value={experienceYear}
                         />
                     </div>
                     <div className="w-[25%]">
                         <label>Cấp bậc mong muốn</label>
-                        <Combobox
-                            title="Cấp bậc"
-                            className="h-[40px]"
-                            isSearchable={true}
-                            items={[
-                                { id: '', value: 'Tất cả ngành nghề' },
-                                ...positionListData.map((obj) => {
-                                    return { id: obj.id, value: obj.positionName };
-                                }),
-                            ]}
-                            onChange={(e) => setCandidatePosition(e.id)}
-                        />
+                        {isEdit && candidatePosition && (
+                            <Combobox
+                                title="Cấp bậc"
+                                className="h-[40px]"
+                                isSearchable={true}
+                                items={[
+                                    ...positionListData.map((obj) => {
+                                        return { id: obj.id, value: obj.positionName };
+                                    }),
+                                ]}
+                                onChange={(e) => setCandidatePosition(e.id)}
+                                initialValue={isEdit && candidatePosition ? candidatePosition : null}
+                            />
+                        )}
+                        {!isEdit && (
+                            <Combobox
+                                title="Cấp bậc"
+                                className="h-[40px]"
+                                isSearchable={true}
+                                items={[
+                                    ...positionListData.map((obj) => {
+                                        return { id: obj.id, value: obj.positionName };
+                                    }),
+                                ]}
+                                onChange={(e) => setCandidatePosition(e.id)}
+                                needTilte={true}
+                            />
+                        )}
                     </div>
                     <div className="w-[25%]">
                         <label>Khu vực làm việc</label>
-                        <Combobox
-                            title="Khu vực làm việc"
-                            className="h-[40px]"
-                            isSearchable={true}
-                            isMulti={true}
-                            items={districtListData.map((obj) => {
-                                return { id: obj.id, value: obj.districtName };
-                            })}
-                            onChange={handleChangeDistrictList}
-                        />
+
+                        {isEdit && districtOldList && (
+                            <Combobox
+                                title="Ngành nghề"
+                                className="h-[40px]"
+                                isMulti
+                                isSearchable
+                                items={[
+                                    ...careerListData.map((obj) => {
+                                        return { id: obj.id, value: obj.careerName };
+                                    }),
+                                ]}
+                                onChange={(e) => {
+                                    handleChangeCareer(e);
+                                }}
+                                initialValue={isEdit && districtOldList ? districtOldList : null}
+                            />
+                        )}
+                        {!isEdit && (
+                            <Combobox
+                                title="Khu vực làm việc"
+                                className="h-[40px]"
+                                isSearchable={true}
+                                isMulti={true}
+                                items={districtListData.map((obj) => {
+                                    return { id: obj.id, value: obj.districtName };
+                                })}
+                                onChange={handleChangeDistrictList}
+                                needTilte={true}
+                            />
+                        )}
                     </div>
                 </div>
 

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCompanyLimit, setCompaniesToNull } from '~/store/action/company';
 import ReactPaginate from 'react-paginate';
 const ListCompanies = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { companies, count } = useSelector((state) => state.company);
     const { careers, districts } = useSelector((state) => state.otherData);
@@ -106,7 +107,15 @@ const ListCompanies = () => {
                 ) : (
                     <>
                         {companies.map((company, index) => {
-                            return <CompanyItem key={company.id} item={company} />;
+                            return (
+                                <CompanyItem
+                                    key={company.id}
+                                    item={company}
+                                    onClick={(e) => {
+                                        navigate(`chinh-sua/${company.id}`, { state: 'EDIT_COMPANY' });
+                                    }}
+                                />
+                            );
                         })}
                         <ReactPaginate
                             pageCount={pageCount}

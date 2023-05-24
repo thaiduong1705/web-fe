@@ -12,7 +12,7 @@ import { apiCreatePost, apiUpdatePost } from '~/services/post';
 import { Gender } from '~/data';
 // Restricts input for the given textbox to the given inputFilter.
 
-const CreatePost = ({ isEdit }) => {
+const CreatePost = ({ isEdit = false }) => {
     const { id } = useParams();
     const { postDataEdit } = useSelector((state) => state.post);
 
@@ -46,7 +46,7 @@ const CreatePost = ({ isEdit }) => {
     const [oldDistrictList, setOldDistrictList] = useState([]);
 
     useEffect(() => {
-        if (postDataEdit) dispatch(editData(id));
+        if (isEdit) dispatch(editData(id));
         return () => {
             dispatch(setCompaniesToNull());
             dispatch(setEditDataNull());
@@ -98,7 +98,6 @@ const CreatePost = ({ isEdit }) => {
         }
         return () => {};
     }, [postDataEdit]);
-    console.log(postDataEdit);
     const handleChangeGender = (value) => {
         setGender((prev) => value.id);
     };
@@ -230,7 +229,16 @@ const CreatePost = ({ isEdit }) => {
         }
     };
 
-    if (companies.length === 0 || !postDataEdit) {
+    if (isEdit) {
+        if (companies.length === 0 || !postDataEdit) {
+            return (
+                <div className="flex justify-center item-center">
+                    <Loading />
+                </div>
+            );
+        }
+    }
+    if (companies.length === 0) {
         return (
             <div className="flex justify-center item-center">
                 <Loading />
@@ -324,6 +332,7 @@ const CreatePost = ({ isEdit }) => {
                                 return { id: item.id, value: item.positionName };
                             })}
                             initialValue={isEdit && positionId ? positionId : null}
+                            needTilte={true}
                         />
                     </div>
                     <div className="w-[25%]">
@@ -336,6 +345,7 @@ const CreatePost = ({ isEdit }) => {
                                 return { id: item.id, value: item.workingTypeName };
                             })}
                             initialValue={isEdit && workingTypeId ? workingTypeId : null}
+                            needTilte={true}
                         />
                     </div>
                 </div>
@@ -343,7 +353,6 @@ const CreatePost = ({ isEdit }) => {
                     <div className="flex-1">
                         <label>Trình độ</label>
                         <Combobox
-                            placeholder="Tìm kiếm"
                             title="Trình độ"
                             className="h-[40px]"
                             onChange={handleChangeAL}
@@ -351,6 +360,7 @@ const CreatePost = ({ isEdit }) => {
                                 return { id: item.id, value: item.academicLevelName };
                             })}
                             initialValue={isEdit && academicLevelId ? academicLevelId : null}
+                            needTilte={true}
                         />
                     </div>
                     <div className="w-[10%]">
@@ -444,6 +454,7 @@ const CreatePost = ({ isEdit }) => {
                             items={Gender}
                             initialValue={isEdit && gender ? gender : null}
                             onChange={handleChangeGender}
+                            needTilte={true}
                         />
                     </div>
                     <div className="w-[30%]">

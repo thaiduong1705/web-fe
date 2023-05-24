@@ -80,3 +80,30 @@ export const setCompaniesToNull = () => (dispatch) => {
         companies: [],
     });
 };
+
+export const editCompanyData = (id) => async (dispatch) => {
+    try {
+        const response = await companyAPI.apiGetCompany(id);
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionType.GET_COMPANY_EDIT,
+                companyDataEdit: response.data.res,
+            });
+        } else {
+            dispatch({
+                type: actionType.GET_COMPANY_EDIT,
+                msg: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionType.GET_COMPANY_EDIT,
+            companyDataEdit: null,
+        });
+    }
+};
+
+export const setEditCompanyDataNull = () => ({
+    type: actionType.SET_COMPANY_EDIT_NULL,
+    companyDataEdit: null,
+});

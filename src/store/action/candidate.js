@@ -81,3 +81,30 @@ export const setCandidatesToNull = () => (dispatch) => {
         candidates: [],
     });
 };
+
+export const editCandidateData = (id) => async (dispatch) => {
+    try {
+        const response = await candidateAPI.apiGetCandidate(id);
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionType.GET_CANDIDATE_EDIT,
+                companyDataEdit: response.data.res,
+            });
+        } else {
+            dispatch({
+                type: actionType.GET_CANDIDATE_EDIT,
+                msg: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionType.GET_CANDIDATE_EDIT,
+            companyDataEdit: null,
+        });
+    }
+};
+
+export const setEditCandidateDataNull = () => ({
+    type: actionType.SET_CANDIDATE_EDIT_NULL,
+    companyDataEdit: null,
+});

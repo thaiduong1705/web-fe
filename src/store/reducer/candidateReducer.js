@@ -4,6 +4,7 @@ const initState = {
     candidates: [],
     count: 0,
     detailCandidate: null,
+    candidateDataEdit: null,
 };
 
 const candidateReducer = (state = initState, action) => {
@@ -40,7 +41,16 @@ const candidateReducer = (state = initState, action) => {
                 detailCandidate: action.detailCandidate || null,
                 msg: action.msg || '',
             };
-
+        case actionType.GET_CANDIDATE_EDIT:
+            return {
+                ...state,
+                candidateDataEdit: action.candidateDataEdit || null,
+            };
+        case actionType.SET_CANDIDATE_EDIT_NULL:
+            return {
+                ...state,
+                candidateDataEdit: action.candidateDataEdit || null,
+            };
         default:
             return state;
     }
