@@ -23,7 +23,6 @@ const CreateCompany = () => {
     const [careerList, setCareerList] = useState([]);
     const [imagePreview, setImagePreview] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [isValid, setIsValid] = useState(false);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -52,23 +51,30 @@ const CreateCompany = () => {
             careerList: careerList,
         };
         console.log(ValidData);
-        const isValid_temp = await companySchema.isValid(ValidData);
-        console.log(isValid_temp);
-        setIsValid(isValid_temp);
-        if (isValid_temp === true) {
-            setCompanyData({
-                companyName: companyName,
-                email: email,
-                phone: phone,
-                address: address,
-                introduction: introduction,
-                companySize: companySize,
-                careerList: careerList,
-            });
-            swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success');
-        } else {
-            swal('Lỗi!', 'Vui lòng kiểm tra lại dữ liệu đã đúng hoặc đủ hay chưa!', 'warning');
-        }
+        const isValid_temp = await companySchema.isValid(ValidData).then((valid) => {
+            if (valid === true) {
+                setCompanyData({
+                    companyName: companyName,
+                    email: email,
+                    phone: phone,
+                    address: address,
+                    introduction: introduction,
+                    companySize: companySize,
+                    careerList: careerList,
+                });
+                swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success');
+            } else {
+                try {
+                    companySchema.validateSync(ValidData);
+                } catch (error) {
+                    if (error instanceof yup.ValidationError) {
+                        swal(error.name, error.errors[0], 'error');
+                        console.log(error.name); // "ValidationError"
+                        console.log(error.errors); // ["Name is required"]
+                    }
+                }
+            }
+        });
     };
 
     useEffect(() => {
@@ -264,13 +270,6 @@ const CreateCompany = () => {
                 </div>
 
                 <div className="flex justify-end px-[8px] pt-[8px]">
-                    {isValid === false ? (
-                        <div className="flex text-red-500 items-center">
-                            Thông tin đầu vào chưa đúng hoặc đủ, vui lòng kiểm tra!!!
-                        </div>
-                    ) : (
-                        <div className="flex text-green-500 items-center">Nhập thông tin thành công!!!</div>
-                    )}
                     <input
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"

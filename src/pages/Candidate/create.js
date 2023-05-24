@@ -30,7 +30,6 @@ const CreateCandidate = () => {
     const [careerList, setCandidateCareer] = useState([]);
     const [candidatePosition, setCandidatePosition] = useState('');
     const [districtList, setCandidateDistrict] = useState([]);
-    const [isValid, setIsValid] = useState(false);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -93,39 +92,46 @@ const CreateCandidate = () => {
             candidateName: event.target[0].value,
             gender: gender,
             age: age,
-            candidateCivilId: event.target[1].value,
-            phoneNumber: event.target[2].value,
-            email: event.target[3].value,
-            homeAddress: event.target[4].value,
+            candidateCivilId: event.target[2].value,
+            phoneNumber: event.target[3].value,
+            email: event.target[4].value,
+            homeAddress: event.target[5].value,
             academicLevelId: academicLevelId,
             careerList: careerList,
-            experienceYear: event.target[5].value,
+            experienceYear: event.target[6].value,
             candidatePosition: candidatePosition,
             districtList: districtList,
         };
-        console.log(ValidData);
-        const isValid_temp = await candidateSchema.isValid(ValidData);
-        console.log(isValid_temp);
-        setIsValid(isValid_temp);
-        if (isValid_temp === true) {
-            setCandidateData({
-                candidateName: candidateName,
-                gender: gender,
-                age: age,
-                candidateCivilId: candidateCivilId,
-                phoneNumber: phoneNumber,
-                email: email,
-                homeAddress: homeAddress,
-                academicLevelId: academicLevelId,
-                careerList: careerList,
-                experienceYear: experienceYear,
-                candidatePosition: candidatePosition,
-                districtList: districtList,
-            });
-            swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success');
-        } else {
-            swal('Lỗi!', 'Vui lòng kiểm tra lại dữ liệu đã đúng hoặc đủ hay chưa!', 'warning');
-        }
+        console.log(ValidData.experienceYear);
+        const isValid_temp = await candidateSchema.isValid(ValidData).then((valid) => {
+            if (valid === true) {
+                setCandidateData({
+                    candidateName: candidateName,
+                    gender: gender,
+                    age: age,
+                    candidateCivilId: candidateCivilId,
+                    phoneNumber: phoneNumber,
+                    email: email,
+                    homeAddress: homeAddress,
+                    academicLevelId: academicLevelId,
+                    careerList: careerList,
+                    experienceYear: experienceYear,
+                    candidatePosition: candidatePosition,
+                    districtList: districtList,
+                });
+                swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success');
+            } else {
+                try {
+                    candidateSchema.validateSync(ValidData);
+                } catch (error) {
+                    if (error instanceof yup.ValidationError) {
+                        swal(error.name, error.errors[0], 'error');
+                        console.log(error.name); // "ValidationError"
+                        console.log(error.errors); // ["Name is required"]
+                    }
+                }
+            }
+        });
     };
 
     return (
@@ -290,13 +296,6 @@ const CreateCandidate = () => {
                     <input type="file" className="w-full" />
                 </div>
                 <div className="flex justify-end px-[8px]">
-                    {isValid === false ? (
-                        <div className="flex text-red-500 items-center">
-                            Thông tin đầu vào chưa đúng hoặc đủ, vui lòng kiểm tra!!!
-                        </div>
-                    ) : (
-                        <div className="flex text-green-500 items-center">Nhập thông tin thành công!!!</div>
-                    )}
                     <input
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"
