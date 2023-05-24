@@ -68,23 +68,14 @@ const ListCompanies = () => {
                         title="Chọn ngành nghề"
                         className="col-span-3 h-[35px]"
                         items={[
-                            { id: '', value: 'Tất cả ngành nghề' },
+                            { id: '', value: 'Tất cả lĩnh vực' },
                             ...careers.map((obj) => {
                                 return { id: obj.id, value: obj.careerName };
                             }),
                         ]}
                         onChange={handleChangeCareer}
                     />
-                    <Combobox
-                        title="Chọn quận huyện"
-                        className="col-span-2 h-[35px]"
-                        items={[
-                            { id: '', value: 'Tất cả quận huyện' },
-                            ...districts.map((obj) => {
-                                return { id: obj.id, value: obj.districtName };
-                            }),
-                        ]}
-                    />
+
                     <button
                         className="cursor-pointer bg-blue-500 hover:bg-blue-400 text-white h-[35px] rounded-[8px] font-[550] px-[8px] col-auto"
                         onClick={handleSearch}

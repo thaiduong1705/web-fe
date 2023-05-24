@@ -46,7 +46,7 @@ const CreatePost = ({ isEdit }) => {
     const [oldDistrictList, setOldDistrictList] = useState([]);
 
     useEffect(() => {
-        dispatch(editData(id));
+        if (postDataEdit) dispatch(editData(id));
         return () => {
             dispatch(setCompaniesToNull());
             dispatch(setEditDataNull());

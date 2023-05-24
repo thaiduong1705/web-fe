@@ -69,7 +69,7 @@ const DetailCompany = () => {
                         <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">
                             Giới thiệu công ty
                         </p>
-                        <div>{parse(`${detailCompany?.introduction}`) || 'Chưa cập nhật'}</div>
+                        <div className="list-disc">{parse(`${detailCompany?.introduction}`) || 'Chưa cập nhật'}</div>
                     </div>
 
                     <div className="shadow-lg px-[32px] py-[20px]">
