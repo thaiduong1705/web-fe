@@ -17,6 +17,7 @@ import {
     ListCompanies,
     ListPosts,
 } from '~/pages';
+import UpdatePost from '~/components/UpdatePost';
 
 export const publicRoutes = [
     {
@@ -42,6 +43,10 @@ export const publicRoutes = [
                 path: 'chi-tiet/:name/:id',
                 component: DetailPage,
             },
+            {
+                path: 'chinh-sua/:id',
+                component: UpdatePost,
+            },
         ],
     },
 
@@ -62,6 +67,10 @@ export const publicRoutes = [
             {
                 path: 'chi-tiet/:name/:id',
                 component: DetailCompany,
+            },
+            {
+                path: 'chinh-sua',
+                component: UpdatePost,
             },
         ],
     },

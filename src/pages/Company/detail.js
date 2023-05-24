@@ -100,7 +100,7 @@ const DetailCompany = () => {
                     <div className="px-[32px] py-[20px] shadow-lg ">
                         <div className=" mb-[12px] flex items-center text-[20px]">
                             <FontAwesomeIcon icon={faSuitcase} className="mr-[8px] p-[8px] bg-orange-300 text-white" />
-                            <span className="font-medium">Bind tên công ty</span>
+                            <span className="font-medium">Thông tin công ty</span>
                         </div>
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-4">
@@ -113,11 +113,7 @@ const DetailCompany = () => {
                                 <span className="font-medium">Quy mô công ty:</span>
                                 <span>{detailCompany?.companySize || 'Chưa cập nhật'}</span>
                             </div>
-                            <div className="flex items-center gap-4">
-                                <FontAwesomeIcon icon={faFile} />
-                                <span className="font-medium">Đang đăng:</span>
-                                <span> bài tuyển dụng</span>
-                            </div>
+
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faFile} />
                                 <span className="font-medium">Lĩnh vực:</span>

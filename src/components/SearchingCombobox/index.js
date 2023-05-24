@@ -12,12 +12,28 @@ const SearchingCombobox = ({
     isMulti = false,
     isSearchable = false,
     needTilte = false,
+    initialValue,
 }) => {
     const [showMenu, setshowMenu] = useState(false);
     const [selectedValue, setSelectedValue] = useState(isMulti ? [] : null);
     const [searchValue, setSearchValue] = useState('');
     const searchRef = useRef();
     const inputRef = useRef();
+    useEffect(() => {
+        if (initialValue) {
+            if (isMulti) {
+                const selectedItems = items.filter((item) => initialValue.includes(item.id));
+                if (selectedItems.length > 0) {
+                    setSelectedValue(selectedItems);
+                }
+            } else {
+                const selectedItem = items.find((item) => item.id === initialValue);
+                if (selectedItem) {
+                    setSelectedValue(selectedItem);
+                }
+            }
+        }
+    }, []);
     useEffect(() => {
         setSearchValue('');
         if (showMenu && searchRef.current) {
@@ -106,7 +122,7 @@ const SearchingCombobox = ({
         if (!searchValue) {
             return items;
         }
-        return items.filter((item) => item.value.toLowerCase().indexOf(searchValue.toLowerCase()) === 0);
+        return items.filter((item) => item.value.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0);
     };
 
     const handleInputCLick = (e) => {

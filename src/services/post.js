@@ -50,3 +50,17 @@ export const apiCreatePost = async (post) => {
         return error;
     }
 };
+
+export const apiUpdatePost = async (post) => {
+    try {
+        const request = await axiosInstance({
+            method: 'put',
+            url: '/api/v1/post/update-post',
+            data: post,
+        });
+        console.log(request);
+        return request;
+    } catch (error) {
+        return error;
+    }
+};

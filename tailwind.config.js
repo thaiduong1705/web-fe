@@ -19,6 +19,8 @@ module.exports = {
                 'light-gray': '#F7F7F7',
                 'half-transparent': 'rgba(0, 0, 0, 0.5)',
                 'dark-gray': '#082031cc',
+                'overlay-30': 'rgba(0,0,0,0.3)',
+                'overlay-70': 'rgba(0,0,0,0.7)',
             },
             borderWidth: {
                 1: '1px',

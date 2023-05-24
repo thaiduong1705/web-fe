@@ -9,6 +9,7 @@ import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 import { persistReducer } from 'redux-persist';
+import candidateReducer from './candidateReducer';
 
 const commonConfig = {
     storage,

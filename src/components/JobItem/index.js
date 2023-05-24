@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Experimental_CssVarsProvider } from '@mui/material';
 import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
 
-const JobItem = ({ job = {} }) => {
+const JobItem = ({ job = {}, onClick }) => {
     return (
         <div className="flex relative border-[1px] border-blue-400 bg-[#f0f7ff] h-64 rounded-lg w-full my-4 py-4">
             <div className="flex flex-2 items-center justify-center after:h-full after:w-[2px] after:bg-[#2A80B9] after:ml-12 ">
@@ -59,9 +59,9 @@ const JobItem = ({ job = {} }) => {
                             })}
                     </div>
                     <div className="flex gap-4 items-center">
-                        <Link className="text-blue-400 underline" to="/">
+                        <button className="text-blue-400 underline" onClick={onClick}>
                             Chỉnh sửa
-                        </Link>
+                        </button>
                         <button className="bg-red-500 text-white rounded-[8px] px-[8px] py-[8px]">
                             ỨNG TRUYỂN NGAY
                         </button>

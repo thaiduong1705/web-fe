@@ -1,15 +1,18 @@
 import React from 'react';
-import { useEffect, useState, Component } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Combobox, JobItem, Loading } from '~/components';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getPostsLimit } from '~/store/action/post';
+import { editData, getPostsLimit } from '~/store/action/post';
 import ReactPaginate from 'react-paginate';
 import { Exp, Gender, Salary, CreatedAt } from '~/data';
 
 const ListPosts = () => {
+    const nagivate = useNavigate();
+
     const dispatch = useDispatch();
+
     const { posts, count } = useSelector((state) => state.post);
     const { careers, districts, academicLevels, workingTypes, positions } = useSelector((state) => state.otherData);
 
@@ -24,7 +27,7 @@ const ListPosts = () => {
     const [district, setDistrict] = useState('');
     const [createdAt, setCreatedAt] = useState([]);
     const handleChangeGender = (value) => {
-        setGender((prev) => value.data);
+        setGender((prev) => value.id);
     };
     const handleChangeExp = (value) => {
         setExpYear((prev) => value.data);
@@ -188,31 +191,42 @@ const ListPosts = () => {
                     />
                 </div>
             </div>
-            <div className="flex justify-between mb-3 mt-6 mx-[48px]">
-                <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
-                    <p className="text-[24px] font-medium leading-[1.4] my-[2px] pt">Danh sách việc làm</p>
+            <div className="w-full flex flex-col justify-center h-auto rounded-[3px] mt-[8px] bg-gray-50 px-[64px] py-[16px] ">
+                <div className="flex justify-between mb-3">
+                    <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
+                        <p className="text-[24px] font-medium leading-[1.4] my-[2px] pt">Danh sách việc làm</p>
+                    </div>
+                    <Link
+                        to="/viec-lam/tao-viec-lam"
+                        className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80"
+                    >
+                        Tạo mới bài tuyển dụng
+                    </Link>
                 </div>
-                <Link
-                    to="/viec-lam/tao-viec-lam"
-                    className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80"
-                >
-                    Tạo mới bài tuyển dụng
-                </Link>
-            </div>
-            <div className="overflow-scroll mx-[64px]">
-                {posts && posts.map((data, index) => <JobItem key={data.id} job={data} />)}
-                <ReactPaginate
-                    pageCount={pageCount}
-                    previousLabel={'<'}
-                    nextLabel={'>'}
-                    onPageChange={handlePageClick}
-                    breakLabel={'...'}
-                    disabledLinkClassName="text-red"
-                    containerClassName="inline-flex -space-x-px items-center justify-center gap-[8px] w-full"
-                    pageLinkClassName="px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    previousLinkClassName={`block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
-                    nextLinkClassName={`block px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
-                />
+                <div className="overflow-scroll">
+                    {posts &&
+                        posts.map((data, index) => (
+                            <JobItem
+                                key={data.id}
+                                job={data}
+                                onClick={(e) => {
+                                    nagivate(`chinh-sua/${data.id}`);
+                                }}
+                            />
+                        ))}
+                    <ReactPaginate
+                        pageCount={pageCount}
+                        previousLabel={'<'}
+                        nextLabel={'>'}
+                        onPageChange={handlePageClick}
+                        breakLabel={'...'}
+                        disabledLinkClassName="text-red"
+                        containerClassName="inline-flex -space-x-px items-center justify-center gap-[8px] w-full"
+                        pageLinkClassName="px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        previousLinkClassName={`block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                        nextLinkClassName={`block px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                    />
+                </div>
             </div>
         </div>
     );

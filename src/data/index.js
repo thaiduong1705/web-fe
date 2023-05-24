@@ -1,15 +1,19 @@
 export const Gender = [
     {
-        data: null,
+        id: null,
         value: 'Tất cả giới tính',
     },
     {
-        data: 0,
+        id: 0,
         value: 'Nam',
     },
     {
-        data: 1,
+        id: 1,
         value: 'Nữ',
+    },
+    {
+        id: 2,
+        value: 'Nam/Nữ',
     },
 ];
 
@@ -89,9 +93,24 @@ export const Salary = [
 
 export const Age = [
     {
-        min: 18,
-        max: 25,
+        data: null,
+        value: 'Tất cả độ tuổi',
+    },
+    {
+        data: [18, 25],
         value: 'Từ 18 đến 25 tuổi ',
+    },
+    {
+        data: [25, 30],
+        value: 'Từ 25 đến 30 tuổi ',
+    },
+    {
+        data: [30, 35],
+        value: 'Từ 30 đến 35 tuổi ',
+    },
+    {
+        data: [35, 40],
+        value: 'Từ 35 đến 40 tuổi ',
     },
 ];
 

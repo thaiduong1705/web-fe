@@ -10,27 +10,6 @@ const DetailCandidate = () => {
     const { id } = useParams();
     return (
         <div>
-            <div className="bg-blue-700 text-black mb-11">
-                <div className="px-[24px] py-[24px] flex gap-[10px] h-[80px]">
-                    <span className="text-[16px] text-white leading-[32px] block">Tìm người: </span>
-                    <Combobox title="Chọn ngành nghề" className="w-[200px] h-[35px]" isMulti isSearchable />
-                    <Combobox title="Chọn quận huyện" className="w-[200px] h-[35px]" isMulti isSearchable />
-                    <button className="w-[15%] rounded-[8px] cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px]">
-                        Tìm kiếm
-                    </button>
-                </div>
-                <div className="px-[24px] pb-[20px] flex flex-wrap gap-[10px]">
-                    <Combobox title="Cấp bậc" className="w-[240px]" />
-                    <Combobox title="Loại hình" className="w-[240px]" />
-                    <Combobox title="Kinh nghiệm" className="w-[240px]" />
-                    <Combobox title="Thời gian" className="w-[240px]" />
-                    <Combobox title="Giới tính" className="w-[240px]" />
-                    <Combobox title="Độ tuổi" className="w-[240px]" />
-                    <Combobox title="Trình độ" className="w-[240px]" />
-                    <Combobox title="Mức lương" className="w-[240px]" />
-                    <Combobox title="Ngành nghề" className="w-[240px]" />
-                </div>
-            </div>
             <div className="shadow-lg px-[32px] pb-[32px]">
                 <div className="grid grid-cols-3 gap-[12x] ">
                     <div className="col-start-1 flex w-[100%] h-[160px] border-r-2 border-[#2A80B9]">
