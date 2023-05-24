@@ -22,6 +22,7 @@ const CreateCompany = () => {
     const [careerList, setCareerList] = useState([]);
     const [imagePreview, setImagePreview] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isValid, setIsValid] = useState(false);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -38,10 +39,34 @@ const CreateCompany = () => {
         careerList: careerList,
     });
 
-    const createCompany = async () => {
-        let validationData = companyData;
-        const isValid = await companySchema.isValid(validationData);
-        console.log(isValid);
+    const createCompany = async (event) => {
+        event.preventDefault();
+        const ValidData = {
+            companyName: event.target[0].value,
+            email: event.target[1].value,
+            phone: event.target[2].value,
+            address: event.target[3].value,
+            introduction: introduction,
+            companySize: event.target[4].value,
+            careerList: careerList,
+        };
+        console.log(ValidData);
+        const isValid_temp = await companySchema.isValid(ValidData);
+        console.log(isValid_temp);
+        setIsValid(isValid_temp);
+        if (isValid_temp === true) {
+            setCompanyData({
+                companyName: companyName,
+                email: email,
+                phone: phone,
+                address: address,
+                introduction: introduction,
+                companySize: companySize,
+                careerList: careerList,
+            });
+        } else {
+            console.log('Truyền dữ liệu thất bại, vui lòng kiểm tra lại');
+        }
     };
 
     useEffect(() => {
@@ -69,17 +94,6 @@ const CreateCompany = () => {
         setImagePreview('');
     };
 
-    const handleCreateCompany = ({ companyName, email, phone, address, introduction, companySize, careerList }) => {
-        setCompanyData({
-            companyName: companyName,
-            email: email,
-            phone: phone,
-            address: address,
-            introduction: introduction,
-            companySize: companySize,
-            careerList: careerList,
-        });
-    };
     const handleChangeCareer = (career) => {
         const newCareerIds = career.map((data, index) => {
             return data.id;
@@ -96,7 +110,7 @@ const CreateCompany = () => {
 
     return (
         <div className="w-full bg-blue-100 rounded-[4px] h-full pb-[24px]">
-            <form>
+            <form onSubmit={createCompany}>
                 <p className="font-medium text-[24px] py-5 pl-5 text-white bg-blue-700 items-center">
                     <FontAwesomeIcon icon={faBuilding} className="mr-[12px]" />
                     Tạo mới nhà tuyển dụng
@@ -248,23 +262,18 @@ const CreateCompany = () => {
                 </div>
 
                 <div className="flex justify-end px-[8px] pt-[8px]">
-                    <div
+                    {isValid === false ? (
+                        <div className="flex text-red-500 items-center">
+                            Thông tin đầu vào chưa đúng hoặc đủ, vui lòng kiểm tra!!!
+                        </div>
+                    ) : (
+                        <div className="flex text-green-500 items-center">Nhập thông tin thành công!!!</div>
+                    )}
+                    <input
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"
-                        onClick={() =>
-                            handleCreateCompany({
-                                companyName,
-                                email,
-                                phone,
-                                address,
-                                introduction,
-                                companySize,
-                                careerList,
-                            })
-                        }
-                    >
-                        Tạo mới
-                    </div>
+                        type="submit"
+                    />
                     <Link
                         to="/nha-tuyen-dung"
                         className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"

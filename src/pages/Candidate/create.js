@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import * as yup from 'yup';
 
+import { candidateSchema } from './candidateValidation';
 import { Combobox, TextEditor } from '~/components';
 import { getCareers, getPositions, getDistricts, getAcademicLevels } from '~/store/action/otherData';
 import { apiCreateCandidate } from '~/services/candidate';
@@ -27,6 +29,7 @@ const CreateCandidate = () => {
     const [careerList, setCandidateCareer] = useState([]);
     const [candidatePosition, setCandidatePosition] = useState('');
     const [districtList, setCandidateDistrict] = useState([]);
+    const [isValid, setIsValid] = useState(false);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -82,29 +85,50 @@ const CreateCandidate = () => {
         console.log('success');
     }, [candidateData]);
 
-    const handleCreateCandidate = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        setCandidateData({
-            candidateName: candidateName,
+    const createCandidate = async (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const ValidData = {
+            candidateName: event.target[0].value,
             gender: gender,
             age: age,
-            candidateCivilId: candidateCivilId,
-            phoneNumber: phoneNumber,
-            email: email,
-            homeAddress: homeAddress,
+            candidateCivilId: event.target[1].value,
+            phoneNumber: event.target[2].value,
+            email: event.target[3].value,
+            homeAddress: event.target[4].value,
             academicLevelId: academicLevelId,
             careerList: careerList,
-            experienceYear: experienceYear,
+            experienceYear: event.target[5].value,
             candidatePosition: candidatePosition,
             districtList: districtList,
-        });
-        console.log(candidateData);
+        };
+        console.log(ValidData);
+        const isValid_temp = await candidateSchema.isValid(ValidData);
+        console.log(isValid_temp);
+        setIsValid(isValid_temp);
+        if (isValid_temp === true) {
+            setCandidateData({
+                candidateName: candidateName,
+                gender: gender,
+                age: age,
+                candidateCivilId: candidateCivilId,
+                phoneNumber: phoneNumber,
+                email: email,
+                homeAddress: homeAddress,
+                academicLevelId: academicLevelId,
+                careerList: careerList,
+                experienceYear: experienceYear,
+                candidatePosition: candidatePosition,
+                districtList: districtList,
+            });
+        } else {
+            console.log('Truyền dữ liệu thất bại, vui lòng kiểm tra lại');
+        }
     };
 
     return (
         <div className="w-full bg-blue-100 rounded-[8px] h-full mb-[20px] pb-[24px]">
-            <form>
+            <form onSubmit={createCandidate}>
                 <p className="font-medium text-[24px] py-5 pl-5 text-white bg-blue-700 items-center rounded-[8px]">
                     <FontAwesomeIcon icon={faUser} className="mr-[12px]" />
                     Thêm mới ứng viên
@@ -264,13 +288,18 @@ const CreateCandidate = () => {
                     <input type="file" className="w-full" />
                 </div>
                 <div className="flex justify-end px-[8px]">
-                    <button
+                    {isValid === false ? (
+                        <div className="flex text-red-500 items-center">
+                            Thông tin đầu vào chưa đúng hoặc đủ, vui lòng kiểm tra!!!
+                        </div>
+                    ) : (
+                        <div className="flex text-green-500 items-center">Nhập thông tin thành công!!!</div>
+                    )}
+                    <input
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"
-                        onClick={(e) => handleCreateCandidate(e)}
-                    >
-                        Tạo mới
-                    </button>
+                        type="submit"
+                    />
                     <Link
                         to="/ung-vien"
                         className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"
