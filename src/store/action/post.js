@@ -81,10 +81,27 @@ export const setPostsToNull = () => (dispatch) => {
     });
 };
 
-export const editData = (dataEdit) => ({
-    type: actionType.GET_POST_EDIT,
-    postDataEdit: dataEdit,
-});
+export const editData = (id) => async (dispatch) => {
+    try {
+        const response = await postAPI.apiGetPost(id);
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionType.GET_POST_EDIT,
+                postDataEdit: response.data.res,
+            });
+        } else {
+            dispatch({
+                type: actionType.GET_POST_EDIT,
+                msg: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionType.GET_POST_EDIT,
+            postDataEdit: null,
+        });
+    }
+};
 
 export const setEditDataNull = () => ({
     type: actionType.SET_POST_EDIT_NULL,

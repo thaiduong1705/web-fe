@@ -44,7 +44,6 @@ const SearchingCombobox = ({
     useEffect(() => {
         const handler = (e) => {
             if (inputRef.current && !inputRef.current.contains(e.target)) {
-                console.log('go');
                 setshowMenu(false);
             }
         };
@@ -119,7 +118,7 @@ const SearchingCombobox = ({
         if (!searchValue) {
             return items;
         }
-        return items.filter((item) => item.value.toLowerCase().indexOf(searchValue.toLowerCase()) === 0);
+        return items.filter((item) => item.value.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0);
     };
 
     const handleInputCLick = (e) => {

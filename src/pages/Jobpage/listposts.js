@@ -1,17 +1,17 @@
 import React from 'react';
-import { useEffect, useState, Component } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Combobox, JobItem, Loading } from '~/components';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { editData, getPostsLimit } from '~/store/action/post';
 import ReactPaginate from 'react-paginate';
 import { Exp, Gender, Salary, CreatedAt } from '~/data';
-import UpdatePost from '~/components/UpdatePost';
 
 const ListPosts = () => {
+    const nagivate = useNavigate();
+
     const dispatch = useDispatch();
-    const [isEdit, setIsEdit] = useState(false);
 
     const { posts, count } = useSelector((state) => state.post);
     const { careers, districts, academicLevels, workingTypes, positions } = useSelector((state) => state.otherData);
@@ -25,7 +25,7 @@ const ListPosts = () => {
     const [district, setDistrict] = useState([]);
     const [createdAt, setCreatedAt] = useState([]);
     const handleChangeGender = (value) => {
-        setGender((prev) => value.data);
+        setGender((prev) => value.id);
     };
     const handleChangeExp = (value) => {
         setExpYear((prev) => value.data);
@@ -200,8 +200,7 @@ const ListPosts = () => {
                                 key={data.id}
                                 job={data}
                                 onClick={(e) => {
-                                    setIsEdit(true);
-                                    dispatch(editData(data));
+                                    nagivate(`chinh-sua/${data.id}`);
                                 }}
                             />
                         ))}
@@ -219,7 +218,6 @@ const ListPosts = () => {
                     />
                 </div>
             </div>
-            {isEdit && <UpdatePost setIsEdit={setIsEdit} />}
         </div>
     );
 };

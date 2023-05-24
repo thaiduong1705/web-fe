@@ -1,15 +1,19 @@
 export const Gender = [
     {
-        data: null,
+        id: null,
         value: 'Tất cả giới tính',
     },
     {
-        data: 0,
+        id: 0,
         value: 'Nam',
     },
     {
-        data: 1,
+        id: 1,
         value: 'Nữ',
+    },
+    {
+        id: 2,
+        value: 'Nam/Nữ',
     },
 ];
 

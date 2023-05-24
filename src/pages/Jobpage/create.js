@@ -4,14 +4,16 @@ import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Combobox, Loading, TextEditor } from '~/components';
 import { getCompanies, setCompaniesToNull } from '~/store/action/company';
-import { setEditDataNull } from '~/store/action/post';
-import { apiCreatePost } from '~/services/post';
+import { editData, setEditDataNull, setPostsToNull } from '~/store/action/post';
+import { apiCreatePost, apiUpdatePost } from '~/services/post';
+import { Gender } from '~/data';
 // Restricts input for the given textbox to the given inputFilter.
 
-const CreatePost = ({ isEdit, setIsEdit }) => {
+const CreatePost = ({ isEdit }) => {
+    const { id } = useParams();
     const { postDataEdit } = useSelector((state) => state.post);
 
     const { companies } = useSelector((state) => state.company);
@@ -37,28 +39,38 @@ const CreatePost = ({ isEdit, setIsEdit }) => {
     const [positionId, setPosition] = useState('');
     const [workingTypeId, setWorkingType] = useState('');
     const [academicLevelId, setAcademicLevel] = useState('');
+    const [gender, setGender] = useState();
 
     //state cho edit
     const [oldCareerList, setOldCareerList] = useState([]);
     const [oldDistrictList, setOldDistrictList] = useState([]);
+
+    useEffect(() => {
+        dispatch(editData(id));
+        return () => {
+            dispatch(setCompaniesToNull());
+            dispatch(setEditDataNull());
+        };
+    }, []);
     useEffect(() => {
         dispatch(getCompanies());
         if (postDataEdit) {
-            setJobName(postDataEdit?.jobTitle || '');
-            setNeedNumber(postDataEdit?.needNumber || '');
-            setEndDate(postDataEdit?.endDate || currentDate);
-            setAddress(postDataEdit?.address || '');
-            setExpYear(postDataEdit?.experienceYear || 0);
-            setAgeMin(postDataEdit?.ageMin || 18);
-            setAgeMax(postDataEdit?.ageMax || 60);
-            setSalary([postDataEdit?.salaryMin, postDataEdit?.salaryMax] || [0, 0]);
-            setJobDescribe(postDataEdit?.jobDescribe || '');
-            setBenefits(postDataEdit?.benefits || '');
-            setJobRequirement(postDataEdit?.jobRequirement || '');
-            setWorkingType(postDataEdit?.workingTypeId || '');
-            setCompany(postDataEdit?.companyId || '');
-            setPosition(postDataEdit?.positionId || '');
-            setAcademicLevel(postDataEdit?.academicLevelId || '');
+            setJobName(postDataEdit?.jobTitle ?? '');
+            setNeedNumber(postDataEdit?.needNumber ?? '');
+            setEndDate(postDataEdit?.endDate ?? currentDate);
+            setAddress(postDataEdit?.workingAddress ?? '');
+            setExpYear(postDataEdit?.experienceYear ?? 0);
+            setAgeMin(postDataEdit?.ageMin ?? 18);
+            setAgeMax(postDataEdit?.ageMax ?? 60);
+            setSalary([postDataEdit?.salaryMin * 1000000, postDataEdit?.salaryMax * 1000000] ?? [0, 0]);
+            setJobDescribe(postDataEdit?.jobDescribe ?? '');
+            setBenefits(postDataEdit?.benefits ?? '');
+            setJobRequirement(postDataEdit?.jobRequirement ?? '');
+            setWorkingType(postDataEdit?.workingTypeId ?? '');
+            setCompany(postDataEdit?.companyId ?? '');
+            setPosition(postDataEdit?.positionId ?? '');
+            setAcademicLevel(postDataEdit?.academicLevelId ?? '');
+            setGender(+postDataEdit?.sex ?? 2);
             setOldCareerList((prev) => {
                 if (postDataEdit?.Career.length === 0) {
                     return [];
@@ -71,12 +83,25 @@ const CreatePost = ({ isEdit, setIsEdit }) => {
                 }
                 return postDataEdit?.District.map((c) => c.id);
             });
+            setCareer((prev) => {
+                if (postDataEdit?.Career.length === 0) {
+                    return [];
+                }
+                return postDataEdit?.Career.map((c) => c.id);
+            });
+            setDistrict((prev) => {
+                if (postDataEdit?.District.length === 0) {
+                    return [];
+                }
+                return postDataEdit?.District.map((c) => c.id);
+            });
         }
-        return () => {
-            dispatch(setCompaniesToNull());
-            dispatch(setEditDataNull());
-        };
-    }, []);
+        return () => {};
+    }, [postDataEdit]);
+    console.log(postDataEdit);
+    const handleChangeGender = (value) => {
+        setGender((prev) => value.id);
+    };
 
     const handleDescribeChange = (value) => {
         setJobDescribe((prev) => value);
@@ -114,9 +139,13 @@ const CreatePost = ({ isEdit, setIsEdit }) => {
     };
 
     const handleSubmit = async (e) => {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            return;
+        }
         e.preventDefault();
-        e.stopPropagation();
         console.log({
+            id: postDataEdit?.id,
             jobTitle: jobName,
             needNumber,
             companyId: companyId,
@@ -133,39 +162,72 @@ const CreatePost = ({ isEdit, setIsEdit }) => {
             jobDescribe,
             jobRequirement,
             benefits,
-            careerList: career,
-            districtList: district,
+            careerNewList: career,
+            districtNewList: district,
             oldDistrictList,
             oldCareerList,
         });
-        // const response = await apiCreatePost({
-        //     jobTitle: jobName,
-        //     needNumber,
-        //     companyId: companyId,
-        //     positionId: positionId,
-        //     workingTypeId: workingTypeId,
-        //     academicLevelId: academicLevelId,
-        //     endDate,
-        //     workingAddress: address,
-        //     experienceYear: expYear,
-        //     ageMin,
-        //     ageMax,
-        //     salaryMin: salary[0] / 1000000,
-        //     salaryMax: salary[1] / 1000000,
-        //     jobDescribe,
-        //     jobRequirement,
-        //     benefits,
-        //     careerList: career,
-        //     districtList: district,
-        // });
-        // console.log(response);
-        // if (response?.data?.err === 0) {
-        //     Swal.fire('Đã tạo thành công', '', 'success').then(() => {
-        //         navigate('/viec-lam');
-        //     });
-        // } else if (!response || response?.data?.err !== 0) {
-        //     Swal.fire('Có lỗi của server', '', 'error');
-        // }
+        if (isEdit && postDataEdit) {
+            const response = await apiUpdatePost({
+                id: postDataEdit?.id,
+                jobTitle: jobName,
+                needNumber,
+                companyId: companyId,
+                positionId: positionId,
+                workingTypeId: workingTypeId,
+                academicLevelId: academicLevelId,
+                endDate,
+                workingAddress: address,
+                experienceYear: expYear,
+                ageMin,
+                ageMax,
+                salaryMin: salary[0] / 1000000,
+                salaryMax: salary[1] / 1000000,
+                jobDescribe,
+                jobRequirement,
+                benefits,
+                careerNewList: career,
+                districtNewList: district,
+                careerOldList: oldCareerList,
+                districtOldList: oldDistrictList,
+            });
+            if (response?.data?.err === 0) {
+                Swal.fire('Đã tạo thành công', '', 'success').then(() => {
+                    navigate(-1);
+                });
+            } else if (!response || response?.data?.err !== 0) {
+                Swal.fire('Có lỗi của server', '', 'error');
+            }
+        } else {
+            const response = await apiCreatePost({
+                jobTitle: jobName,
+                needNumber,
+                companyId: companyId,
+                positionId: positionId,
+                workingTypeId: workingTypeId,
+                academicLevelId: academicLevelId,
+                endDate,
+                workingAddress: address,
+                experienceYear: expYear,
+                ageMin,
+                ageMax,
+                salaryMin: salary[0] / 1000000,
+                salaryMax: salary[1] / 1000000,
+                jobDescribe,
+                jobRequirement,
+                benefits,
+                careerList: career,
+                districtList: district,
+            });
+            console.log(response);
+            if (response?.data?.err === 0) {
+                Swal.fire('Đã tạo thành công', '', 'success').then(() => {
+                    navigate('/viec-lam');
+                });
+            } else if (!response || response?.data?.err !== 0) {
+                Swal.fire('Có lỗi của server', '', 'error');
+            }
+        }
     };
 
     if (companies.length === 0) {
@@ -364,7 +426,7 @@ const CreatePost = ({ isEdit, setIsEdit }) => {
                     </div>
                 </div>
                 <div className="mb-[8px] flex  gap-[10px] px-[8px]">
-                    <div className="w-[70%]">
+                    <div className="w-[50%]">
                         <label htmlFor="address">Địa chỉ làm việc</label>
                         <input
                             name="DiaChi"
@@ -372,6 +434,16 @@ const CreatePost = ({ isEdit, setIsEdit }) => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             value={address}
                             onChange={(e) => setAddress((prev) => e.target.value)}
+                        />
+                    </div>
+                    <div className="w-[20%]">
+                        <label htmlFor="address">Giới tính</label>
+                        <Combobox
+                            title="Giới tính"
+                            className="w-full h-[40px] rounded-md outline-none"
+                            items={Gender}
+                            initialValue={isEdit && gender ? gender : null}
+                            onChange={handleChangeGender}
                         />
                     </div>
                     <div className="w-[30%]">
@@ -419,21 +491,13 @@ const CreatePost = ({ isEdit, setIsEdit }) => {
                     >
                         Xác nhận
                     </button>
-                    {isEdit ? (
-                        <button
-                            className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"
-                            onClick={(e) => setIsEdit(false)}
-                        >
-                            Quay lại
-                        </button>
-                    ) : (
-                        <Link
-                            to="/viec-lam"
-                            className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"
-                        >
-                            Quay lại
-                        </Link>
-                    )}
+
+                    <Link
+                        to="/viec-lam"
+                        className="bg-red-500 hover:bg-red-300 rounded-[4px] flex justify-center items-center text-white py-[8px] px-[16px]"
+                    >
+                        Quay lại
+                    </Link>
                 </div>
             </form>
         </div>
