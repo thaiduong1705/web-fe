@@ -210,7 +210,7 @@ const ListPosts = () => {
                                 key={data.id}
                                 job={data}
                                 onClick={(e) => {
-                                    nagivate(`chinh-sua/${data.id}`);
+                                    nagivate(`chinh-sua/${data.id}`, { state: 'EDIT_POST' });
                                 }}
                             />
                         ))}

@@ -46,7 +46,7 @@ const CreatePost = ({ isEdit }) => {
     const [oldDistrictList, setOldDistrictList] = useState([]);
 
     useEffect(() => {
-        dispatch(editData(id));
+        if (postDataEdit) dispatch(editData(id));
         return () => {
             dispatch(setCompaniesToNull());
             dispatch(setEditDataNull());
@@ -230,7 +230,7 @@ const CreatePost = ({ isEdit }) => {
         }
     };
 
-    if (companies.length === 0) {
+    if (companies.length === 0 || !postDataEdit) {
         return (
             <div className="flex justify-center item-center">
                 <Loading />

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faLocationDot,
@@ -22,9 +23,12 @@ import { getPostById, setDetailPostNull } from '~/store/action/post';
 
 import { Combobox, JobItem } from '~/components';
 import convertDatetime from '~/utils/convertDate';
+import { apiGetPostsFromCareer } from '~/services/career';
+import { apiGetRelatedPost } from '~/services/post';
 const DetailPage = () => {
     const { id } = useParams();
     const { detailPost } = useSelector((state) => state.post);
+    const [careerRelatedPosts, setCareerRelatedPosts] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getPostById(id));
@@ -33,7 +37,20 @@ const DetailPage = () => {
         };
     }, []);
     useEffect(() => {
-        console.log(detailPost);
+        if (detailPost) {
+            let careerIds = [];
+            const fetchingRelatedPosts = async () => {
+                for (const career of detailPost.Career) {
+                    const id = career.id;
+                    careerIds.push(id);
+                }
+                const response = await apiGetRelatedPost(detailPost.id, careerIds);
+                if (response?.data.err === 0) {
+                    setCareerRelatedPosts((prev) => [...response.data.res]);
+                }
+            };
+            fetchingRelatedPosts();
+        }
     }, [detailPost]);
     return (
         <div>
@@ -146,17 +163,23 @@ const DetailPage = () => {
                             <FontAwesomeIcon icon={faCircleInfo} className="text-[20px] text-blue-400" />
                             <h2 className="text-[20px] font-medium">Mô tả công việc</h2>
                         </div>
-                        <div className="mb-[16px] text-justify">{detailPost?.jobDescribe || 'Chưa cập nhật'}</div>
+                        <div className="mb-[16px] text-justify">
+                            {parse(`${detailPost?.jobDescribe}`) || 'Chưa cập nhật'}
+                        </div>
                         <div className="flex items-center gap-[16px] pb-[20px] border-b-1 border-gray-500">
                             <FontAwesomeIcon icon={faCircleInfo} className="text-[20px] text-blue-400" />
                             <h2 className="text-[20px] font-medium">Quyền lợi được hưởng</h2>
                         </div>
-                        <div className="mb-[16px] text-justify">{detailPost?.benefits || 'Chưa cập nhật'}</div>
+                        <div className="mb-[16px] text-justify">
+                            {parse(`${detailPost?.benefits}`) || 'Chưa cập nhật'}
+                        </div>
                         <div className="flex items-center gap-[16px] pb-[20px] border-b-1 border-gray-500">
                             <FontAwesomeIcon icon={faCircleInfo} className="text-[20px] text-blue-400" />
                             <h2 className="text-[20px] font-medium">Yêu cầu công việc</h2>
                         </div>
-                        <div className="mb-[32px] text-justify">{detailPost?.jobRequirement || 'Chưa cập nhật'}</div>
+                        <div className="mb-[32px] text-justify">
+                            {parse(`${detailPost?.jobRequirement}`) || 'Chưa cập nhật'}
+                        </div>
                         <div className="flex items-center gap-[16px] pb-[20px]">
                             <FontAwesomeIcon icon={faCircleInfo} className="text-[20px] text-blue-400" />
                             <h2 className="text-[20px] font-medium">Cách thức ứng tuyển: </h2>
@@ -194,13 +217,18 @@ const DetailPage = () => {
                     </div>
                 </div>
             </div>
-            <div className="p-[16px] flex items-center shadow-lg rounded-[4px] text-[20px] my-[20px]">
-                <FontAwesomeIcon icon={faPlus} className="mr-[8px]" />
-                Công việc tương tự
-            </div>
-            <div className="my-[20px]">
-                <JobItem job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }} />
-                <JobItem job={{ name: 'test', companyName: 'Công ty TNHH TEST', salary: -1, endDate: '24/10/2002' }} />
+            <div className="p-[16px] shadow-lg rounded-[4px] my-[20px]">
+                <div className=" flex items-center text-[20px] my-[20px]">
+                    <FontAwesomeIcon icon={faPlus} className="mr-[8px]" />
+                    Công việc tương tự
+                </div>
+                <div className="my-[20px]">
+                    {careerRelatedPosts.length === 0
+                        ? 'Hiện tại các bài tuyển dụng chưa có ngành nghề liên quan đến ngành nghề của bài tuyển dụng này'
+                        : careerRelatedPosts.map((item) => {
+                              return <JobItem job={item} key={item.id} />;
+                          })}
+                </div>
             </div>
         </div>
     );

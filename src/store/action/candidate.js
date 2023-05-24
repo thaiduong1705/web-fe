@@ -75,7 +75,7 @@ export const setDetailCandidateNull = () => (dispatch) => {
     });
 };
 
-export const setCompaniesToNull = () => (dispatch) => {
+export const setCandidatesToNull = () => (dispatch) => {
     dispatch({
         type: actionType.SET_CANDIDATES_NULL,
         candidates: [],
