@@ -230,7 +230,7 @@ const CreatePost = ({ isEdit }) => {
         }
     };
 
-    if (companies.length === 0) {
+    if (companies.length === 0 || !postDataEdit) {
         return (
             <div className="flex justify-center item-center">
                 <Loading />

@@ -58,9 +58,24 @@ export const apiUpdatePost = async (post) => {
             url: '/api/v1/post/update-post',
             data: post,
         });
-        console.log(request);
         return request;
     } catch (error) {
         return error;
+    }
+};
+
+export const apiGetRelatedPost = async (postId, careerIds) => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
+            url: '/api/v1/post/get-related-post',
+            params: {
+                postId,
+                careerIds,
+            },
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
     }
 };

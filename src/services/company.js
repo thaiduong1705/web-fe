@@ -48,3 +48,19 @@ export const apiCreateCompany = async (company) => {
         return error;
     }
 };
+
+export const apiGetRelatedCompany = async (companyId, careerIds) => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
+            url: '/api/v1/company/get-related-company',
+            params: {
+                companyId,
+                careerIds,
+            },
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+};
