@@ -11,6 +11,6 @@ export const candidateSchema = yup.object().shape({
     academicLevelId: yup.string().required('Chưa nhập trình độ văn hóa'),
     careerList: yup.array().min(1, 'Có ít nhất 1 ngành nghề được chọn'),
     experienceYear: yup.number().required('Chưa nhập thâm niên làm việc'),
-    candidatePosition: yup.string().required('Chưa nhập quy mô công ty'),
+    candidatePosition: yup.string().required('Chưa nhập cấp bậc mong muốn'),
     districtList: yup.array().min(1, 'Có ít nhất 1 khu vực được chọn'),
 });
