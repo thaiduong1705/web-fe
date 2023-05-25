@@ -9,6 +9,7 @@ const ListCompanies = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { companies, count } = useSelector((state) => state.company);
+    console.log(companies);
     const { careers, districts } = useSelector((state) => state.otherData);
     const [selectedCareer, setSelectedCareer] = useState('');
     const [searchName, setSearchName] = useState('');
@@ -87,7 +88,7 @@ const ListCompanies = () => {
             </div>
 
             <div className="my-[48px] px-[64px] flex justify-between">
-                <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
+                <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-blue-600 before:left-0 pl-[24px]">
                     <p className="text-[24px] font-medium leading-[1.4] mb-[4px]">Nhà tuyển dụng</p>
                     <p className="text-[#999999]">Danh sách nhà tuyển dụng tại TP Hồ Chí Minh</p>
                 </div>

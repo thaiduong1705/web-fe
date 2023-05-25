@@ -12,6 +12,7 @@ import { apiGetRelatedCompany } from '~/services/company';
 const DetailCompany = () => {
     const { id } = useParams();
     const { detailCompany } = useSelector((state) => state.company);
+    console.log(detailCompany);
     const [careerRelatedPosts, setCareerRelatedPosts] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
