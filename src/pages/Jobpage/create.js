@@ -3,7 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import * as yup from 'yup';
+import swal from 'sweetalert';
 
+import { jobSchema } from './jobValidation';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Combobox, Loading, TextEditor } from '~/components';
 import { getCompanies, setCompaniesToNull } from '~/store/action/company';
@@ -144,93 +147,65 @@ const CreatePost = ({ isEdit = false }) => {
             return;
         }
         e.preventDefault();
-        console.log({
+        const ValidData = {
             id: postDataEdit?.id,
-            jobTitle: jobName,
-            needNumber,
+            jobTitle: e.target[0].value,
+            needNumber: e.target[1].value,
             companyId: companyId,
             positionId: positionId,
             workingTypeId: workingTypeId,
             academicLevelId: academicLevelId,
-            endDate,
-            gender,
+            endDate: e.target[2].value,
+            gender: gender,
             workingAddress: address,
             experienceYear: expYear,
-            ageMin,
-            ageMax,
+            ageMin: e.target[3].value,
+            ageMax: e.target[4].value,
             salaryMin: salary[0] / 1000000,
             salaryMax: salary[1] / 1000000,
-            jobDescribe,
-            jobRequirement,
-            benefits,
+            jobDescribe: jobDescribe,
+            jobRequirement: jobRequirement,
+            benefits: benefits,
             careerNewList: career,
             districtNewList: district,
-            oldDistrictList,
-            oldCareerList,
+            oldDistrictList: oldDistrictList,
+            oldCareerList: oldCareerList,
+        };
+
+        console.log(ValidData);
+
+        const isValid_temp = await jobSchema.isValid(ValidData).then(async (valid) => {
+            if (valid === true) {
+                if (isEdit && postDataEdit) {
+                    const response = await apiUpdatePost(ValidData);
+                    if (response?.data?.err === 0) {
+                        Swal.fire('Đã tạo thành công', '', 'success').then(() => {
+                            navigate(-1);
+                        });
+                    } else if (!response || response?.data?.err !== 0) {
+                        Swal.fire('Có lỗi của server', '', 'error');
+                    }
+                } else {
+                    const response = await apiCreatePost(ValidData);
+                    console.log(response);
+                    if (response?.data?.err === 0) {
+                        Swal.fire('Đã tạo thành công', '', 'success').then(() => {
+                            navigate('/viec-lam');
+                        });
+                    } else if (!response || response?.data?.err !== 0) {
+                        Swal.fire('Có lỗi của server', '', 'error');
+                    }
+                }
+            } else {
+                try {
+                    jobSchema.validateSync(ValidData);
+                } catch (error) {
+                    if (error instanceof yup.ValidationError) {
+                        swal(error.name, error.errors[0], 'error');
+                    }
+                }
+            }
         });
-        if (isEdit && postDataEdit) {
-            const response = await apiUpdatePost({
-                id: postDataEdit?.id,
-                jobTitle: jobName,
-                needNumber,
-                companyId: companyId,
-                positionId: positionId,
-                workingTypeId: workingTypeId,
-                academicLevelId: academicLevelId,
-                endDate,
-                gender,
-                workingAddress: address,
-                experienceYear: expYear,
-                ageMin,
-                ageMax,
-                salaryMin: salary[0] / 1000000,
-                salaryMax: salary[1] / 1000000,
-                jobDescribe,
-                jobRequirement,
-                benefits,
-                careerNewList: career,
-                districtNewList: district,
-                careerOldList: oldCareerList,
-                districtOldList: oldDistrictList,
-            });
-            if (response?.data?.err === 0) {
-                Swal.fire('Đã tạo thành công', '', 'success').then(() => {
-                    navigate(-1);
-                });
-            } else if (!response || response?.data?.err !== 0) {
-                Swal.fire('Có lỗi của server', '', 'error');
-            }
-        } else {
-            const response = await apiCreatePost({
-                jobTitle: jobName,
-                needNumber,
-                companyId: companyId,
-                positionId: positionId,
-                workingTypeId: workingTypeId,
-                academicLevelId: academicLevelId,
-                endDate,
-                gender,
-                workingAddress: address,
-                experienceYear: expYear,
-                ageMin,
-                ageMax,
-                salaryMin: salary[0] / 1000000,
-                salaryMax: salary[1] / 1000000,
-                jobDescribe,
-                jobRequirement,
-                benefits,
-                careerList: career,
-                districtList: district,
-            });
-            console.log(response);
-            if (response?.data?.err === 0) {
-                Swal.fire('Đã tạo thành công', '', 'success').then(() => {
-                    navigate('/viec-lam');
-                });
-            } else if (!response || response?.data?.err !== 0) {
-                Swal.fire('Có lỗi của server', '', 'error');
-            }
-        }
     };
 
     if (isEdit) {
@@ -251,7 +226,7 @@ const CreatePost = ({ isEdit = false }) => {
     }
     return (
         <div className="w-full bg-blue-100 pb-[12px] rounded-[4px]">
-            <form>
+            <form onSubmit={handleSubmit}>
                 <p className="font-medium text-[24px] py-5 pl-5 text-white bg-blue-700 items-center">
                     <FontAwesomeIcon icon={faFileLines} className="mr-[12px]" />
                     {isEdit ? 'Chỉnh sửa bài tuyển dụng' : 'Tạo bài tuyển dụng'}
@@ -497,15 +472,11 @@ const CreatePost = ({ isEdit = false }) => {
                     />
                 </div>
                 <div className="flex justify-end px-[8px] pt-[8px]">
-                    <button
+                    <input
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"
-                        onClick={(e) => {
-                            handleSubmit(e);
-                        }}
-                    >
-                        Xác nhận
-                    </button>
+                        type="submit"
+                    />
 
                     <Link
                         to="/viec-lam"

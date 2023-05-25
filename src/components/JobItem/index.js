@@ -22,7 +22,7 @@ const JobItem = ({ job = {}, onClick }) => {
             <div className="flex-8 max-w[80%] lead-[300px] ">
                 <div className="flex justify-between">
                     <Link
-                        className="text-[28px] font-medium line-clamp-1"
+                        className="text-[22px] font-medium line-clamp-1"
                         to={`/viec-lam/chi-tiet/${sanitizeVietnameseString(job?.jobTitle)}/${job?.id}`}
                     >
                         {job?.jobTitle}

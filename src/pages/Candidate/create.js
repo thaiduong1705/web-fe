@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 import swal from 'sweetalert';
@@ -21,6 +21,8 @@ const CreateCandidate = ({ isEdit = false }) => {
     const districtListData = useSelector((state) => state.otherData.districts);
     const { candidateDataEdit } = useSelector((state) => state.candidate);
 
+    const navigate = useNavigate();
+
     const [candidateName, setCandidateName] = useState('');
     const [age, setCandidateAge] = useState(0);
     const [phoneNumber, setCandidatePhonenumber] = useState('');
@@ -33,9 +35,6 @@ const CreateCandidate = ({ isEdit = false }) => {
     const [careerList, setCandidateCareer] = useState([]);
     const [candidatePosition, setCandidatePosition] = useState('');
     const [districtList, setCandidateDistrict] = useState([]);
-
-    //valdiation
-    const [isValid, setIsValid] = useState(false);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -136,70 +135,81 @@ const CreateCandidate = ({ isEdit = false }) => {
             candidatePosition: candidatePosition,
             districtList: districtList,
         };
-        console.log({
-            candidateName: candidateName,
-            gender: gender,
-            age: age,
-            candidateCivilId: candidateCivilId,
-            phoneNumber: phoneNumber,
-            email: email,
-            homeAddress: homeAddress,
-            academicLevelId: academicLevelId,
-            careerList: careerList,
-            experienceYear: experienceYear,
-            candidatePosition: candidatePosition,
-            districtList: districtList,
-        });
         console.log(ValidData);
-        const isValid_temp = await candidateSchema.isValid(ValidData);
-        console.log(isValid_temp);
-        setIsValid(isValid_temp);
-        if (isValid_temp === true) {
-            if (!isEdit) {
-                setCandidateData({
-                    candidateName: candidateName,
-                    gender: gender,
-                    age: age,
-                    candidateCivilId: candidateCivilId,
-                    phoneNumber: phoneNumber,
-                    email: email,
-                    homeAddress: homeAddress,
-                    academicLevelId: academicLevelId,
-                    careerList: careerList,
-                    experienceYear: experienceYear,
-                    candidatePosition: candidatePosition,
-                    districtList: districtList,
-                });
+        const isValid_temp = await candidateSchema.isValid(ValidData).then((valid) => {
+            if (valid === true) {
+                if (!isEdit) {
+                    setCandidateData({
+                        candidateName: candidateName,
+                        gender: gender,
+                        age: age,
+                        candidateCivilId: candidateCivilId,
+                        phoneNumber: phoneNumber,
+                        email: email,
+                        homeAddress: homeAddress,
+                        academicLevelId: academicLevelId,
+                        careerList: careerList,
+                        experienceYear: experienceYear,
+                        candidatePosition: candidatePosition,
+                        districtList: districtList,
+                    });
+                } else {
+                    setEditData({
+                        id: candidateDataEdit.id,
+                        candidateName: candidateName,
+                        gender: gender,
+                        age: age,
+                        candidateCivilId: candidateCivilId,
+                        phoneNumber: phoneNumber,
+                        email: email,
+                        homeAddress: homeAddress,
+                        academicLevelId: academicLevelId,
+                        careerList: careerList,
+                        experienceYear: experienceYear,
+                        candidatePosition: candidatePosition,
+                        districtList: districtList,
+                    });
+                }
             } else {
-                setEditData({
-                    id: candidateDataEdit.id,
-                    candidateName: candidateName,
-                    gender: gender,
-                    age: age,
-                    candidateCivilId: candidateCivilId,
-                    phoneNumber: phoneNumber,
-                    email: email,
-                    homeAddress: homeAddress,
-                    academicLevelId: academicLevelId,
-                    careerList: careerList,
-                    experienceYear: experienceYear,
-                    candidatePosition: candidatePosition,
-                    districtList: districtList,
-                });
+                try {
+                    candidateSchema.validateSync(ValidData);
+                } catch (error) {
+                    if (error instanceof yup.ValidationError) {
+                        swal(error.name, error.errors[0], 'error');
+                    }
+                }
             }
-        } else {
-            console.log('Truyền dữ liệu thất bại, vui lòng kiểm tra lại');
-        }
+        });
+        console.log(isValid_temp);
     };
 
     useEffect(() => {
         if (candidateData) {
             console.log('do');
-            apiCreateCandidate(candidateData);
+            apiCreateCandidate(candidateData).then((response) => {
+                if (response.data.err === 0) {
+                    swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success').then(() => {
+                        navigate(-1);
+                    });
+                } else {
+                    swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');
+                }
+            });
         }
     }, [candidateData]);
+
     useEffect(() => {
-        if (editData) apiCreateCandidate(editData);
+        if (editData) {
+            apiCreateCandidate(editData).then((response) => {
+                if (response.data.err === 0) {
+                    swal('Hoàn thành!', 'Dữ liệu đã được chỉnh sửa thành công!', 'success').then(() => {
+                        navigate(-1);
+                    });
+                } else {
+                    swal('Lỗi server!', 'Dữ liệu không được nạp thành công!', 'error');
+                }
+            });
+        }
     }, [editData]);
 
     if (isEdit) {
@@ -457,7 +467,7 @@ const CreateCandidate = ({ isEdit = false }) => {
                                 items={districtListData.map((obj) => {
                                     return { id: obj.id, value: obj.districtName };
                                 })}
-                                onChange={handleChangeDistrictList}
+                                onChange={() => handleChangeDistrictList}
                                 needTilte={true}
                             />
                         )}
