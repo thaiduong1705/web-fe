@@ -30,6 +30,8 @@ const candidateReducer = (state = initState, action) => {
                 count: action.count || 0,
             };
         case actionType.GET_CANDIDATE_BY_ID:
+            console.log('go2');
+            console.log(action);
             return {
                 ...state,
                 detailCandidate: action.detailCandidate || null,

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { CandidateItem, Combobox } from '~/components';
+import { Link, useNavigate } from 'react-router-dom';
+import { CandidateItem, Combobox, Loading } from '~/components';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCandidates } from '~/store/action/candidate';
+import { getCandidateLimit, setCandidatesToNull } from '~/store/action/candidate';
 import { Age, Exp } from '~/data';
 import ReactPaginate from 'react-paginate';
 const ListCandidates = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { candidates, count } = useSelector((state) => state.candidate);
     const { academicLevels } = useSelector((state) => state.otherData);
@@ -13,17 +14,29 @@ const ListCandidates = () => {
     const [experienceYear, setExperienceYear] = useState('');
     const [age, setAge] = useState([]);
     useEffect(() => {
-        dispatch(getCandidates());
+        dispatch(getCandidateLimit());
+        return () => {
+            dispatch(setCandidatesToNull());
+        };
     }, []);
 
     const [pageCount, setPageCount] = useState(0);
     let companyPerPage = 10;
     useEffect(() => {
+        console.log(candidates);
         setPageCount((prev) => Math.ceil(count / companyPerPage));
-    }, [count]);
+    }, [count, candidates]);
     const handlePageClick = (data) => {
         let currentPage = data.selected + 1;
     };
+
+    if (candidates.length === 0) {
+        return (
+            <div className="flex justify-center items-center">
+                <Loading />
+            </div>
+        );
+    }
     return (
         <div>
             <div className="bg-blue-700 text-black px-[64px]">
@@ -34,6 +47,7 @@ const ListCandidates = () => {
                         items={academicLevels.map((obj) => {
                             return { id: obj.id, value: obj.academicLevelName };
                         })}
+                        needTilte
                     />
                     <Combobox title="Năm kinh nghiệm" className="h-[35px] col-span-2" items={Exp} />
                     <Combobox title="Tuổi" className="h-[35px] col-span-2" items={Age} />
@@ -61,7 +75,7 @@ const ListCandidates = () => {
                 <table className="table-auto min-w-full text-left text-[14px] font-light">
                     <thead className="border-b dark:border-neutral-500">
                         <tr>
-                            <th scope="col" className="px-6 py-4 font-medium">
+                            <th scope="col" className="px-6 py-4 font-medium w-1/3">
                                 Ứng viên
                             </th>
                             <th scope="col" className="px-6 py-4 font-medium">
@@ -70,26 +84,24 @@ const ListCandidates = () => {
                             <th scope="col" className="px-6 py-4 font-medium">
                                 Trình độ chuyên môn
                             </th>
-                            <th scope="col" className="px-6 py-4 font-medium">
-                                Lương
-                            </th>
-                            <th scope="col" className="px-6 py-4 font-medium">
-                                Nơi làm việc
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {candidates.map((data, index) => {
-                            <CandidateItem
-                                item={{
-                                    candidateName: data.candidateName,
-                                    experienceYear: data.experienceYear,
-                                    academicLevel: data.academicLevelId,
-                                }}
-                            />;
+                            return (
+                                <CandidateItem
+                                    item={data}
+                                    key={index}
+                                    onClick={(e) => {
+                                        navigate(`chinh-sua/${data.id}`, { state: 'EDIT_CANDIDATE' });
+                                    }}
+                                />
+                            );
                         })}
                     </tbody>
                 </table>
+            </div>
+            <div>
                 <ReactPaginate
                     pageCount={pageCount}
                     previousLabel={'<'}

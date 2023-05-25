@@ -1,19 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const CandidateItem = (item = {}) => {
+const CandidateItem = ({ item, onClick }) => {
     return (
         <tr className="border-b dark:border-neutral-500">
             <td className="whitespace-nowrap px-6 py-4">
                 <div>
-                    <Link to={`chi-tiet/123`} className="uppercase text-[16px] font-medium">
-                        {item.candidateName}
+                    <Link to={`chi-tiet/${item?.id}`} className="uppercase text-[16px] font-medium">
+                        {item?.candidateName}
                     </Link>
 
                     <div className="flex">
                         <div className="mr-[4px]">
                             <span className="font-medium">Học vấn: </span>
-                            <span>Bind trình độ chuyên môn</span>
+                            <span>{item?.AcademicLevel?.academicLevelName}</span>
                         </div>
                         <span>|</span>
                         <div className="ml-[4px]">
@@ -23,10 +23,13 @@ const CandidateItem = (item = {}) => {
                     </div>
                 </div>
             </td>
-            <td className="whitespace-nowrap px-6 py-4">{item.AcademicLevel.academicLevelName}</td>
-            <td className="whitespace-nowrap px-6 py-4">{item.experienceYear} Năm</td>
-            <td className="whitespace-nowrap px-6 py-4">Bind lương mong muốn</td>
-            <td className="whitespace-nowrap px-6 py-4">bind khu vực làm việc</td>
+            <td className=" px-6 py-4 ">{item?.experienceYear} năm</td>
+            <td className="px-6 py-4">{item?.AcademicLevel?.academicLevelName}</td>
+            <td className="px-6 py-4">
+                <button className="" onClick={onClick}>
+                    Edit
+                </button>
+            </td>
         </tr>
     );
 };

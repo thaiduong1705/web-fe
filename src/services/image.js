@@ -1,15 +1,28 @@
-import axios from 'axios';
+import axiosInstance from '~/axiosConfig';
 export const apiUploadImagesCompany = async (formData) => {
     try {
-        console.log('go');
-        const response = await axios({
+        const response = await axiosInstance({
             method: 'post',
-            url: `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload/`,
+            url: `/api/v1/image/upload-image`,
             data: formData,
         });
         console.log(response);
         return response;
     } catch (error) {
-        return error;
+        console.log(error);
+    }
+};
+
+export const apiRemoveImagesCompany = async (formData) => {
+    try {
+        const response = await axiosInstance({
+            method: 'post',
+            url: `/api/v1/image/delete-image`,
+            data: formData,
+        });
+        console.log(response);
+        return response;
+    } catch (error) {
+        console.log(error);
     }
 };

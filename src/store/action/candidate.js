@@ -26,7 +26,9 @@ export const getCandidates = () => async (dispatch) => {
 export const getCandidateById = (id) => async (dispatch) => {
     try {
         const response = await candidateAPI.apiGetCandidate(id);
+        console.log(response);
         if (response?.data.err === 0) {
+            console.log('go');
             dispatch({
                 type: actionType.GET_CANDIDATE_BY_ID,
                 detailCandidate: response.data.res,
