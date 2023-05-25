@@ -44,6 +44,20 @@ export const apiCreateCompany = async (company) => {
             url: '/api/v1/company/create-company',
             data: company,
         });
+        return request;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const apiUpdateCompany = async (company) => {
+    try {
+        const request = await axiosInstance({
+            method: 'put',
+            url: '/api/v1/company/update-company',
+            data: company,
+        });
+        return request;
     } catch (error) {
         return error;
     }

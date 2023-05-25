@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSuitcase, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
-const CompanyItem = ({ item }) => {
+const CompanyItem = ({ item, onClick }) => {
     return (
         <div className="flex bg-[#f1f3f5] rounded-[8px] relative my-4">
             <div className="w-[120px] h-[120px] flex items-center justify-center bg-white rounded-l">
@@ -46,10 +46,13 @@ const CompanyItem = ({ item }) => {
                         <span className="text-[14px] text-[#999999]"> {item.address} </span>
                     </div>
                 </div>
-                <div className="min-w-[185px] flex flex-col justify-center ">
-                    <span className="bg-[#2A80B9] min-h-[32px] w-[250px] flex items-center px-[16px] py-[4px] rounded-[8px] text-white justify-center">
-                        Đang tuyển {item.Posts.length} công việc
-                    </span>
+                <div className="min-w-[185px] flex flex-col justify-between ">
+                    <span className="justify-center font-medium">Đang tuyển {item.Posts.length} công việc</span>
+                    <div>
+                        <button className="text-blue-400 underline" onClick={onClick}>
+                            Chỉnh sửa
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

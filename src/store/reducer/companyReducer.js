@@ -4,6 +4,7 @@ const initState = {
     companies: [],
     count: 0,
     detailCompany: null,
+    companyDataEdit: null,
 };
 
 const companyReducer = (state = initState, action) => {
@@ -39,6 +40,16 @@ const companyReducer = (state = initState, action) => {
                 ...state,
                 companies: action.companies || [],
                 msg: action.msg || '',
+            };
+        case actionType.GET_COMPANY_EDIT:
+            return {
+                ...state,
+                companyDataEdit: action.companyDataEdit || null,
+            };
+        case actionType.SET_COMPANY_EDIT_NULL:
+            return {
+                ...state,
+                companyDataEdit: action.companyDataEdit || null,
             };
         default:
             return state;

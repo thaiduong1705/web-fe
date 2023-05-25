@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,13 +7,17 @@ import * as yup from 'yup';
 import swal from 'sweetalert';
 
 import { companySchema } from './companyValidation';
-import { apiCreateCompany } from '~/services/company';
+import { apiCreateCompany, apiUpdateCompany } from '~/services/company';
 import { Combobox, Loading, TextEditor } from '~/components';
 import { apiUploadImagesCompany } from '~/services/image';
 
-import { getCareers } from '~/store/action/otherData';
-const CreateCompany = () => {
+import { editCompanyData, setEditCompanyDataNull } from '~/store/action/company';
+const CreateCompany = ({ isEdit }) => {
+    const { id } = useParams();
     const careerListData = useSelector((state) => state.otherData.careers);
+
+    const { companyDataEdit } = useSelector((state) => state.company);
+
     const [companyName, setCompanyName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -22,23 +26,52 @@ const CreateCompany = () => {
     const [companySize, setCompanySize] = useState('');
     const [careerList, setCareerList] = useState([]);
     const [imagePreview, setImagePreview] = useState('');
+
+    //Validation
+    const [isValid, setIsValid] = useState(false);
+
+    //Đợi load ảnh
     const [isLoading, setIsLoading] = useState(false);
+
+    //Edit
+    const [careerOldList, setCareerOldList] = useState(null);
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getCareers());
+        if (isEdit) {
+            dispatch(editCompanyData(id));
+        }
+        return () => {
+            dispatch(setEditCompanyDataNull());
+        };
     }, []);
 
-    const [companyData, setCompanyData] = useState({
-        companyName: companyName,
-        email: email,
-        phone: phone,
-        address: address,
-        introduction: introduction,
-        companySize: companySize,
-        careerList: careerList,
-    });
+    useEffect(() => {
+        if (companyDataEdit) {
+            setCompanyName(companyDataEdit.companyName || '');
+            setEmail(companyDataEdit.email || '');
+            setPhone(companyDataEdit.phone || '');
+            setAddress(companyDataEdit.address || '');
+            setCompanySize(companyDataEdit.companySize || '');
+            setIntroduction(companyDataEdit.introduction || '');
+            setImagePreview(companyDataEdit.imageLink || '');
+            setCareerOldList((prev) => {
+                if (companyDataEdit?.Career.length === 0) {
+                    return [];
+                }
+                return companyDataEdit?.Career.map((c) => c.id);
+            });
+            setCareerList((prev) => {
+                if (companyDataEdit?.Career.length === 0) {
+                    return [];
+                }
+                return companyDataEdit?.Career.map((c) => c.id);
+            });
+        }
+    }, [companyDataEdit]);
 
+    const [companyData, setCompanyData] = useState(null);
+    const [editData, setEditData] = useState(null);
     const createCompany = async (event) => {
         event.preventDefault();
         const ValidData = {
@@ -51,8 +84,11 @@ const CreateCompany = () => {
             careerList: careerList,
         };
         console.log(ValidData);
-        const isValid_temp = await companySchema.isValid(ValidData).then((valid) => {
-            if (valid === true) {
+        const isValid_temp = await companySchema.isValid(ValidData);
+        console.log(isValid_temp);
+        setIsValid(isValid_temp);
+        if (isValid_temp === true) {
+            if (!isEdit) {
                 setCompanyData({
                     companyName: companyName,
                     email: email,
@@ -62,23 +98,29 @@ const CreateCompany = () => {
                     companySize: companySize,
                     careerList: careerList,
                 });
-                swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success');
             } else {
-                try {
-                    companySchema.validateSync(ValidData);
-                } catch (error) {
-                    if (error instanceof yup.ValidationError) {
-                        swal(error.name, error.errors[0], 'error');
-                        console.log(error.name); // "ValidationError"
-                        console.log(error.errors); // ["Name is required"]
-                    }
-                }
+                setEditData({
+                    id: companyDataEdit.id,
+                    companyName: companyName,
+                    email: email,
+                    phone: phone,
+                    address: address,
+                    introduction: introduction,
+                    companySize: companySize,
+                    careerOldList,
+                    careerNewList: careerList,
+                });
             }
-        });
+        } else {
+            console.log('Truyền dữ liệu thất bại, vui lòng kiểm tra lại');
+        }
     };
 
     useEffect(() => {
-        apiCreateCompany(companyData);
+        if (editData) apiUpdateCompany(editData);
+    }, [editData]);
+    useEffect(() => {
+        if (companyData) apiCreateCompany(companyData);
     }, [companyData]);
 
     const handleFiles = async (e) => {
@@ -116,12 +158,21 @@ const CreateCompany = () => {
     //     setCandidateDistrict(newDistrictIds);
     // };
 
+    if (isEdit) {
+        if (!companyDataEdit) {
+            return (
+                <div className="flex justify-center item-center">
+                    <Loading />
+                </div>
+            );
+        }
+    }
     return (
         <div className="w-full bg-blue-100 rounded-[4px] h-full pb-[24px]">
             <form onSubmit={createCompany}>
                 <p className="font-medium text-[24px] py-5 pl-5 text-white bg-blue-700 items-center">
                     <FontAwesomeIcon icon={faBuilding} className="mr-[12px]" />
-                    Tạo mới nhà tuyển dụng
+                    {isEdit ? 'Chỉnh sửa nhà tuyển dụng' : 'Tạo mới nhà tuyển dụng'}
                 </p>
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px] py-[12px]">
                     <div className="flex-1">
@@ -132,6 +183,7 @@ const CreateCompany = () => {
                             id="JobName"
                             placeholder="Công ty TNHH ABC"
                             type="text"
+                            value={companyName}
                             onChange={(e) => setCompanyName(e.target.value)}
                         />
                     </div>
@@ -142,7 +194,7 @@ const CreateCompany = () => {
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="TenCongViec"
-                            placeholder=""
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
@@ -152,6 +204,7 @@ const CreateCompany = () => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="SoLuong"
                             maxLength={10}
+                            value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                         />
                     </div>
@@ -164,6 +217,7 @@ const CreateCompany = () => {
                             name="TenCongViec"
                             placeholder="Địa chỉ của công ty"
                             type="text"
+                            value={address}
                             onChange={(e) => setAddress(e.target.value)}
                         />
                     </div>
@@ -171,20 +225,37 @@ const CreateCompany = () => {
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
                     <div className="flex-1">
                         <label>Lĩnh vực</label>
-                        <Combobox
-                            className="h-[40px]"
-                            title="Lĩnh vực"
-                            isMulti={true}
-                            isSearchable={true}
-                            type="text"
-                            items={careerListData.map((obj) => {
-                                return { id: obj.id, value: obj.careerName };
-                            })}
-                            onChange={(e) => {
-                                console.log(e);
-                                handleChangeCareer(e);
-                            }}
-                        />
+                        {isEdit && careerOldList && (
+                            <Combobox
+                                className="h-[40px]"
+                                title="Lĩnh vực"
+                                isMulti={true}
+                                isSearchable={true}
+                                items={careerListData.map((obj) => {
+                                    return { id: obj.id, value: obj.careerName };
+                                })}
+                                onChange={(e) => {
+                                    console.log(e);
+                                    handleChangeCareer(e);
+                                }}
+                                initialValue={isEdit && careerOldList ? careerOldList : null}
+                            />
+                        )}
+                        {!isEdit && (
+                            <Combobox
+                                className="h-[40px]"
+                                title="Lĩnh vực"
+                                isMulti={true}
+                                isSearchable={true}
+                                items={careerListData.map((obj) => {
+                                    return { id: obj.id, value: obj.careerName };
+                                })}
+                                onChange={(e) => {
+                                    console.log(e);
+                                    handleChangeCareer(e);
+                                }}
+                            />
+                        )}
                     </div>
                     <div className="w-[20%]">
                         <label>Quy mô</label>
@@ -192,23 +263,26 @@ const CreateCompany = () => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             title="Quy mô"
                             onChange={(e) => setCompanySize(e.target.value)}
-                        />
-                    </div>
-                </div>
-                <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
-                    <div className="w-[50%]">
-                        <label>Tên người liên hệ</label>
-                        <input
-                            className="w-full h-[40px] rounded-md outline-none px-[8px]"
-                            name="TenCongViec"
-                            placeholder=""
-                            onClick={() => console.log(companyData)}
+                            value={companySize}
                         />
                     </div>
                 </div>
                 <div className="mb-[8px] px-[8px]">
                     <label>Giới thiệu công ty</label>
-                    <TextEditor className="w-[100%] h-[400px] mb-[8px]" onChange={setIntroduction} />
+                    {isEdit && introduction && (
+                        <TextEditor
+                            className="w-[100%] h-[400px] mb-[8px]"
+                            onChange={setIntroduction}
+                            initialValue={isEdit && introduction ? introduction : null}
+                        />
+                    )}
+                    {!isEdit && (
+                        <TextEditor
+                            className="w-[100%] h-[400px] mb-[8px]"
+                            onChange={setIntroduction}
+                            initialValue={isEdit && introduction ? introduction : null}
+                        />
+                    )}
                 </div>
                 <div className="mb-[8px] px-[8px]">
                     <label

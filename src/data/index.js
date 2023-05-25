@@ -1,9 +1,5 @@
 export const Gender = [
     {
-        id: null,
-        value: 'Tất cả giới tính',
-    },
-    {
         id: 0,
         value: 'Nam',
     },

@@ -69,7 +69,7 @@ export const publicRoutes = [
                 component: DetailCompany,
             },
             {
-                path: 'chinh-sua',
+                path: 'chinh-sua/:id',
                 component: UpdatePost,
             },
         ],
