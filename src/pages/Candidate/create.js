@@ -113,8 +113,7 @@ const CreateCandidate = ({ isEdit = false }) => {
     };
 
     const handleChangeCandidateAge = (birthday) => {
-        var date = new Date(birthday).getFullYear();
-        setCandidateAge((prev) => currentYear - date);
+        setCandidateAge((prev) => birthday);
     };
 
     const [candidateData, setCandidateData] = useState(null);
@@ -194,7 +193,10 @@ const CreateCandidate = ({ isEdit = false }) => {
     };
 
     useEffect(() => {
-        if (candidateData) apiCreateCandidate(candidateData);
+        if (candidateData) {
+            console.log('do');
+            apiCreateCandidate(candidateData);
+        }
     }, [candidateData]);
     useEffect(() => {
         if (editData) apiCreateCandidate(editData);
@@ -261,13 +263,16 @@ const CreateCandidate = ({ isEdit = false }) => {
                 </div>
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
                     <div className="w-[25%]">
-                        <label>Ngày sinh</label>
+                        <label>Tuổi</label>
                         <input
-                            className="w-full h-[40px] rounded-md outline-none px-[8px] hover:opacity-80 hover:cursor-pointer"
+                            className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="NgayDangTuyen"
                             id="startDate"
-                            type="date"
-                            onChange={(e) => handleChangeCandidateAge(e.target.value)}
+                            onChange={(e) => {
+                                const input = e.target.value.replace(/[^0-9]/g, '');
+                                setCandidateAge((prev) => (isNaN(input) || input === '' ? 0 : parseInt(input, 10)));
+                            }}
+                            value={age}
                         />
                     </div>
                     <div className="w-[25%]">
@@ -295,7 +300,7 @@ const CreateCandidate = ({ isEdit = false }) => {
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="SoLuong"
-                            type="email"
+                            type="text"
                             onChange={(e) => setCandidateEmail(e.target.value)}
                             value={email}
                         />
@@ -386,7 +391,8 @@ const CreateCandidate = ({ isEdit = false }) => {
                             title="Thâm niên"
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             onChange={(e) => {
-                                setExperienceYear(parseInt(e.target.value));
+                                const input = e.target.value.replace(/[^0-9]/g, '');
+                                setExperienceYear((prev) => (isNaN(input) || input === '' ? 0 : parseInt(input, 10)));
                             }}
                             value={experienceYear}
                         />
