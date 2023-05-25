@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
+import swal from 'sweetalert';
 
 import { companySchema } from './companyValidation';
 import { apiCreateCompany, apiUpdateCompany } from '~/services/company';
@@ -343,13 +344,6 @@ const CreateCompany = ({ isEdit }) => {
                 </div>
 
                 <div className="flex justify-end px-[8px] pt-[8px]">
-                    {isValid === false ? (
-                        <div className="flex text-red-500 items-center">
-                            Thông tin đầu vào chưa đúng hoặc đủ, vui lòng kiểm tra!!!
-                        </div>
-                    ) : (
-                        <div className="flex text-green-500 items-center">Nhập thông tin thành công!!!</div>
-                    )}
                     <input
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"

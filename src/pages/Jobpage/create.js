@@ -97,6 +97,7 @@ const CreatePost = ({ isEdit = false }) => {
             });
         }
         return () => {};
+        console.log(postDataEdit);
     }, [postDataEdit]);
     const handleChangeGender = (value) => {
         setGender((prev) => value.id);
@@ -152,6 +153,7 @@ const CreatePost = ({ isEdit = false }) => {
             workingTypeId: workingTypeId,
             academicLevelId: academicLevelId,
             endDate,
+            gender,
             workingAddress: address,
             experienceYear: expYear,
             ageMin,
@@ -176,6 +178,7 @@ const CreatePost = ({ isEdit = false }) => {
                 workingTypeId: workingTypeId,
                 academicLevelId: academicLevelId,
                 endDate,
+                gender,
                 workingAddress: address,
                 experienceYear: expYear,
                 ageMin,
@@ -206,6 +209,7 @@ const CreatePost = ({ isEdit = false }) => {
                 workingTypeId: workingTypeId,
                 academicLevelId: academicLevelId,
                 endDate,
+                gender,
                 workingAddress: address,
                 experienceYear: expYear,
                 ageMin,

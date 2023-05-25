@@ -4,6 +4,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
+import swal from 'sweetalert';
 
 import { candidateSchema } from './candidateValidation';
 import { Combobox, Loading, TextEditor } from '~/components';
@@ -126,13 +127,13 @@ const CreateCandidate = ({ isEdit = false }) => {
             candidateName: event.target[0].value,
             gender: gender,
             age: age,
-            candidateCivilId: event.target[1].value,
-            phoneNumber: event.target[2].value,
-            email: event.target[3].value,
-            homeAddress: event.target[4].value,
+            candidateCivilId: event.target[2].value,
+            phoneNumber: event.target[3].value,
+            email: event.target[4].value,
+            homeAddress: event.target[5].value,
             academicLevelId: academicLevelId,
             careerList: careerList,
-            experienceYear: event.target[5].value,
+            experienceYear: event.target[6].value,
             candidatePosition: candidatePosition,
             districtList: districtList,
         };
@@ -461,13 +462,6 @@ const CreateCandidate = ({ isEdit = false }) => {
                     <input type="file" className="w-full" />
                 </div>
                 <div className="flex justify-end px-[8px]">
-                    {isValid === false ? (
-                        <div className="flex text-red-500 items-center">
-                            Thông tin đầu vào chưa đúng hoặc đủ, vui lòng kiểm tra!!!
-                        </div>
-                    ) : (
-                        <div className="flex text-green-500 items-center">Nhập thông tin thành công!!!</div>
-                    )}
                     <input
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"
                         value="Xác nhận"
