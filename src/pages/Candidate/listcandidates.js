@@ -58,7 +58,7 @@ const ListCandidates = () => {
             </div>
 
             <div className="my-[48px] px-[64px] flex justify-between">
-                <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
+                <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-blue-600 before:left-0 pl-[24px]">
                     <p className="align-middle text-[24px] font-medium leading-[1.4] my-[2px]">Ứng viên</p>
                 </div>
                 <div className="flex items-center">

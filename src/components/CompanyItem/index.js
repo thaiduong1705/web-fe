@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSuitcase, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
 const CompanyItem = ({ item, onClick }) => {
+    const [mouseEnter, setMouseEnter] = useState(null);
     return (
-        <div className="flex bg-[#f1f3f5] rounded-[8px] relative my-4">
+        <Link
+            className="overflow-hidden flex bg-[#f1f3f5] rounded-[8px] relative my-4 border-1 border-transparent hover:cursor-pointer hover:bg-[#E6F5FE] hover:border-blue-500 hover:transition-all"
+            onMouseEnter={() => setMouseEnter(true)}
+            onMouseLeave={() => setMouseEnter(false)}
+            to={`/nha-tuyen-dung/chi-tiet/${sanitizeVietnameseString(item.companyName).replaceAll('/', '')}/${item.id}`}
+        >
             <div className="w-[120px] h-[120px] flex items-center justify-center bg-white rounded-l">
                 <Link
                     to={`/nha-tuyen-dung/chi-tiet/${sanitizeVietnameseString(item.companyName).replaceAll('/', '')}/${
@@ -29,7 +35,15 @@ const CompanyItem = ({ item, onClick }) => {
                             '',
                         )}/${item.id}`}
                     >
-                        <p className="mb-[8px] text-black text-[20px] font-semibold line-clamp-1">{item.companyName}</p>
+                        {mouseEnter ? (
+                            <p className="mb-[8px] text-blue-500 text-[20px] font-semibold line-clamp-1">
+                                {item.companyName}
+                            </p>
+                        ) : (
+                            <p className="mb-[8px] text-black text-[20px] font-semibold line-clamp-1">
+                                {item.companyName}
+                            </p>
+                        )}
                     </Link>
                     <div className="flex items-center mb-[4px]">
                         <FontAwesomeIcon icon={faSuitcase} className="mr-[4px] w-[22px] h-[22px] text-[#2A80B9]" />
@@ -55,7 +69,7 @@ const CompanyItem = ({ item, onClick }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

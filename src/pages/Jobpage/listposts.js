@@ -14,6 +14,7 @@ const ListPosts = () => {
     const dispatch = useDispatch();
 
     const { posts, count } = useSelector((state) => state.post);
+    console.log(posts);
     const { careers, districts, academicLevels, workingTypes, positions } = useSelector((state) => state.otherData);
 
     const [jobTitle, setJobTitle] = useState('');
@@ -192,16 +193,19 @@ const ListPosts = () => {
                 </div>
             </div>
             <div className="w-full flex flex-col justify-center h-auto rounded-[3px] mt-[8px] bg-gray-50 px-[64px] py-[16px] ">
-                <div className="flex justify-between mb-3">
-                    <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-[#2A80B9] before:left-0 pl-[24px]">
+                <div className="flex justify-between mb-10 mt-5">
+                    <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-blue-600 before:left-0 pl-[24px]">
                         <p className="text-[24px] font-medium leading-[1.4] my-[2px] pt">Danh sách việc làm</p>
+                        <p className="text-[#999999]">Danh sách các việc làm tại TP Hồ Chí Minh</p>
                     </div>
-                    <Link
-                        to="/viec-lam/tao-viec-lam"
-                        className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80"
-                    >
-                        Tạo mới bài tuyển dụng
-                    </Link>
+                    <div className="flex items-center">
+                        <Link
+                            to="/viec-lam/tao-viec-lam"
+                            className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80"
+                        >
+                            Tạo mới bài tuyển dụng
+                        </Link>
+                    </div>
                 </div>
                 <div className="overflow-scroll">
                     {posts &&

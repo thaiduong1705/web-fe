@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,8 @@ const CreateCompany = ({ isEdit }) => {
 
     const { companyDataEdit } = useSelector((state) => state.company);
 
+    const navigate = useNavigate();
+
     const [companyName, setCompanyName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -26,9 +28,6 @@ const CreateCompany = ({ isEdit }) => {
     const [companySize, setCompanySize] = useState('');
     const [careerList, setCareerList] = useState([]);
     const [imagePreview, setImagePreview] = useState('');
-
-    //Validation
-    const [isValid, setIsValid] = useState(false);
 
     //Đợi load ảnh
     const [isLoading, setIsLoading] = useState(false);
@@ -84,43 +83,68 @@ const CreateCompany = ({ isEdit }) => {
             careerList: careerList,
         };
         console.log(ValidData);
-        const isValid_temp = await companySchema.isValid(ValidData);
-        console.log(isValid_temp);
-        setIsValid(isValid_temp);
-        if (isValid_temp === true) {
-            if (!isEdit) {
-                setCompanyData({
-                    companyName: companyName,
-                    email: email,
-                    phone: phone,
-                    address: address,
-                    introduction: introduction,
-                    companySize: companySize,
-                    careerList: careerList,
-                });
+        const isValid_temp = await companySchema.isValid(ValidData).then((valid) => {
+            if (valid === true) {
+                if (!isEdit) {
+                    setCompanyData({
+                        companyName: companyName,
+                        email: email,
+                        phone: phone,
+                        address: address,
+                        introduction: introduction,
+                        companySize: companySize,
+                        careerList: careerList,
+                    });
+                } else {
+                    setEditData({
+                        id: companyDataEdit.id,
+                        companyName: companyName,
+                        email: email,
+                        phone: phone,
+                        address: address,
+                        introduction: introduction,
+                        companySize: companySize,
+                        careerOldList,
+                        careerNewList: careerList,
+                    });
+                }
             } else {
-                setEditData({
-                    id: companyDataEdit.id,
-                    companyName: companyName,
-                    email: email,
-                    phone: phone,
-                    address: address,
-                    introduction: introduction,
-                    companySize: companySize,
-                    careerOldList,
-                    careerNewList: careerList,
-                });
+                try {
+                    companySchema.validateSync(ValidData);
+                } catch (error) {
+                    if (error instanceof yup.ValidationError) {
+                        swal(error.name, error.errors[0], 'error');
+                    }
+                }
             }
-        } else {
-            console.log('Truyền dữ liệu thất bại, vui lòng kiểm tra lại');
-        }
+        });
     };
 
     useEffect(() => {
-        if (editData) apiUpdateCompany(editData);
+        if (editData) {
+            apiUpdateCompany(editData).then((response) => {
+                if (response.data.err === 0) {
+                    swal('Hoàn thành!', 'Dữ liệu đã được chỉnh sửa thành công!', 'success').then(() => {
+                        navigate(-1);
+                    });
+                } else {
+                    swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');
+                }
+            });
+        }
     }, [editData]);
     useEffect(() => {
-        if (companyData) apiCreateCompany(companyData);
+        if (companyData) {
+            apiCreateCompany(companyData).then((response) => {
+                if (response.data.err === 0) {
+                    swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success').then(() => {
+                        navigate(-1);
+                    });
+                } else {
+                    swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');
+                }
+            });
+        }
     }, [companyData]);
 
     const handleFiles = async (e) => {
