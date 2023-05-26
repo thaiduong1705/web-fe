@@ -112,11 +112,11 @@ const DetailPage = () => {
                         </div>
                     </div>
                     <div className="flex flex-col justify-start w-[50%] pt-5 items-end">
-                        <button className="bg-red-500 text-white rounded-[8px] px-[8px] py-[6px] mb-5 w-[20%] ">
-                            ỨNG TRUYỂN
+                        <button className="bg-red-500 hover:bg-red-600 text-white rounded-[4px] px-[8px] py-[8px] mb-5 w-[20%] ">
+                            Ứng tuyển ngay
                         </button>
-                        <button className="bg-blue-500 text-white rounded-[8px] px-[8px] py-[6px] w-[20%]">
-                            CHỈNH SỬA
+                        <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-[4px] px-[8px] py-[8px] w-[20%]">
+                            Chỉnh sửa
                         </button>
                         {/* <div className="flex gap-[5px] item-center no-underline flex-wrap">
                             <FontAwesomeIcon icon={faCoins} className="text-[#236997] text-[20px]" />
@@ -142,7 +142,7 @@ const DetailPage = () => {
             <div className="my-[40px] mx-[24px] grid grid-cols-12 gap-[16px]">
                 <div className="col-span-8 flex flex-col gap-[32px]">
                     <div className="px-[32px] pt-[20px] pb-[28px] gap-[12px] bg-blue-50 rounded-[12px] border-2 border-blue-500">
-                        <div className="border-l-4 border-blue-500 mt-2">
+                        <div className="border-l-[6px] border-blue-500 mt-2">
                             <p className="font-medium text-[24px] mb-7 pl-5">Thông tin chung</p>
                         </div>
                         <div className="grid grid-flow-col grid-rows-4 gap-[10px]">

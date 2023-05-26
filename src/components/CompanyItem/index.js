@@ -46,7 +46,7 @@ const CompanyItem = ({ item, onClick }) => {
                         )}
                     </Link>
                     <div className="flex items-center mb-[4px]">
-                        <FontAwesomeIcon icon={faSuitcase} className="mr-[4px] w-[22px] h-[22px] text-[#2A80B9]" />
+                        <FontAwesomeIcon icon={faSuitcase} className="mr-[6px] w-[22px] h-[22px] text-blue-500" />
                         {item.Career.map((cc, index) => {
                             return (
                                 <span className="text-[14px] mr-[8px]" key={index}>
@@ -56,8 +56,8 @@ const CompanyItem = ({ item, onClick }) => {
                         })}
                     </div>
                     <div className="flex items-center">
-                        <FontAwesomeIcon icon={faLocationDot} className="mr-[4px] w-[22px] h-[22px] text-[#2A80B9]" />
-                        <span className="text-[14px] text-[#999999]"> {item.address} </span>
+                        <FontAwesomeIcon icon={faLocationDot} className="mr-[6px] w-[22px] h-[22px] text-blue-500" />
+                        <span className="text-[14px] text-[#999999] line-clamp-1"> {item.address} </span>
                     </div>
                 </div>
                 <div className="min-w-[185px] flex flex-col justify-between ">
