@@ -179,7 +179,7 @@ const CreatePost = ({ isEdit = false }) => {
                 if (isEdit && postDataEdit) {
                     const response = await apiUpdatePost(ValidData);
                     if (response?.data?.err === 0) {
-                        Swal.fire('Đã tạo thành công', '', 'success').then(() => {
+                        Swal.fire('Đã sửa dữ liệu thành công', '', 'success').then(() => {
                             navigate(-1);
                         });
                     } else if (!response || response?.data?.err !== 0) {
