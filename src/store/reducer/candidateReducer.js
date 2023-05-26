@@ -5,6 +5,7 @@ const initState = {
     count: 0,
     detailCandidate: null,
     candidateDataEdit: null,
+    allCandidates: [],
 };
 
 const candidateReducer = (state = initState, action) => {
@@ -12,7 +13,7 @@ const candidateReducer = (state = initState, action) => {
         case actionType.GET_CANDIDATES:
             return {
                 ...state,
-                candidates: action.candidates || [],
+                allCandidates: action.allCandidates || [],
                 msg: action.msg || '',
             };
         case actionType.GET_CANDIDATES_LIMIT:
@@ -30,8 +31,6 @@ const candidateReducer = (state = initState, action) => {
                 count: action.count || 0,
             };
         case actionType.GET_CANDIDATE_BY_ID:
-            console.log('go2');
-            console.log(action);
             return {
                 ...state,
                 detailCandidate: action.detailCandidate || null,
@@ -52,6 +51,11 @@ const candidateReducer = (state = initState, action) => {
             return {
                 ...state,
                 candidateDataEdit: action.candidateDataEdit || null,
+            };
+        case actionType.SET_ALL_CANDIDATES_NULL:
+            return {
+                ...state,
+                allCandidates: action.allCandidates || [],
             };
         default:
             return state;

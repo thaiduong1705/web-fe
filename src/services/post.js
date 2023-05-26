@@ -79,3 +79,16 @@ export const apiGetRelatedPost = async (postId, careerIds) => {
         console.log(error);
     }
 };
+
+export const apiApplyPost = async (formData) => {
+    try {
+        const response = await axiosInstance({
+            method: 'post',
+            url: '/api/v1/post/apply',
+            data: formData,
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+};

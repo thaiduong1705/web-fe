@@ -25,6 +25,7 @@ import { Combobox, JobItem } from '~/components';
 import convertDatetime from '~/utils/convertDate';
 import { apiGetPostsFromCareer } from '~/services/career';
 import { apiGetRelatedPost } from '~/services/post';
+import ApplyModal from '~/components/ApplyModal';
 const DetailPage = () => {
     const { id } = useParams();
     const { detailPost } = useSelector((state) => state.post);
@@ -52,6 +53,7 @@ const DetailPage = () => {
             fetchingRelatedPosts();
         }
     }, [detailPost]);
+    const [toggle, setToggle] = useState(false);
     return (
         <div>
             <div className="my-[24px]">
@@ -185,7 +187,12 @@ const DetailPage = () => {
                             <h2 className="text-[20px] font-medium">Cách thức ứng tuyển: </h2>
                         </div>
                         <div className="mb-[16px] text-justify">
-                            <button className="text-white bg-[#326ffc] hover:bg-[#14388c] rounded-[4px] py-[4px] px-[16px] h-[44px]">
+                            <button
+                                className="text-white bg-[#326ffc] hover:bg-[#14388c] rounded-[4px] py-[4px] px-[16px] h-[44px]"
+                                onClick={(e) => {
+                                    setToggle(true);
+                                }}
+                            >
                                 Ứng tuyển ngay
                             </button>
                         </div>
@@ -230,6 +237,7 @@ const DetailPage = () => {
                           })}
                 </div>
             </div>
+            <ApplyModal open={toggle} closeModal={() => setToggle(false)} post={detailPost} />
         </div>
     );
 };

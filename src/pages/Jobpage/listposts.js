@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { editData, getPostsLimit } from '~/store/action/post';
 import ReactPaginate from 'react-paginate';
 import { Exp, Gender, Salary, CreatedAt } from '~/data';
+import ApplyModal from '~/components/ApplyModal';
 
 const ListPosts = () => {
     const nagivate = useNavigate();
@@ -56,6 +57,11 @@ const ListPosts = () => {
         setCreatedAt(newCreatedAt);
     };
 
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    const [toggle, setToggle] = useState(false);
+    const [appliedPost, setAppliedPost] = useState(null);
+
     const [pageCount, setPageCount] = useState(0);
     let companyPerPage = 10;
 
@@ -65,6 +71,7 @@ const ListPosts = () => {
 
     useEffect(() => {
         setPageCount((prev) => Math.ceil(count / companyPerPage));
+        setIsLoaded(true);
     }, [count]);
 
     const handlePageClick = (data) => {
@@ -101,7 +108,7 @@ const ListPosts = () => {
         );
     };
 
-    if (posts.length === 0) {
+    if (posts.length === 0 && !isLoaded) {
         return (
             <div className="flex justify-center items-center">
                 <Loading />
@@ -203,31 +210,48 @@ const ListPosts = () => {
                         Tạo mới bài tuyển dụng
                     </Link>
                 </div>
-                <div className="overflow-scroll">
-                    {posts &&
-                        posts.map((data, index) => (
-                            <JobItem
-                                key={data.id}
-                                job={data}
-                                onClick={(e) => {
-                                    nagivate(`chinh-sua/${data.id}`, { state: 'EDIT_POST' });
-                                }}
+                <div className="px-[64px]">
+                    {posts.length === 0 ? (
+                        <div className="flex justify-center items-center">Không có kết quả</div>
+                    ) : (
+                        <>
+                            {posts &&
+                                posts.map((data, index) => (
+                                    <JobItem
+                                        key={data.id}
+                                        job={data}
+                                        onClick={(e) => {
+                                            nagivate(`chinh-sua/${data.id}`, { state: 'EDIT_POST' });
+                                        }}
+                                        toggleModal={() => {
+                                            setToggle(true);
+                                            setAppliedPost(data);
+                                        }}
+                                    />
+                                ))}
+                            <ReactPaginate
+                                pageCount={pageCount}
+                                previousLabel={'<'}
+                                nextLabel={'>'}
+                                onPageChange={handlePageClick}
+                                breakLabel={'...'}
+                                disabledLinkClassName="text-red"
+                                containerClassName="inline-flex -space-x-px items-center justify-center gap-[8px] w-full"
+                                pageLinkClassName="px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                previousLinkClassName={`block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                                nextLinkClassName={`block px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
                             />
-                        ))}
-                    <ReactPaginate
-                        pageCount={pageCount}
-                        previousLabel={'<'}
-                        nextLabel={'>'}
-                        onPageChange={handlePageClick}
-                        breakLabel={'...'}
-                        disabledLinkClassName="text-red"
-                        containerClassName="inline-flex -space-x-px items-center justify-center gap-[8px] w-full"
-                        pageLinkClassName="px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                        previousLinkClassName={`block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
-                        nextLinkClassName={`block px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
-                    />
+                        </>
+                    )}
                 </div>
             </div>
+            <ApplyModal
+                open={toggle}
+                closeModal={() => {
+                    setToggle(false);
+                }}
+                post={appliedPost}
+            />
         </div>
     );
 };

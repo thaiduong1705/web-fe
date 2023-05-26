@@ -113,7 +113,10 @@ const SearchingCombobox = ({
         if (!selectedValue) {
             return false;
         }
-        return selectedValue.value === option.value;
+        if (option.data) {
+            return selectedValue.data === option.data;
+        }
+        return selectedValue.id === option.id;
     };
 
     const onSearch = (e) => {
