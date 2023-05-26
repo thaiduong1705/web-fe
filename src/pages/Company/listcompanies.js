@@ -53,13 +53,13 @@ const ListCompanies = () => {
     };
 
     return (
-        <div className="">
+        <div className="pb-6">
             <div className="bg-blue-700 text-black px-[64px]">
                 <div className="grid grid-cols-12 py-[24px] gap-[16px] h-[80px]">
-                    <div className="col-span-6 col-start-1 flex gap-[10px]">
+                    <div className="col-span-7 col-start-1 flex gap-[10px]">
                         <span className="text-[16px] text-white leading-[32px] block">Tìm công ty: </span>
                         <input
-                            className="w-[86.5%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
+                            className="w-[88.5%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
                             placeholder="Nhập tên công ty..."
                             value={searchName}
                             onChange={(e) => setSearchName(e.target.value)}
@@ -79,7 +79,7 @@ const ListCompanies = () => {
                     />
 
                     <button
-                        className="cursor-pointer bg-blue-500 hover:bg-blue-400 text-white h-[35px] rounded-[8px] font-[550] px-[8px] col-auto"
+                        className="col-span-2 cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550] px-[8px]"
                         onClick={handleSearch}
                     >
                         Tìm kiếm

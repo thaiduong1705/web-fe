@@ -8,7 +8,7 @@ const CompanyItem = ({ item, onClick }) => {
     const [mouseEnter, setMouseEnter] = useState(null);
     return (
         <Link
-            className="overflow-hidden flex bg-[#f1f3f5] rounded-[8px] relative my-4 border-1 border-transparent hover:cursor-pointer hover:bg-[#E6F5FE] hover:border-blue-500 hover:transition-all"
+            className="overflow-hidden flex bg-[#f1f3f5] rounded-[8px] relative my-7 border-1 border-transparent hover:cursor-pointer hover:bg-[#E6F5FE] hover:border-blue-500 hover:transition-all"
             onMouseEnter={() => setMouseEnter(true)}
             onMouseLeave={() => setMouseEnter(false)}
             to={`/nha-tuyen-dung/chi-tiet/${sanitizeVietnameseString(item.companyName).replaceAll('/', '')}/${item.id}`}

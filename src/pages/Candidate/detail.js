@@ -31,7 +31,7 @@ const DetailCandidate = () => {
 
     return (
         <div>
-            <div className="shadow-lg px-[32px] pb-[32px]">
+            <div className="shadow-lg px-[32px] py-[32px]">
                 <div className="grid grid-cols-3 gap-[12x] ">
                     <div className="col-start-1 flex w-[100%] h-[160px] border-r-2 border-[#2A80B9]">
                         <img
@@ -80,7 +80,7 @@ const DetailCandidate = () => {
                         </div>
                     </div>
                 </div>
-                <div className="font-medium text-[24px] my-[24px] rounded-[4px] text-[#2A80B9] border-l-4 border-[#2A80B9] pl-[16px]">
+                <div className="font-medium text-[24px] my-[24px] text-blue-500 border-l-4 border-blue-500 pl-[16px]">
                     Thông tin nghề nghiệp
                 </div>
                 <div className="grid grid-cols-3 text-[20px] gap-[80px] my-[24px]">
@@ -89,7 +89,7 @@ const DetailCandidate = () => {
                             <span className="font-medium">Ngành nghề: </span>
                         </div>
                         <div className="flex justify-between h-[52px]">
-                            <span className="font-medium">Năm kinh nghiệm: {detailCandidate?.experienceYear}</span>
+                            <span className="font-medium">Năm kinh nghiệm: </span>
                         </div>
                         <div className="flex justify-between h-[52px]">
                             <span className="font-medium">Trình độ văn hoá:</span>
@@ -100,7 +100,7 @@ const DetailCandidate = () => {
                             <span className="">{detailCandidate?.Career?.map((item) => item.careerName)}</span>
                         </div>
                         <div className="flex justify-between h-[52px]">
-                            <span className="">{detailCandidate?.experienceYear}</span>
+                            <span className="">{detailCandidate?.experienceYear} năm</span>
                         </div>
                         <div className="flex justify-between h-[52px]">
                             <span className="">{detailCandidate?.AcademicLevel.academicLevelName}</span>
