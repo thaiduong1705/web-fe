@@ -63,7 +63,7 @@ const CompanyItem = ({ item, onClick }) => {
                 <div className="min-w-[185px] flex flex-col justify-between ">
                     <span className="justify-center font-medium">Đang tuyển {item.Posts.length} công việc</span>
                     <div>
-                        <button className="text-blue-400 underline" onClick={onClick}>
+                        <button className="text-blue-400 underline hover:text-blue-600" onClick={onClick}>
                             Chỉnh sửa
                         </button>
                     </div>

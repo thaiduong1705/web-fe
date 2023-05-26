@@ -215,6 +215,7 @@ const ListPosts = () => {
                                 job={data}
                                 onClick={(e) => {
                                     nagivate(`chinh-sua/${data.id}`, { state: 'EDIT_POST' });
+                                    console.log(data);
                                 }}
                             />
                         ))}

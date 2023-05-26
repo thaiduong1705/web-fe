@@ -36,7 +36,7 @@ const CreatePost = ({ isEdit = false }) => {
     const [jobDescribe, setJobDescribe] = useState('');
     const [benefits, setBenefits] = useState('');
     const [jobRequirement, setJobRequirement] = useState('');
-    const [careerList, setCareerList] = useState([]);
+    const [Career, setCareer] = useState([]);
     const [district, setDistrict] = useState([]);
     const [companyId, setCompany] = useState('');
     const [positionId, setPosition] = useState('');
@@ -75,10 +75,10 @@ const CreatePost = ({ isEdit = false }) => {
             setAcademicLevel(postDataEdit?.academicLevelId ?? '');
             setGender(+postDataEdit?.sex ?? 2);
             setOldCareerList((prev) => {
-                if (postDataEdit?.careerList.length === 0) {
+                if (postDataEdit?.Career.length === 0) {
                     return [];
                 }
-                return postDataEdit?.careerList.map((c) => c.id);
+                return postDataEdit?.Career.map((c) => c.id);
             });
             setOldDistrictList((prev) => {
                 if (postDataEdit?.District.length === 0) {
@@ -86,11 +86,11 @@ const CreatePost = ({ isEdit = false }) => {
                 }
                 return postDataEdit?.District.map((c) => c.id);
             });
-            setCareerList((prev) => {
-                if (postDataEdit?.careerList.length === 0) {
+            setCareer((prev) => {
+                if (postDataEdit?.Career.length === 0) {
                     return [];
                 }
-                return postDataEdit?.careerList.map((c) => c.id);
+                return postDataEdit?.Career.map((c) => c.id);
             });
             setDistrict((prev) => {
                 if (postDataEdit?.District.length === 0) {
@@ -119,7 +119,7 @@ const CreatePost = ({ isEdit = false }) => {
         let newCareerId = value.map((item) => {
             return item.id;
         });
-        setCareerList((prev) => newCareerId);
+        setCareer((prev) => newCareerId);
     };
     const handleChangeDistrict = (value) => {
         let newDistrictId = value.map((item) => {
@@ -166,10 +166,10 @@ const CreatePost = ({ isEdit = false }) => {
             jobDescribe: jobDescribe,
             jobRequirement: jobRequirement,
             benefits: benefits,
-            careerList: careerList,
+            careerList: Career,
             districtList: district,
-            oldDistrictList: oldDistrictList,
-            oldCareerList: oldCareerList,
+            districtOldList: oldDistrictList,
+            careerOldList: oldCareerList,
         };
 
         console.log(ValidData);

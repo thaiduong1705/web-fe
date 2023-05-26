@@ -9,11 +9,10 @@ import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
 const JobItem = ({ job = {}, onClick }) => {
     const [mouseEnter, setMouseEnter] = useState(null);
     return (
-        <Link
+        <div
             className="h-[160px] overflow-hidden flex bg-[#f1f3f5] rounded-[8px] relative my-7 border-1 border-transparent hover:cursor-pointer hover:bg-[#E6F5FE] hover:border-blue-500 hover:transition-all"
             onMouseEnter={() => setMouseEnter(true)}
             onMouseLeave={() => setMouseEnter(false)}
-            to={`/viec-lam/chi-tiet/${sanitizeVietnameseString(job?.jobTitle)}/${job?.id}`}
         >
             <div className="w-[149px] h-[100%] flex items-center justify-center bg-white rounded-l">
                 <Link
@@ -76,14 +75,16 @@ const JobItem = ({ job = {}, onClick }) => {
                         {job?.salaryMax !== 999 && `${job?.salaryMax} triệu`}
                     </span>
                     <div className="flex gap-4">
-                        <button className="text-blue-400 underline" onClick={onClick}>
+                        <button className="text-blue-400 hover:text-blue-600 underline" onClick={onClick}>
                             Chỉnh sửa
                         </button>
-                        <button className="bg-red-500 text-white rounded-[8px] px-[8px] py-[6px]">ỨNG TRUYỂN</button>
+                        <button className="bg-red-500 hover:bg-red-600 text-white rounded-[8px] px-[8px] py-[6px]">
+                            ỨNG TRUYỂN
+                        </button>
                     </div>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 };
 
