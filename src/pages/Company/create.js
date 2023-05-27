@@ -9,7 +9,7 @@ import swal from 'sweetalert';
 import { companySchema } from './companyValidation';
 import { apiCreateCompany, apiUpdateCompany } from '~/services/company';
 import { Combobox, Loading, TextEditor } from '~/components';
-import { apiUploadImagesCompany } from '~/services/image';
+import { apiUploadImagesCompany, apiRemoveImagesCompany } from '~/services/image';
 
 import { editCompanyData, setEditCompanyDataNull } from '~/store/action/company';
 const CreateCompany = ({ isEdit }) => {
@@ -81,6 +81,7 @@ const CreateCompany = ({ isEdit }) => {
             introduction: introduction,
             companySize: event.target[4].value,
             careerList: careerList,
+            imageLink: imagePreview,
         };
         console.log(ValidData);
         const isValid_temp = await companySchema.isValid(ValidData).then((valid) => {
@@ -94,6 +95,7 @@ const CreateCompany = ({ isEdit }) => {
                         introduction: introduction,
                         companySize: companySize,
                         careerList: careerList,
+                        imageLink: imagePreview,
                     });
                 } else {
                     setEditData({
@@ -104,7 +106,8 @@ const CreateCompany = ({ isEdit }) => {
                         address: address,
                         introduction: introduction,
                         companySize: companySize,
-                        careerOldList,
+                        imageLink: imagePreview,
+                        careerOldList: careerOldList,
                         careerNewList: careerList,
                     });
                 }
@@ -152,20 +155,31 @@ const CreateCompany = ({ isEdit }) => {
         setIsLoading(true);
         let imageLink;
         let files = e.target.files;
-        let formData = new FormData();
-        for (let i of files) {
-            formData.append('file', i);
-            formData.append('upload_preset', process.env.REACT_APP_UPLOAD_ASSETS_NAME);
-            let response = await apiUploadImagesCompany(formData);
-            if (response.status === 200) imageLink = response?.data.secure_url;
+        // let formData = new FormData();
+        const formData = new FormData();
+        formData.append('image', files[0]);
+        const response = await apiUploadImagesCompany(formData);
+        if (response.status === 200 && response.data.err === 0) {
+            setImagePreview(response?.data.res.secure_url);
         }
-        console.log(imageLink);
         setIsLoading(false);
-        setImagePreview((prev) => imageLink);
+        // for (let i of files) {
+        //     formData.append('file', i);
+        //     formData.append('upload_preset', process.env.REACT_APP_UPLOAD_ASSETS_NAME);
+        //     let response = await apiUploadImagesCompany(formData);
+        //     if (response.status === 200) imageLink = response?.data.secure_url;
+        // }
+        // setIsLoading(false);
+        // setImagePreview((prev) => imageLink);
     };
 
-    const handleDeleteImage = () => {
-        setImagePreview('');
+    const handleDeleteImage = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const response = await apiRemoveImagesCompany({ imageLink: imagePreview });
+        if (response.status === 200 && response.data.err === 0) {
+            setImagePreview('');
+        }
     };
 
     const handleChangeCareer = (career) => {
@@ -326,25 +340,6 @@ const CreateCompany = ({ isEdit }) => {
                     <div className="w-full">
                         <h3 className="font-medium py-4">Ảnh đã chọn</h3>
                         <div className="flex gap-4 items-center">
-                            {/* {imagesPreview?.map((item) => {
-                                return (
-                                    <div key={item} className="relative w-1/3 h-1/3 ">
-                                        <img
-                                            src={item}
-                                            alt="preview"
-                                            className="w-full h-full object-cover rounded-md"
-                                        />
-                                        <span
-                                            title="Xóa"
-                                            onClick={() => handleDeleteImage(item)}
-                                            className="absolute top-0 right-0 p-2 cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-full"
-                                        >
-                                            <ImBin />
-                                        </span>
-                                    </div>
-                                );
-                            })} */}
-
                             <div className="relative w-1/3 h-1/3 ">
                                 {imagePreview && (
                                     <>
@@ -353,13 +348,13 @@ const CreateCompany = ({ isEdit }) => {
                                             alt="preview"
                                             className="w-full h-full object-cover rounded-md"
                                         />
-                                        <span
+                                        <button
                                             title="Xóa"
-                                            onClick={() => handleDeleteImage()}
+                                            onClick={(e) => handleDeleteImage(e)}
                                             className="absolute top-0 right-0 p-2 cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-full w-[30px] h-[30px] flex justify-center items-center"
                                         >
                                             <FontAwesomeIcon icon={faTrash} />
-                                        </span>
+                                        </button>
                                     </>
                                 )}
                             </div>

@@ -179,21 +179,21 @@ const CreatePost = ({ isEdit = false }) => {
                 if (isEdit && postDataEdit) {
                     const response = await apiUpdatePost(ValidData);
                     if (response?.data?.err === 0) {
-                        Swal.fire('Đã sửa dữ liệu thành công', '', 'success').then(() => {
+                        swal('Đã sửa dữ liệu thành công', '', 'success').then(() => {
                             navigate(-1);
                         });
                     } else if (!response || response?.data?.err !== 0) {
-                        Swal.fire('Có lỗi của server', '', 'error');
+                        swal('Có lỗi của server', '', 'error');
                     }
                 } else {
                     const response = await apiCreatePost(ValidData);
                     console.log(response);
                     if (response?.data?.err === 0) {
-                        Swal.fire('Đã tạo thành công', '', 'success').then(() => {
+                        swal('Đã tạo thành công', '', 'success').then(() => {
                             navigate('/viec-lam');
                         });
                     } else if (!response || response?.data?.err !== 0) {
-                        Swal.fire('Có lỗi của server', '', 'error');
+                        swal('Có lỗi của server', '', 'error');
                     }
                 }
             } else {

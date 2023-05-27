@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -29,9 +29,10 @@ import { apiGetPostsFromCareer } from '~/services/career';
 import { apiGetRelatedPost } from '~/services/post';
 import ApplyModal from '~/components/ApplyModal';
 const DetailPage = () => {
+    const nagivate = useNavigate();
     const { id } = useParams();
+
     const { detailPost } = useSelector((state) => state.post);
-    console.log(detailPost);
     const [careerRelatedPosts, setCareerRelatedPosts] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -39,7 +40,7 @@ const DetailPage = () => {
         return () => {
             dispatch(setDetailPostNull());
         };
-    }, []);
+    }, [id]);
     useEffect(() => {
         if (detailPost) {
             let careerIds = [];
@@ -56,7 +57,10 @@ const DetailPage = () => {
             fetchingRelatedPosts();
         }
     }, [detailPost]);
+
     const [toggle, setToggle] = useState(false);
+    const [appliedPost, setAppliedPost] = useState(null);
+
     return (
         <div className="bg-[#F3F3F6] pt-[24px] pb-[32px]">
             <div className=" mx-[24px] rounded-[12px] bg-white">
@@ -317,7 +321,19 @@ const DetailPage = () => {
                     {careerRelatedPosts.length === 0
                         ? 'Hiện tại các bài tuyển dụng chưa có ngành nghề liên quan đến ngành nghề của bài tuyển dụng này'
                         : careerRelatedPosts.map((item) => {
-                              return <JobItem job={item} key={item.id} />;
+                              return (
+                                  <JobItem
+                                      job={item}
+                                      key={item.id}
+                                      onClick={(e) => {
+                                          nagivate(`chinh-sua/${item.id}`, { state: 'EDIT_POST' });
+                                      }}
+                                      toggleModal={() => {
+                                          setToggle(true);
+                                          setAppliedPost(item);
+                                      }}
+                                  />
+                              );
                           })}
                 </div>
             </div>
