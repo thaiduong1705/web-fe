@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
@@ -11,6 +11,7 @@ import { Combobox, Loading, TextEditor } from '~/components';
 import { getCareers, getPositions, getDistricts, getAcademicLevels } from '~/store/action/otherData';
 import { apiCreateCandidate } from '~/services/candidate';
 import { editCandidateData, setEditCandidateDataNull } from '~/store/action/candidate';
+import { apiUploadImagesCompany } from '~/services/image';
 
 const CreateCandidate = ({ isEdit = false }) => {
     const { id } = useParams();
@@ -35,6 +36,8 @@ const CreateCandidate = ({ isEdit = false }) => {
     const [careerList, setCandidateCareer] = useState([]);
     const [candidatePosition, setCandidatePosition] = useState('');
     const [districtList, setCandidateDistrict] = useState([]);
+    const [CVImage, setCVImage] = useState('');
+    const [profileImage, setProfileImage] = useState('');
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -85,6 +88,8 @@ const CreateCandidate = ({ isEdit = false }) => {
                 }
                 return candidateDataEdit?.District.map((c) => c.id);
             });
+            setCVImage(candidateDataEdit?.CVImage || '');
+            setProfileImage(candidateDataEdit?.profileImage || '');
         }
     }, [candidateDataEdit]);
 
@@ -111,8 +116,21 @@ const CreateCandidate = ({ isEdit = false }) => {
         }
     };
 
-    const handleChangeCandidateAge = (birthday) => {
-        setCandidateAge((prev) => birthday);
+    const handleSubmitCVImage = async (e) => {
+        e.stopPropagation();
+        setIsLoading(true);
+        let imageLink;
+        let files = e.target.files;
+        let formData = new FormData();
+        for (let i of files) {
+            formData.append('file', i);
+            formData.append('upload_preset', process.env.REACT_APP_UPLOAD_ASSETS_NAME);
+            let response = await apiUploadImagesCompany(formData);
+            if (response.status === 200) imageLink = response?.data.secure_url;
+        }
+        console.log(imageLink);
+        setIsLoading(false);
+        setCVImage((prev) => imageLink);
     };
 
     const [candidateData, setCandidateData] = useState(null);
@@ -474,9 +492,46 @@ const CreateCandidate = ({ isEdit = false }) => {
                     </div>
                 </div>
 
-                <div className="mb-[8px] px-[8px]">
-                    <input type="file" className="w-full" />
+                <div className="mb-[8px] px-[8px] flex items-center justify-center">
+                    <label
+                        className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md hover:cursor-pointer"
+                        htmlFor="file"
+                    >
+                        {isLoading ? (
+                            <Loading />
+                        ) : (
+                            <div className="flex flex-col items-center justify-center ">
+                                <FontAwesomeIcon icon={faCamera} />
+                                Thêm ảnh của công ty
+                            </div>
+                        )}
+                    </label>
+                    <input hidden type="file" id="file" onChange={handleSubmitCVImage} />
+                    <div className="w-full">
+                        <h3 className="font-medium py-4">Ảnh đã chọn</h3>
+                        <div className="flex gap-4 items-center">
+                            {/* {imagesPreview?.map((item) => {
+                                return (
+                                    <div key={item} className="relative w-1/3 h-1/3 ">
+                                        <img
+                                            src={item}
+                                            alt="preview"
+                                            className="w-full h-full object-cover rounded-md"
+                                        />
+                                        <span
+                                            title="Xóa"
+                                            onClick={() => handleDeleteImage(item)}
+                                            className="absolute top-0 right-0 p-2 cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-full"
+                                        >
+                                            <ImBin />
+                                        </span>
+                                    </div>
+                                );
+                            })} */}
+                        </div>
+                    </div>
                 </div>
+
                 <div className="flex justify-end px-[8px]">
                     <input
                         className="bg-blue-600 py-[8px] px-[16px] text-white hover:bg-blue-400 rounded-[4px] mx-[12px]"

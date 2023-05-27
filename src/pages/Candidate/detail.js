@@ -116,9 +116,6 @@ const DetailCandidate = () => {
                     >
                         Chỉnh sửa
                     </button>
-                    <button className="bg-red-500 text-white rounded-[8px] border-transparent border-1 flex items-center justify-center p-[8px] hover:opacity-80 w-[60px]">
-                        Ẩn
-                    </button>
                 </div>
             </div>
         </div>
