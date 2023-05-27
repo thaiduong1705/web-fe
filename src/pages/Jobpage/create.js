@@ -36,7 +36,7 @@ const CreatePost = ({ isEdit = false }) => {
     const [jobDescribe, setJobDescribe] = useState('');
     const [benefits, setBenefits] = useState('');
     const [jobRequirement, setJobRequirement] = useState('');
-    const [career, setCareer] = useState([]);
+    const [Career, setCareer] = useState([]);
     const [district, setDistrict] = useState([]);
     const [companyId, setCompany] = useState('');
     const [positionId, setPosition] = useState('');
@@ -166,10 +166,10 @@ const CreatePost = ({ isEdit = false }) => {
             jobDescribe: jobDescribe,
             jobRequirement: jobRequirement,
             benefits: benefits,
-            careerNewList: career,
-            districtNewList: district,
-            oldDistrictList: oldDistrictList,
-            oldCareerList: oldCareerList,
+            careerList: Career,
+            districtList: district,
+            districtOldList: oldDistrictList,
+            careerOldList: oldCareerList,
         };
 
         console.log(ValidData);
@@ -179,7 +179,7 @@ const CreatePost = ({ isEdit = false }) => {
                 if (isEdit && postDataEdit) {
                     const response = await apiUpdatePost(ValidData);
                     if (response?.data?.err === 0) {
-                        Swal.fire('Đã tạo thành công', '', 'success').then(() => {
+                        Swal.fire('Đã sửa dữ liệu thành công', '', 'success').then(() => {
                             navigate(-1);
                         });
                     } else if (!response || response?.data?.err !== 0) {

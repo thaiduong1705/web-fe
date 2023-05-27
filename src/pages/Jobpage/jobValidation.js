@@ -21,28 +21,3 @@ export const jobSchema = yup.object().shape({
     careerList: yup.array().min(1, 'Có ít nhất 1 ngành nghề được chọn'),
     districtList: yup.array().min(1, 'Có ít nhất 1 khu vực được chọn'),
 });
-
-// console.log({
-//     id: postDataEdit?.id,
-//     jobTitle: jobName,
-//     needNumber,
-//     companyId: companyId,
-//     positionId: positionId,
-//     workingTypeId: workingTypeId,
-//     academicLevelId: academicLevelId,
-//     endDate,
-//     gender,
-//     workingAddress: address,
-//     experienceYear: expYear,
-//     ageMin,
-//     ageMax,
-//     salaryMin: salary[0] / 1000000,
-//     salaryMax: salary[1] / 1000000,
-//     jobDescribe,
-//     jobRequirement,
-//     benefits,
-//     careerNewList: career,
-//     districtNewList: district,
-//     oldDistrictList,
-//     oldCareerList,
-// });

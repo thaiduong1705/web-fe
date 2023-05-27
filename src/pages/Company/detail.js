@@ -38,17 +38,17 @@ const DetailCompany = () => {
         }
     }, [detailCompany]);
     return (
-        <div>
+        <div className="bg-[#F3F3F6]">
             <div className="mt-[20px] mb-[12px]">
                 <div className="w-full">
-                    <div className="h-[268px] overflow-hidden">
+                    <div className="h-[268px] overflow-hidden mx-[24px]">
                         <img
                             src="https://th.bing.com/th/id/R.1a1327c422ca5f362b20a7aa976c8819?rik=wjtTFl%2bT7wCs0A&pid=ImgRaw&r=0"
                             alt=""
                             className="h-full w-full object-cover"
                         />
                     </div>
-                    <div className="flex bg-white relative px-[24px] pt-[12px]">
+                    <div className="flex bg-white relative px-[24px] pt-[12px] mx-[24px]">
                         <div className="h-[80px] mr-[24px] w-[140px]">
                             <div className="border-4 border-white border-solid absolute top-[-100px] bg-white rounded w-[140px] h-[140px]">
                                 <img
@@ -64,16 +64,16 @@ const DetailCompany = () => {
                     </div>
                 </div>
             </div>
-            <div className="my-[20px] grid grid-cols-12 gap-[16px]">
+            <div className="my-[20px] mx-[24px] grid grid-cols-12 gap-[16px]">
                 <div className="col-span-8 flex flex-col gap-[32px]">
-                    <div className="shadow-lg px-[32px] py-[20px]">
-                        <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">
+                    <div className="px-[32px] pt-[20px] pb-[40px] rounded-[12px] bg-white">
+                        <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px] ">
                             Giới thiệu công ty
                         </p>
                         <div className="list-disc">{parse(`${detailCompany?.introduction}`) || 'Chưa cập nhật'}</div>
                     </div>
 
-                    <div className="shadow-lg px-[32px] py-[20px]">
+                    <div className="px-[32px] py-[20px] bg-white rounded-[12px]">
                         <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">
                             Đang tuyển dụng
                         </p>
@@ -86,7 +86,7 @@ const DetailCompany = () => {
                         </div>
                     </div>
 
-                    <div className="shadow-lg px-[32px] py-[20px]">
+                    <div className="shadow-lg px-[32px] py-[20px] bg-white rounded-[12px]">
                         <p className="text-[24px]">
                             <FontAwesomeIcon icon={faPlus} className="mr-[8px]" />
                             Công ty có cùng ngành nghề
@@ -100,7 +100,7 @@ const DetailCompany = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-span-4">
+                <div className="col-span-4 bg-white">
                     <div className="px-[32px] py-[20px] shadow-lg ">
                         <div className=" mb-[12px] flex items-center text-[20px]">
                             <FontAwesomeIcon icon={faSuitcase} className="mr-[8px] p-[8px] bg-orange-300 text-white" />

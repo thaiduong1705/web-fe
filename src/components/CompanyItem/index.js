@@ -8,7 +8,7 @@ const CompanyItem = ({ item, onClick }) => {
     const [mouseEnter, setMouseEnter] = useState(null);
     return (
         <Link
-            className="overflow-hidden flex bg-[#f1f3f5] rounded-[8px] relative my-4 border-1 border-transparent hover:cursor-pointer hover:bg-[#E6F5FE] hover:border-blue-500 hover:transition-all"
+            className="overflow-hidden flex bg-[#f1f3f5] rounded-[8px] relative my-7 border-1 border-transparent hover:cursor-pointer hover:bg-[#E6F5FE] hover:border-blue-500 hover:transition-all"
             onMouseEnter={() => setMouseEnter(true)}
             onMouseLeave={() => setMouseEnter(false)}
             to={`/nha-tuyen-dung/chi-tiet/${sanitizeVietnameseString(item.companyName).replaceAll('/', '')}/${item.id}`}
@@ -46,7 +46,7 @@ const CompanyItem = ({ item, onClick }) => {
                         )}
                     </Link>
                     <div className="flex items-center mb-[4px]">
-                        <FontAwesomeIcon icon={faSuitcase} className="mr-[4px] w-[22px] h-[22px] text-[#2A80B9]" />
+                        <FontAwesomeIcon icon={faSuitcase} className="mr-[6px] w-[22px] h-[22px] text-blue-500" />
                         {item.Career.map((cc, index) => {
                             return (
                                 <span className="text-[14px] mr-[8px]" key={index}>
@@ -56,14 +56,14 @@ const CompanyItem = ({ item, onClick }) => {
                         })}
                     </div>
                     <div className="flex items-center">
-                        <FontAwesomeIcon icon={faLocationDot} className="mr-[4px] w-[22px] h-[22px] text-[#2A80B9]" />
-                        <span className="text-[14px] text-[#999999]"> {item.address} </span>
+                        <FontAwesomeIcon icon={faLocationDot} className="mr-[6px] w-[22px] h-[22px] text-blue-500" />
+                        <span className="text-[14px] text-[#999999] line-clamp-1"> {item.address} </span>
                     </div>
                 </div>
                 <div className="min-w-[185px] flex flex-col justify-between ">
                     <span className="justify-center font-medium">Đang tuyển {item.Posts.length} công việc</span>
                     <div>
-                        <button className="text-blue-400 underline" onClick={onClick}>
+                        <button className="text-blue-400 underline hover:text-blue-600" onClick={onClick}>
                             Chỉnh sửa
                         </button>
                     </div>
