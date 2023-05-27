@@ -1,6 +1,6 @@
 import {} from '@mui/material';
 import React from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 const Jobpage = () => {
     return (
