@@ -7,11 +7,10 @@ import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
 const CompanyItem = ({ item, onClick }) => {
     const [mouseEnter, setMouseEnter] = useState(null);
     return (
-        <Link
+        <div
             className="overflow-hidden flex bg-[#f1f3f5] rounded-[8px] relative my-7 border-1 border-transparent hover:cursor-pointer hover:bg-[#E6F5FE] hover:border-blue-500 hover:transition-all"
             onMouseEnter={() => setMouseEnter(true)}
             onMouseLeave={() => setMouseEnter(false)}
-            to={`/nha-tuyen-dung/chi-tiet/${sanitizeVietnameseString(item.companyName).replaceAll('/', '')}/${item.id}`}
         >
             <div className="w-[120px] h-[120px] flex items-center justify-center bg-white rounded-l">
                 <Link
@@ -69,7 +68,7 @@ const CompanyItem = ({ item, onClick }) => {
                     </div>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 };
 

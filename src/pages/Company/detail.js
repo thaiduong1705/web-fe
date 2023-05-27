@@ -20,7 +20,7 @@ const DetailCompany = () => {
         return () => {
             dispatch(setDetailCompanyNull());
         };
-    }, []);
+    }, [id]);
     useEffect(() => {
         if (detailCompany) {
             let careerIds = [];
@@ -45,12 +45,12 @@ const DetailCompany = () => {
                         <img
                             src="https://th.bing.com/th/id/R.1a1327c422ca5f362b20a7aa976c8819?rik=wjtTFl%2bT7wCs0A&pid=ImgRaw&r=0"
                             alt=""
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-cover items-center jus"
                         />
                     </div>
                     <div className="flex bg-white relative px-[24px] pt-[12px] mx-[24px]">
                         <div className="h-[80px] mr-[24px] w-[140px]">
-                            <div className="border-4 border-white border-solid absolute top-[-100px] bg-white rounded w-[140px] h-[140px]">
+                            <div className="flex border-4 border-white border-solid absolute top-[-100px] bg-white rounded w-[140px] h-[140px] items-center justify-center">
                                 <img
                                     src={detailCompany?.imageLink}
                                     alt={detailCompany?.companyName}
@@ -100,8 +100,8 @@ const DetailCompany = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-span-4 bg-white">
-                    <div className="px-[32px] py-[20px] shadow-lg ">
+                <div className="col-span-4">
+                    <div className="px-[32px] py-[20px] bg-white rounded-[12px]">
                         <div className=" mb-[12px] flex items-center text-[20px]">
                             <FontAwesomeIcon icon={faSuitcase} className="mr-[8px] p-[8px] bg-orange-300 text-white" />
                             <span className="font-medium">Thông tin công ty</span>

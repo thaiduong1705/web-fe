@@ -20,7 +20,7 @@ const DetailCandidate = () => {
         return () => {
             dispatch(setDetailCandidateNull());
         };
-    }, []);
+    }, [id]);
     if (!detailCandidate) {
         return (
             <div className="flex justify-center items-center">

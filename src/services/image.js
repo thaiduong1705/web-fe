@@ -6,7 +6,6 @@ export const apiUploadImagesCompany = async (formData) => {
             url: `/api/v1/image/upload-image`,
             data: formData,
         });
-        console.log(response);
         return response;
     } catch (error) {
         console.log(error);
@@ -20,7 +19,6 @@ export const apiRemoveImagesCompany = async (formData) => {
             url: `/api/v1/image/delete-image`,
             data: formData,
         });
-        console.log(response);
         return response;
     } catch (error) {
         console.log(error);
