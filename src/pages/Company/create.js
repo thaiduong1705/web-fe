@@ -153,7 +153,6 @@ const CreateCompany = ({ isEdit }) => {
     const handleFiles = async (e) => {
         e.stopPropagation();
         setIsLoading(true);
-        let imageLink;
         let files = e.target.files;
         // let formData = new FormData();
         const formData = new FormData();

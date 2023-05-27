@@ -26,10 +26,11 @@ import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
 import { Combobox, JobItem } from '~/components';
 import convertDatetime from '~/utils/convertDate';
 import { apiGetPostsFromCareer } from '~/services/career';
-import { apiGetRelatedPost } from '~/services/post';
+import { apiGetRelatedPost, apiSoftDeletePost } from '~/services/post';
 import ApplyModal from '~/components/ApplyModal';
+import Swal from 'sweetalert2';
 const DetailPage = () => {
-    const nagivate = useNavigate();
+    const navigate = useNavigate();
     const { id } = useParams();
 
     const { detailPost } = useSelector((state) => state.post);
@@ -49,6 +50,7 @@ const DetailPage = () => {
                     const id = career.id;
                     careerIds.push(id);
                 }
+                console.log(careerIds);
                 const response = await apiGetRelatedPost(detailPost.id, careerIds);
                 if (response?.data.err === 0) {
                     setCareerRelatedPosts((prev) => [...response.data.res]);
@@ -118,11 +120,49 @@ const DetailPage = () => {
                         </div>
                     </div>
                     <div className="flex flex-col justify-start w-[50%] pt-5 items-end">
-                        <button className="bg-red-500 hover:bg-red-600 text-white rounded-[4px] px-[8px] py-[8px] mb-5 w-[20%] ">
+                        <button
+                            className="bg-red-500 hover:bg-red-600 text-white rounded-[4px] px-[8px] py-[8px] mb-5 w-[20%]"
+                            onClick={(e) => {
+                                setToggle(true);
+                                setAppliedPost(detailPost);
+                            }}
+                        >
                             Ứng tuyển ngay
                         </button>
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-[4px] px-[8px] py-[8px] w-[20%]">
+                        <button
+                            className="bg-blue-500 hover:bg-blue-600 text-white rounded-[4px] px-[8px] py-[8px] mb-5 w-[20%]"
+                            onClick={(e) => {
+                                navigate(`/viec-lam/chinh-sua/${detailPost.id}`, { state: 'EDIT_POST' });
+                            }}
+                        >
                             Chỉnh sửa
+                        </button>
+                        <button
+                            className="bg-gray-500 hover:bg-gray-600 text-white rounded-[4px] px-[8px] py-[8px] w-[20%]"
+                            onClick={async (e) => {
+                                const result = await Swal.fire({
+                                    icon: 'question',
+                                    title: 'Xác nhận',
+                                    text: 'Bạn có chắc muốn xoá bài tuyển dụng này?',
+                                    showCancelButton: true,
+                                    cancelButtonText: 'Huỷ bỏ',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Đồng ý',
+                                });
+                                if (result.isConfirmed) {
+                                    const response = await apiSoftDeletePost(detailPost.id);
+                                    if (response.data.err === 0) {
+                                        await Swal.fire({
+                                            icon: 'success',
+                                            title: 'Đã xoá thành công',
+                                            text: '',
+                                        });
+                                        navigate(-1);
+                                    }
+                                }
+                            }}
+                        >
+                            Xoá
                         </button>
                         {/* <div className="flex gap-[5px] item-center no-underline flex-wrap">
                             <FontAwesomeIcon icon={faCoins} className="text-[#236997] text-[20px]" />
@@ -326,7 +366,7 @@ const DetailPage = () => {
                                       job={item}
                                       key={item.id}
                                       onClick={(e) => {
-                                          nagivate(`chinh-sua/${item.id}`, { state: 'EDIT_POST' });
+                                          navigate(`/viec-lam/chinh-sua/${item.id}`, { state: 'EDIT_POST' });
                                       }}
                                       toggleModal={() => {
                                           setToggle(true);
@@ -337,7 +377,7 @@ const DetailPage = () => {
                           })}
                 </div>
             </div>
-            <ApplyModal open={toggle} closeModal={() => setToggle(false)} post={detailPost} />
+            <ApplyModal open={toggle} closeModal={() => setToggle(false)} post={appliedPost} />
         </div>
     );
 };

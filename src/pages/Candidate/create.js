@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
@@ -8,14 +8,12 @@ import swal from 'sweetalert';
 
 import { candidateSchema } from './candidateValidation';
 import { Combobox, Loading, TextEditor } from '~/components';
-import { getCareers, getPositions, getDistricts, getAcademicLevels } from '~/store/action/otherData';
 import { apiCreateCandidate } from '~/services/candidate';
 import { editCandidateData, setEditCandidateDataNull } from '~/store/action/candidate';
-import { apiUploadImagesCompany } from '~/services/image';
+import { apiRemoveImagesCompany, apiUploadImagesCompany } from '~/services/image';
 
 const CreateCandidate = ({ isEdit = false }) => {
     const { id } = useParams();
-    const currentYear = new Date().getFullYear();
     const academicLevelData = useSelector((state) => state.otherData.academicLevels);
     const careerListData = useSelector((state) => state.otherData.careers);
     const positionListData = useSelector((state) => state.otherData.positions);
@@ -49,21 +47,26 @@ const CreateCandidate = ({ isEdit = false }) => {
         };
     }, []);
     //Đợi load ảnh
-    const [isLoading, setIsLoading] = useState(false);
+    const [isCVLoading, setIsCVLoading] = useState(false);
+    const [isProfileLoading, setIsProfileLoading] = useState(false);
 
     //Edit
     const [careerOldList, setCareerOldList] = useState(null);
     const [districtOldList, setDistrictOldList] = useState(null);
 
     useEffect(() => {
+        console.log(candidateDataEdit);
         if (candidateDataEdit) {
             setCandidateName(candidateDataEdit.candidateName || '');
-            setCandidateAge(candidateDataEdit.candidateName || 0);
+            setCandidateAge(candidateDataEdit.age || 0);
             setCandidateCivilId(candidateDataEdit.candidateCivilId || '');
-            setCandidateGender(candidateDataEdit.sex || 2);
-            setExperienceYear(candidateDataEdit.experienceYear || 0);
-            setCandidateAcademicLevels(candidateDataEdit.academicLevelId || '');
-            setCandidatePosition(candidateDataEdit.positionId || '');
+            setCandidateAddress(candidateDataEdit?.homeAddress || '');
+            setCandidatePhonenumber(candidateDataEdit?.phoneNumber || '');
+            setCandidateEmail(candidateDataEdit?.email || '');
+            setCandidateGender(candidateDataEdit?.gender || 2);
+            setExperienceYear(candidateDataEdit?.experienceYear || 0);
+            setCandidateAcademicLevels(candidateDataEdit?.academicLevelId || '');
+            setCandidatePosition(candidateDataEdit?.positionId || '');
             setCareerOldList((prev) => {
                 if (candidateDataEdit?.Career.length === 0) {
                     return [];
@@ -90,15 +93,15 @@ const CreateCandidate = ({ isEdit = false }) => {
             });
             setCVImage(candidateDataEdit?.CVImage || '');
             setProfileImage(candidateDataEdit?.profileImage || '');
+            console.log(careerOldList, districtOldList);
         }
     }, [candidateDataEdit]);
 
     const handleChangeCareer = (career) => {
-        console.log(career);
-        setCandidateCareer((careerList) => []);
-        career.map((data, index) => {
-            setCandidateCareer((careerList) => [...careerList, data.id]);
+        const newCareerId = career.map((data, index) => {
+            return data.id;
         });
+        setCandidateCareer(newCareerId);
     };
 
     const handleChangeDistrictList = (district) => {
@@ -116,21 +119,57 @@ const CreateCandidate = ({ isEdit = false }) => {
         }
     };
 
-    const handleSubmitCVImage = async (e) => {
+    const handleUploadCVImage = async (e) => {
         e.stopPropagation();
-        setIsLoading(true);
-        let imageLink;
+
         let files = e.target.files;
-        let formData = new FormData();
-        for (let i of files) {
-            formData.append('file', i);
-            formData.append('upload_preset', process.env.REACT_APP_UPLOAD_ASSETS_NAME);
-            let response = await apiUploadImagesCompany(formData);
-            if (response.status === 200) imageLink = response?.data.secure_url;
+        console.log(files);
+        if (files.length !== 0) {
+            setIsCVLoading(true);
+            // let formData = new FormData();
+            const formData = new FormData();
+            formData.append('image', files[0]);
+            const response = await apiUploadImagesCompany(formData);
+            if (response.status === 200 && response.data.err === 0) {
+                setCVImage(response?.data.res.secure_url);
+            }
+            setIsCVLoading(false);
         }
-        console.log(imageLink);
-        setIsLoading(false);
-        setCVImage((prev) => imageLink);
+    };
+
+    const handleUploadProfileImage = async (e) => {
+        e.stopPropagation();
+
+        let files = e.target.files;
+        if (files.length !== 0) {
+            setIsProfileLoading(true);
+            // let formData = new FormData();
+            const formData = new FormData();
+            formData.append('image', files[0]);
+            const response = await apiUploadImagesCompany(formData);
+            if (response.status === 200 && response.data.err === 0) {
+                setProfileImage(response?.data.res.secure_url);
+            }
+            setIsProfileLoading(false);
+        }
+    };
+
+    const handleDeleteCVImage = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const response = await apiRemoveImagesCompany({ imageLink: CVImage });
+        if (response.status === 200 && response.data.err === 0) {
+            setCVImage('');
+        }
+    };
+
+    const handleDeleteProfileImage = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const response = await apiRemoveImagesCompany({ imageLink: profileImage });
+        if (response.status === 200 && response.data.err === 0) {
+            setProfileImage('');
+        }
     };
 
     const [candidateData, setCandidateData] = useState(null);
@@ -153,7 +192,6 @@ const CreateCandidate = ({ isEdit = false }) => {
             candidatePosition: candidatePosition,
             districtList: districtList,
         };
-        console.log(ValidData);
         const isValid_temp = await candidateSchema.isValid(ValidData).then((valid) => {
             if (valid === true) {
                 if (!isEdit) {
@@ -170,6 +208,8 @@ const CreateCandidate = ({ isEdit = false }) => {
                         experienceYear: experienceYear,
                         candidatePosition: candidatePosition,
                         districtList: districtList,
+                        CVImage,
+                        profileImage,
                     });
                 } else {
                     setEditData({
@@ -186,6 +226,8 @@ const CreateCandidate = ({ isEdit = false }) => {
                         experienceYear: experienceYear,
                         candidatePosition: candidatePosition,
                         districtList: districtList,
+                        CVImage,
+                        profileImage,
                     });
                 }
             } else {
@@ -198,17 +240,18 @@ const CreateCandidate = ({ isEdit = false }) => {
                 }
             }
         });
-        console.log(isValid_temp);
     };
 
     useEffect(() => {
         if (candidateData) {
-            console.log('do');
+            console.log(candidateData);
             apiCreateCandidate(candidateData).then((response) => {
                 if (response.data.err === 0) {
                     swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success').then(() => {
                         navigate(-1);
                     });
+                } else if (response.data.err === 3) {
+                    swal('Lỗi!', response.data.msg, 'error');
                 } else {
                     swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');
                 }
@@ -223,8 +266,10 @@ const CreateCandidate = ({ isEdit = false }) => {
                     swal('Hoàn thành!', 'Dữ liệu đã được chỉnh sửa thành công!', 'success').then(() => {
                         navigate(-1);
                     });
+                } else if (response.data.err === 3) {
+                    swal('Lỗi!', response.data.msg, 'error');
                 } else {
-                    swal('Lỗi server!', 'Dữ liệu không được nạp thành công!', 'error');
+                    swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');
                 }
             });
         }
@@ -268,11 +313,11 @@ const CreateCandidate = ({ isEdit = false }) => {
                                 className="w-full h-[40px]"
                                 title="Giới tính"
                                 items={[
-                                    { id: 1, value: 'Nam' },
-                                    { id: 2, value: 'Nữ' },
+                                    { id: 0, value: 'Nam' },
+                                    { id: 1, value: 'Nữ' },
                                 ]}
                                 onChange={(e) => handleChangeCandidateGender(e)}
-                                initialValue={isEdit && gender !== 2 ? gender : null}
+                                initialValue={isEdit && gender !== 2 ? +gender : null}
                             />
                         )}
                         {!isEdit && (
@@ -280,8 +325,8 @@ const CreateCandidate = ({ isEdit = false }) => {
                                 className="w-full h-[40px]"
                                 title="Giới tính"
                                 items={[
-                                    { id: 1, value: 'Nam' },
-                                    { id: 2, value: 'Nữ' },
+                                    { id: 0, value: 'Nam' },
+                                    { id: 1, value: 'Nữ' },
                                 ]}
                                 onChange={(e) => handleChangeCandidateGender(e)}
                                 needTilte={true}
@@ -461,13 +506,13 @@ const CreateCandidate = ({ isEdit = false }) => {
 
                         {isEdit && districtOldList && (
                             <Combobox
-                                title="Ngành nghề"
+                                title="Khu vực làm việc"
                                 className="h-[40px]"
                                 isMulti
                                 isSearchable
                                 items={[
-                                    ...careerListData.map((obj) => {
-                                        return { id: obj.id, value: obj.careerName };
+                                    ...districtListData.map((obj) => {
+                                        return { id: obj.id, value: obj.districtName };
                                     }),
                                 ]}
                                 onChange={(e) => {
@@ -485,50 +530,93 @@ const CreateCandidate = ({ isEdit = false }) => {
                                 items={districtListData.map((obj) => {
                                     return { id: obj.id, value: obj.districtName };
                                 })}
-                                onChange={() => handleChangeDistrictList}
+                                onChange={(e) => {
+                                    handleChangeDistrictList(e);
+                                }}
                                 needTilte={true}
                             />
                         )}
                     </div>
                 </div>
 
-                <div className="mb-[8px] px-[8px] flex items-center justify-center">
-                    <label
-                        className="w-full border-2 h-[200px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md hover:cursor-pointer"
-                        htmlFor="file"
-                    >
-                        {isLoading ? (
-                            <Loading />
-                        ) : (
-                            <div className="flex flex-col items-center justify-center ">
-                                <FontAwesomeIcon icon={faCamera} />
-                                Thêm ảnh của công ty
-                            </div>
-                        )}
-                    </label>
-                    <input hidden type="file" id="file" onChange={handleSubmitCVImage} />
-                    <div className="w-full">
-                        <h3 className="font-medium py-4">Ảnh đã chọn</h3>
-                        <div className="flex gap-4 items-center">
-                            {/* {imagesPreview?.map((item) => {
-                                return (
-                                    <div key={item} className="relative w-1/3 h-1/3 ">
-                                        <img
-                                            src={item}
-                                            alt="preview"
-                                            className="w-full h-full object-cover rounded-md"
-                                        />
-                                        <span
-                                            title="Xóa"
-                                            onClick={() => handleDeleteImage(item)}
-                                            className="absolute top-0 right-0 p-2 cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-full"
-                                        >
-                                            <ImBin />
-                                        </span>
-                                    </div>
-                                );
-                            })} */}
-                        </div>
+                <div className="mb-[8px] px-[8px] flex items-center justify-start gap-[16px]">
+                    <div>
+                        <label
+                            className="w-[250px] border-2 h-[250px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md hover:cursor-pointer"
+                            htmlFor="file"
+                        >
+                            {isCVLoading ? (
+                                <Loading />
+                            ) : (
+                                <>
+                                    {!CVImage ? (
+                                        <>
+                                            <FontAwesomeIcon icon={faCamera} />
+                                            <span>Thêm ảnh CV</span>
+                                        </>
+                                    ) : (
+                                        <div className="relative w-full h-full">
+                                            {CVImage && (
+                                                <>
+                                                    <img
+                                                        src={CVImage}
+                                                        alt="preview"
+                                                        className="h-full object-contain rounded-md"
+                                                    />
+                                                    <button
+                                                        title="Xóa"
+                                                        onClick={(e) => handleDeleteCVImage(e)}
+                                                        className="absolute top-0 right-0 p-2 cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-full w-[30px] h-[30px] flex justify-center items-center"
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrash} />
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </label>
+                        <input hidden type="file" id="file" onChange={handleUploadCVImage} accept="image/*" />
+                    </div>
+                    <div>
+                        <label
+                            className="w-[250px] border-2 h-[250px] my-4 gap-4 flex flex-col items-center justify-center border-gray-400 border-dashed rounded-md hover:cursor-pointer"
+                            htmlFor="file1"
+                        >
+                            {isProfileLoading ? (
+                                <Loading />
+                            ) : (
+                                <>
+                                    {!profileImage ? (
+                                        <>
+                                            <FontAwesomeIcon icon={faCamera} />
+                                            <span>Thêm ảnh chân dung ứng viên</span>
+                                        </>
+                                    ) : (
+                                        <div className="relative w-full h-full">
+                                            {profileImage && (
+                                                <>
+                                                    <img
+                                                        src={profileImage}
+                                                        alt="preview"
+                                                        className="h-full object-contain rounded-md"
+                                                    />
+                                                    <button
+                                                        title="Xóa"
+                                                        onClick={(e) => handleDeleteProfileImage(e)}
+                                                        className="absolute top-0 right-0 p-2 cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-full w-[30px] h-[30px] flex justify-center items-center"
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrash} />
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </label>
+                        <input hidden type="file" id="file1" onChange={handleUploadProfileImage} accept="image/*" />
                     </div>
                 </div>
 
