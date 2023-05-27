@@ -68,7 +68,7 @@ const JobItem = ({ job = {}, onClick, toggleModal }) => {
                     </div>
                 </div>
 
-                <div className="min-w-[200px] flex flex-col justify-between items-end">
+                <div className="min-w-[290px] flex flex-col justify-between items-end">
                     <span className="text-red-500 font-medium">
                         {job?.salaryMin !== 0 && `${job?.salaryMin} triệu `}
                         {job?.salaryMax !== 999 && job?.salaryMax !== 0 && ' - '}
@@ -78,11 +78,14 @@ const JobItem = ({ job = {}, onClick, toggleModal }) => {
                         <button className="text-blue-400 hover:text-blue-600 underline" onClick={onClick}>
                             Chỉnh sửa
                         </button>
+                        <button className="bg-blue-500 hover:bg-blue-600 w-[80px] text-white rounded-[8px] px-[8px] py-[6px]">
+                            Ẩn
+                        </button>
                         <button
                             className="bg-red-500 hover:bg-red-600 text-white rounded-[8px] px-[8px] py-[6px]"
                             onClick={toggleModal}
                         >
-                            ỨNG TRUYỂN
+                            Ứng tuyển
                         </button>
                     </div>
                 </div>
