@@ -19,27 +19,27 @@ export const Exp = [
         value: 'Tất cả kinh nghiệm',
     },
     {
-        data: 1,
+        data: 0,
         value: 'Dưới 1 năm',
     },
     {
-        data: 2,
+        data: 1,
         value: '1 năm',
     },
     {
-        data: 3,
+        data: 2,
         value: '2 năm',
     },
     {
-        data: 4,
+        data: 3,
         value: '3 năm',
     },
     {
-        data: 5,
+        data: 4,
         value: '4 năm',
     },
     {
-        data: 999,
+        data: 5,
         value: 'Trên 5 năm',
     },
 ];

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Experimental_CssVarsProvider } from '@mui/material';
 import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
 
-const JobItem = ({ job = {}, onClick }) => {
+const JobItem = ({ job = {}, onClick, toggleModal }) => {
     const [mouseEnter, setMouseEnter] = useState(null);
     return (
         <Link
@@ -71,7 +71,9 @@ const JobItem = ({ job = {}, onClick }) => {
                         <button className="text-blue-400 underline" onClick={onClick}>
                             Chỉnh sửa
                         </button>
-                        <button className="bg-red-500 text-white rounded-[8px] px-[8px] py-[6px]">ỨNG TRUYỂN</button>
+                        <button className="bg-red-500 text-white rounded-[8px] px-[8px] py-[6px]" onClick={toggleModal}>
+                            ỨNG TRUYỂN
+                        </button>
                     </div>
                 </div>
             </div>

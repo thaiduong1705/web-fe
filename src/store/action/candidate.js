@@ -7,7 +7,7 @@ export const getCandidates = () => async (dispatch) => {
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_CANDIDATES,
-                candidates: response?.data.res,
+                allCandidates: response?.data.res,
             });
         } else {
             dispatch({
@@ -18,7 +18,7 @@ export const getCandidates = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: actionType.GET_CANDIDATES,
-            companies: null,
+            allCandidates: null,
         });
     }
 };
@@ -109,4 +109,9 @@ export const editCandidateData = (id) => async (dispatch) => {
 export const setEditCandidateDataNull = () => ({
     type: actionType.SET_CANDIDATE_EDIT_NULL,
     companyDataEdit: null,
+});
+
+export const setAllCandidatesNull = () => ({
+    type: actionType.SET_ALL_CANDIDATES_NULL,
+    allCandidates: [],
 });

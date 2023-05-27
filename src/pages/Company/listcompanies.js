@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Combobox, CompanyItem } from '~/components';
+import { Combobox, CompanyItem, Loading } from '~/components';
 import { Link, createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,6 +13,8 @@ const ListCompanies = () => {
     const { careers, districts } = useSelector((state) => state.otherData);
     const [selectedCareer, setSelectedCareer] = useState('');
     const [searchName, setSearchName] = useState('');
+
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const [pageCount, setPageCount] = useState(0);
     let companyPerPage = 10;
@@ -29,11 +31,11 @@ const ListCompanies = () => {
 
     useEffect(() => {
         setPageCount((prev) => Math.ceil(count / companyPerPage));
+        setIsLoaded(true);
     }, [count]);
 
     const handlePageClick = (data) => {
         let currentPage = data.selected + 1;
-        console.log(selectedCareer);
         dispatch(
             getCompanyLimit({
                 page: currentPage,
@@ -51,6 +53,14 @@ const ListCompanies = () => {
             }),
         );
     };
+
+    if (companies.length === 0 && !isLoaded) {
+        return (
+            <div className="flex justify-center items-center">
+                <Loading />
+            </div>
+        );
+    }
 
     return (
         <div className="">
@@ -104,7 +114,7 @@ const ListCompanies = () => {
 
             <div className="px-[64px]">
                 {companies.length === 0 ? (
-                    'Không có kết quả'
+                    <div className="flex items-center justify-center">'Không có kết quả'</div>
                 ) : (
                     <>
                         {companies.map((company, index) => {

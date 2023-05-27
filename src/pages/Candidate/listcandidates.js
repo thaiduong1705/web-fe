@@ -11,8 +11,10 @@ const ListCandidates = () => {
     const { candidates, count } = useSelector((state) => state.candidate);
     const { academicLevels } = useSelector((state) => state.otherData);
     const [academicLevelId, setAcademicLevelId] = useState('');
-    const [experienceYear, setExperienceYear] = useState('');
-    const [age, setAge] = useState([]);
+    const [experienceYear, setExperienceYear] = useState();
+    const [age, setAge] = useState();
+
+    const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
         dispatch(getCandidateLimit());
         return () => {
@@ -23,14 +25,45 @@ const ListCandidates = () => {
     const [pageCount, setPageCount] = useState(0);
     let companyPerPage = 10;
     useEffect(() => {
-        console.log(candidates);
         setPageCount((prev) => Math.ceil(count / companyPerPage));
+        setIsLoaded(true);
     }, [count, candidates]);
-    const handlePageClick = (data) => {
-        let currentPage = data.selected + 1;
+
+    const handleChangeAge = (age) => {
+        setAge((prev) => age.data);
+    };
+    const handleChangeAL = (value) => {
+        setAcademicLevelId((prev) => value.id);
+    };
+    const handleChangeExp = (value) => {
+        setExperienceYear((prev) => value.data);
     };
 
-    if (candidates.length === 0) {
+    const handlePageClick = (data) => {
+        let currentPage = data.selected + 1;
+        dispatch(
+            getCandidateLimit({
+                page: currentPage,
+            }),
+        );
+    };
+
+    const handleSearch = (e) => {
+        dispatch(
+            getCandidateLimit({
+                academicLevelId,
+                experienceYear,
+                age,
+            }),
+        );
+        console.log({
+            academicLevelId,
+            experienceYear,
+            age,
+        });
+    };
+
+    if (candidates.length === 0 && !isLoaded) {
         return (
             <div className="flex justify-center items-center">
                 <Loading />
@@ -44,14 +77,26 @@ const ListCandidates = () => {
                     <Combobox
                         title="Trình độ học vấn"
                         className="h-[35px] col-span-5"
-                        items={academicLevels.map((obj) => {
-                            return { id: obj.id, value: obj.academicLevelName };
-                        })}
+                        items={[
+                            { id: null, value: 'Tất cả trình độ' },
+                            ...academicLevels.map((obj) => {
+                                return { id: obj.id, value: obj.academicLevelName };
+                            }),
+                        ]}
                         needTilte
+                        onChange={handleChangeAL}
                     />
-                    <Combobox title="Năm kinh nghiệm" className="h-[35px] col-span-2" items={Exp} />
-                    <Combobox title="Tuổi" className="h-[35px] col-span-2" items={Age} />
-                    <button className="cursor-pointer  bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]">
+                    <Combobox
+                        title="Năm kinh nghiệm"
+                        className="h-[35px] col-span-2"
+                        items={Exp}
+                        onChange={handleChangeExp}
+                    />
+                    <Combobox title="Tuổi" className="h-[35px] col-span-2" items={Age} onChange={handleChangeAge} />
+                    <button
+                        className="cursor-pointer bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]"
+                        onClick={handleSearch}
+                    >
                         Tìm kiếm
                     </button>
                 </div>
@@ -71,50 +116,56 @@ const ListCandidates = () => {
                 </div>
             </div>
 
-            <div className="my-[40px] px-[64px]">
-                <table className="table-auto min-w-full text-left text-[14px] font-light">
-                    <thead className="border-b dark:border-neutral-500">
-                        <tr>
-                            <th scope="col" className="px-6 py-4 font-medium w-1/3">
-                                Ứng viên
-                            </th>
-                            <th scope="col" className="px-6 py-4 font-medium">
-                                Kinh nghiệm
-                            </th>
-                            <th scope="col" className="px-6 py-4 font-medium">
-                                Trình độ chuyên môn
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {candidates.map((data, index) => {
-                            return (
-                                <CandidateItem
-                                    item={data}
-                                    key={index}
-                                    onClick={(e) => {
-                                        navigate(`chinh-sua/${data.id}`, { state: 'EDIT_CANDIDATE' });
-                                    }}
-                                />
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                <ReactPaginate
-                    pageCount={pageCount}
-                    previousLabel={'<'}
-                    nextLabel={'>'}
-                    onPageChange={handlePageClick}
-                    breakLabel={'...'}
-                    disabledLinkClassName="text-red"
-                    containerClassName="inline-flex -space-x-px items-center justify-center gap-[8px] w-full"
-                    pageLinkClassName="px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    previousLinkClassName={`block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
-                    nextLinkClassName={`block px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
-                />
-            </div>
+            {candidates.length === 0 ? (
+                <div className="flex justify-center items-center">Không có kết quả</div>
+            ) : (
+                <>
+                    <div className="my-[40px] px-[64px]">
+                        <table className="table-auto min-w-full text-left text-[14px] font-light">
+                            <thead className="border-b dark:border-neutral-500">
+                                <tr>
+                                    <th scope="col" className="px-6 py-4 font-medium w-1/3">
+                                        Ứng viên
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 font-medium">
+                                        Kinh nghiệm
+                                    </th>
+                                    <th scope="col" className="px-6 py-4 font-medium">
+                                        Trình độ chuyên môn
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {candidates.map((data, index) => {
+                                    return (
+                                        <CandidateItem
+                                            item={data}
+                                            key={index}
+                                            onClick={(e) => {
+                                                navigate(`chinh-sua/${data.id}`, { state: 'EDIT_CANDIDATE' });
+                                            }}
+                                        />
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <ReactPaginate
+                            pageCount={pageCount}
+                            previousLabel={'<'}
+                            nextLabel={'>'}
+                            onPageChange={handlePageClick}
+                            breakLabel={'...'}
+                            disabledLinkClassName="text-red"
+                            containerClassName="inline-flex -space-x-px items-center justify-center gap-[8px] w-full"
+                            pageLinkClassName="px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                            previousLinkClassName={`block px-[12px] py-[8px] ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                            nextLinkClassName={`block px-[12px] py-[8px] leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${'hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white'}`}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 };
