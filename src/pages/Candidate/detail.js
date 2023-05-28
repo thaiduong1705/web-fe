@@ -35,7 +35,7 @@ const DetailCandidate = () => {
                 <div className="grid grid-cols-3 gap-[12x] ">
                     <div className="col-start-1 flex w-[100%] h-[160px] border-r-2 border-[#2A80B9]">
                         <img
-                            src="https://static.careerbuilder.vn/themes/cv_tool/images/avatar.jpg"
+                            src={detailCandidate?.profileImage}
                             alt=""
                             className="w-[30%] h-full object-contain border-1 border-solid border-black rounded-[4px]"
                         />
