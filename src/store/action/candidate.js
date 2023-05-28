@@ -28,7 +28,6 @@ export const getCandidateById = (id) => async (dispatch) => {
         const response = await candidateAPI.apiGetCandidate(id);
         console.log(response);
         if (response?.data.err === 0) {
-            console.log('go');
             dispatch({
                 type: actionType.GET_CANDIDATE_BY_ID,
                 detailCandidate: response.data.res,
@@ -90,7 +89,7 @@ export const editCandidateData = (id) => async (dispatch) => {
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_CANDIDATE_EDIT,
-                companyDataEdit: response.data.res,
+                candidateDataEdit: response.data.res,
             });
         } else {
             dispatch({

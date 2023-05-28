@@ -93,6 +93,10 @@ export const publicRoutes = [
                 path: 'chi-tiet/:id',
                 component: DetailCandidate,
             },
+            {
+                path: 'chinh-sua/:id',
+                component: UpdatePost,
+            },
         ],
     },
 ];

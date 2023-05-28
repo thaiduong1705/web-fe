@@ -92,3 +92,16 @@ export const apiApplyPost = async (formData) => {
         console.log(error);
     }
 };
+
+export const apiSoftDeletePost = async (id) => {
+    try {
+        const response = await axiosInstance({
+            method: 'post',
+            url: '/api/v1/post/soft-delete',
+            data: { id },
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+};

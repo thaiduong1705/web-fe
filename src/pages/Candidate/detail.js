@@ -111,7 +111,7 @@ const DetailCandidate = () => {
                     <button
                         className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80"
                         onClick={(e) => {
-                            navigate(`chinh-sua/${detailCandidate.id}`, { state: 'EDIT_CANDIDATE' });
+                            navigate(`/ung-vien/chinh-sua/${detailCandidate.id}`, { state: 'EDIT_CANDIDATE' });
                         }}
                     >
                         Chỉnh sửa
