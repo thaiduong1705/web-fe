@@ -28,7 +28,7 @@ const CreateCandidate = ({ isEdit = false }) => {
     const [candidateCivilId, setCandidateCivilId] = useState('');
     const [email, setCandidateEmail] = useState('');
     const [homeAddress, setCandidateAddress] = useState('');
-    const [gender, setCandidateGender] = useState(true); // true: Nam, false: Nữ
+    const [gender, setCandidateGender] = useState(null); // true: Nam, false: Nữ
     const [experienceYear, setExperienceYear] = useState(0);
     const [academicLevelId, setCandidateAcademicLevels] = useState('');
     const [careerList, setCandidateCareer] = useState([]);
@@ -63,7 +63,8 @@ const CreateCandidate = ({ isEdit = false }) => {
             setCandidateAddress(candidateDataEdit?.homeAddress || '');
             setCandidatePhonenumber(candidateDataEdit?.phoneNumber || '');
             setCandidateEmail(candidateDataEdit?.email || '');
-            setCandidateGender(candidateDataEdit?.gender || 2);
+            setCandidateGender(candidateDataEdit?.gender === null ? 2 : candidateDataEdit.gender);
+            console.log(`${gender};${+gender}`);
             setExperienceYear(candidateDataEdit?.experienceYear || 0);
             setCandidateAcademicLevels(candidateDataEdit?.academicLevelId || '');
             setCandidatePosition(candidateDataEdit?.positionId || '');
@@ -114,7 +115,7 @@ const CreateCandidate = ({ isEdit = false }) => {
     const handleChangeCandidateGender = (gender) => {
         if (gender.value === 'Nam') {
             setCandidateGender((prev) => false);
-        } else if (gender.value === 'Nữ') {
+        } else {
             setCandidateGender((prev) => true);
         }
     };
@@ -192,6 +193,8 @@ const CreateCandidate = ({ isEdit = false }) => {
             experienceYear: event.target[6].value,
             candidatePosition: candidatePosition,
             districtList: districtList,
+            CVImage: CVImage,
+            profileImage: profileImage,
         };
         const isValid_temp = await candidateSchema.isValid(ValidData).then((valid) => {
             if (valid === true) {
@@ -209,8 +212,8 @@ const CreateCandidate = ({ isEdit = false }) => {
                         experienceYear: experienceYear,
                         positionId: candidatePosition,
                         districtList: districtList,
-                        CVImage,
-                        profileImage,
+                        CVImage: CVImage,
+                        profileImage: profileImage,
                     });
                 } else {
                     setEditData({
@@ -229,8 +232,8 @@ const CreateCandidate = ({ isEdit = false }) => {
                         districtNewList: districtList,
                         careerOldList,
                         districtOldList,
-                        CVImage,
-                        profileImage,
+                        CVImage: CVImage,
+                        profileImage: profileImage,
                     });
                 }
             } else {
@@ -319,7 +322,9 @@ const CreateCandidate = ({ isEdit = false }) => {
                                     { id: 0, value: 'Nam' },
                                     { id: 1, value: 'Nữ' },
                                 ]}
-                                onChange={(e) => handleChangeCandidateGender(e)}
+                                onChange={(e) => {
+                                    handleChangeCandidateGender(e);
+                                }}
                                 initialValue={isEdit && gender !== 2 ? +gender : null}
                             />
                         )}

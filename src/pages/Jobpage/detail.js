@@ -42,6 +42,7 @@ const DetailPage = () => {
             dispatch(setDetailPostNull());
         };
     }, [id]);
+    console.log(detailPost?.Candidate);
     useEffect(() => {
         if (detailPost) {
             let careerIds = [];
@@ -119,7 +120,7 @@ const DetailPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-col justify-start w-[50%] pt-5 items-end">
+                    <div className="flex flex-col justify-start w-[50%] items-end">
                         <button
                             className="bg-red-500 hover:bg-red-600 text-white rounded-[4px] px-[8px] py-[8px] mb-5 w-[20%]"
                             onClick={(e) => {
@@ -335,7 +336,7 @@ const DetailPage = () => {
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faLocationDot} />
-                                <span className="font-medium">Địa chỉ:</span>
+                                <span className="font-medium min-w-[20%]">Địa chỉ:</span>
                                 <span>{detailPost?.Company?.address || 'chưa cập nhật'}</span>
                             </div>
                             <div className="flex items-center gap-4">
@@ -357,7 +358,50 @@ const DetailPage = () => {
                                 <p className="text-[16px] underline text-blue-400 hover:cursor-pointer ">Xem thêm</p>
                             </div>
                         </div>
-                        <div></div>
+                        <div>
+                            <table className="table-auto min-w-full text-left text-[14px] font-light">
+                                <thead className="border-b dark:border-neutral-500">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-4 font-medium max-w-[40%]">
+                                            STT
+                                        </th>
+                                        <th scope="col" className="px-6 py-4 font-medium max-w-[60%]">
+                                            Họ tên
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {detailPost?.Candidate?.map((data, index) => {
+                                        return (
+                                            <tr className="border-b dark:border-neutral-500">
+                                                <td className=" px-6 py-4 ">{index + 1}</td>
+                                                <td className="whitespace-nowrap px-6 py-4">
+                                                    <div>
+                                                        <Link to={``} className="uppercase text-[16px] font-medium">
+                                                            {data.candidateName}
+                                                        </Link>
+
+                                                        <div className="flex line-clamp-1">
+                                                            <div className="mr-[4px] max-w-[180px] line-clamp-1">
+                                                                <span className="font-medium">Học vấn: </span>
+                                                                <span className="">
+                                                                    {data.AcademicLevel.academicLevelName}
+                                                                </span>
+                                                            </div>
+                                                            <span>|</span>
+                                                            <div className="ml-[4px] max-w-[180px] line-clamp-1">
+                                                                <span className="font-medium">Cấp bậc: </span>
+                                                                <span className="">{data.Position.positionName}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
