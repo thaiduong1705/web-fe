@@ -8,7 +8,7 @@ import swal from 'sweetalert';
 
 import { candidateSchema } from './candidateValidation';
 import { Combobox, Loading, TextEditor } from '~/components';
-import { apiCreateCandidate } from '~/services/candidate';
+import { apiCreateCandidate, apiUpdateCandidate } from '~/services/candidate';
 import { editCandidateData, setEditCandidateDataNull } from '~/store/action/candidate';
 import { apiRemoveImagesCompany, apiUploadImagesCompany } from '~/services/image';
 
@@ -113,9 +113,9 @@ const CreateCandidate = ({ isEdit = false }) => {
 
     const handleChangeCandidateGender = (gender) => {
         if (gender.value === 'Nam') {
-            setCandidateGender((prev) => true);
-        } else if (gender.value === 'Nữ') {
             setCandidateGender((prev) => false);
+        } else if (gender.value === 'Nữ') {
+            setCandidateGender((prev) => true);
         }
     };
 
@@ -187,6 +187,7 @@ const CreateCandidate = ({ isEdit = false }) => {
             email: event.target[4].value,
             homeAddress: event.target[5].value,
             academicLevelId: academicLevelId,
+            positionId: candidatePosition,
             careerList: careerList,
             experienceYear: event.target[6].value,
             candidatePosition: candidatePosition,
@@ -206,7 +207,7 @@ const CreateCandidate = ({ isEdit = false }) => {
                         academicLevelId: academicLevelId,
                         careerList: careerList,
                         experienceYear: experienceYear,
-                        candidatePosition: candidatePosition,
+                        positionId: candidatePosition,
                         districtList: districtList,
                         CVImage,
                         profileImage,
@@ -222,10 +223,12 @@ const CreateCandidate = ({ isEdit = false }) => {
                         email: email,
                         homeAddress: homeAddress,
                         academicLevelId: academicLevelId,
-                        careerList: careerList,
                         experienceYear: experienceYear,
-                        candidatePosition: candidatePosition,
-                        districtList: districtList,
+                        positionId: candidatePosition,
+                        careerNewList: careerList,
+                        districtNewList: districtList,
+                        careerOldList,
+                        districtOldList,
                         CVImage,
                         profileImage,
                     });
@@ -244,7 +247,6 @@ const CreateCandidate = ({ isEdit = false }) => {
 
     useEffect(() => {
         if (candidateData) {
-            console.log(candidateData);
             apiCreateCandidate(candidateData).then((response) => {
                 if (response.data.err === 0) {
                     swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success').then(() => {
@@ -261,7 +263,8 @@ const CreateCandidate = ({ isEdit = false }) => {
 
     useEffect(() => {
         if (editData) {
-            apiCreateCandidate(editData).then((response) => {
+            console.log(editData);
+            apiUpdateCandidate(editData).then((response) => {
                 if (response.data.err === 0) {
                     swal('Hoàn thành!', 'Dữ liệu đã được chỉnh sửa thành công!', 'success').then(() => {
                         navigate(-1);
@@ -496,7 +499,10 @@ const CreateCandidate = ({ isEdit = false }) => {
                                         return { id: obj.id, value: obj.positionName };
                                     }),
                                 ]}
-                                onChange={(e) => setCandidatePosition(e.id)}
+                                onChange={(e) => {
+                                    setCandidatePosition(e.id);
+                                    console.log(e);
+                                }}
                                 needTilte={true}
                             />
                         )}
