@@ -23,7 +23,7 @@ const CandidateItem = ({ item, onClick }) => {
                     </div>
                 </div>
             </td>
-            <td className=" px-6 py-4 ">{item?.experienceYear} năm</td>
+            <td className="px-6 py-4">{item?.experienceYear} năm</td>
             <td className="px-6 py-4">{item?.AcademicLevel?.academicLevelName}</td>
             <td className="px-6 py-4">
                 <button className="" onClick={onClick}>

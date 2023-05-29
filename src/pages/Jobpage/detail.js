@@ -28,6 +28,7 @@ import convertDatetime from '~/utils/convertDate';
 import { apiGetPostsFromCareer } from '~/services/career';
 import { apiGetRelatedPost, apiSoftDeletePost } from '~/services/post';
 import ApplyModal from '~/components/ApplyModal';
+import CandidatePostModal from '~/components/CandidatePostModal';
 import Swal from 'sweetalert2';
 const DetailPage = () => {
     const navigate = useNavigate();
@@ -42,6 +43,11 @@ const DetailPage = () => {
             dispatch(setDetailPostNull());
         };
     }, [id]);
+
+    useEffect(() => {
+        dispatch(getPostById(id));
+    }, [detailPost.Candidate]);
+
     console.log(detailPost?.Candidate);
     useEffect(() => {
         if (detailPost) {
@@ -62,6 +68,7 @@ const DetailPage = () => {
     }, [detailPost]);
 
     const [toggle, setToggle] = useState(false);
+    const [toggleOnCandidate, setToggleOnCandidate] = useState(false);
     const [appliedPost, setAppliedPost] = useState(null);
 
     return (
@@ -355,7 +362,12 @@ const DetailPage = () => {
                         <div className="mb-5">
                             <div className="flex border-l-[6px] border-blue-500 justify-between items-center">
                                 <p className="font-medium text-[24px] pl-5">Thông tin chung</p>
-                                <p className="text-[16px] underline text-blue-400 hover:cursor-pointer ">Xem thêm</p>
+                                <p
+                                    className="text-[16px] underline text-blue-400 hover:cursor-pointer"
+                                    onClick={(e) => setToggleOnCandidate(true)}
+                                >
+                                    Xem thêm
+                                </p>
                             </div>
                         </div>
                         <div>
@@ -431,6 +443,11 @@ const DetailPage = () => {
                 </div>
             </div>
             <ApplyModal open={toggle} closeModal={() => setToggle(false)} post={appliedPost} />
+            <CandidatePostModal
+                open={toggleOnCandidate}
+                closeModal={() => setToggleOnCandidate(false)}
+                id={id}
+            ></CandidatePostModal>
         </div>
     );
 };
