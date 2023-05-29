@@ -18,6 +18,7 @@ import {
     ListPosts,
 } from '~/pages';
 import UpdatePost from '~/components/UpdatePost';
+import Login from '~/pages/Login';
 
 export const publicRoutes = [
     {
@@ -98,6 +99,12 @@ export const publicRoutes = [
                 component: UpdatePost,
             },
         ],
+    },
+
+    {
+        title: 'Đăng nhập',
+        path: '/dang-nhap',
+        component: Login,
     },
 ];
 export const privateRoutes = [];
