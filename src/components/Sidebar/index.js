@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-import { publicRoutes } from '~/routes';
+import { privateRoutes } from '~/routes';
 import { useStateContext } from '~/contexts/Context';
 
 import styles from './Sidebar.module.css';
@@ -27,7 +27,7 @@ const Sidebar = () => {
                         </Link>
                     </div>
                     <div className="mt-10">
-                        {publicRoutes.map((route, index) => {
+                        {privateRoutes.map((route, index) => {
                             return (
                                 <NavLink
                                     to={route.path}

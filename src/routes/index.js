@@ -1,6 +1,6 @@
 //import { Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaste, faUser, faBuilding } from '@fortawesome/free-solid-svg-icons';
+import { faPaste, faUser, faBuilding, faHome } from '@fortawesome/free-solid-svg-icons';
 
 import {
     CandidatePage,
@@ -22,7 +22,16 @@ import Login from '~/pages/Login';
 
 export const publicRoutes = [
     {
+        title: 'Đăng nhập',
+        path: '/dang-nhap',
+        component: Login,
+    },
+];
+export const privateRoutes = [
+    {
         path: '/',
+        icon: <FontAwesomeIcon icon={faHome} />,
+        title: 'Trang chủ',
         component: Homepage,
     },
 
@@ -100,11 +109,4 @@ export const publicRoutes = [
             },
         ],
     },
-
-    {
-        title: 'Đăng nhập',
-        path: '/dang-nhap',
-        component: Login,
-    },
 ];
-export const privateRoutes = [];
