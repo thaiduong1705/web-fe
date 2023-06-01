@@ -34,6 +34,11 @@ const actionType = {
     GET_DISTRICT: 'GET_DISTRICT',
     GET_POSITION: 'GET_POSITION',
     GET_WORKING_TYPE: 'GET_WORKING_TYPE',
+
+    //Auth
+    LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+    LOGIN_FAIL: 'LOGIN_FAIL',
+    LOGOUT: 'LOGOUT',
 };
 
 export default actionType;

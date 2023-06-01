@@ -40,11 +40,7 @@ function App() {
                                         <Route
                                             key={subIndex}
                                             index={subRoute.path === '' ? true : false}
-                                            element={
-                                                <Layout>
-                                                    <SubPage />
-                                                </Layout>
-                                            }
+                                            element={<SubPage />}
                                             path={subRoute.path}
                                         />
                                     );
@@ -64,6 +60,7 @@ function App() {
                     })}
                 </Route>
                 {publicRoutes.map((route, index) => {
+                    console.log(route);
                     const Page = route.component;
                     return <Route key={index} path={route.path} element={<Page />} />;
                 })}

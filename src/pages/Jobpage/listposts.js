@@ -10,7 +10,7 @@ import { Exp, Gender, Salary, CreatedAt } from '~/data';
 import ApplyModal from '~/components/ApplyModal';
 
 const ListPosts = () => {
-    const nagivate = useNavigate();
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -225,7 +225,7 @@ const ListPosts = () => {
                                         key={data.id}
                                         job={data}
                                         onClick={(e) => {
-                                            nagivate(`chinh-sua/${data.id}`, { state: 'EDIT_POST' });
+                                            navigate(`chinh-sua/${data.id}`, { state: 'EDIT_POST' });
                                         }}
                                         toggleModal={() => {
                                             setToggle(true);

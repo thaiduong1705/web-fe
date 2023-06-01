@@ -180,7 +180,7 @@ const CreatePost = ({ isEdit = false }) => {
                     const response = await apiUpdatePost(ValidData);
                     if (response?.data?.err === 0) {
                         swal('Đã sửa dữ liệu thành công', '', 'success').then(() => {
-                            navigate(-1);
+                            navigate(-1, { replace: true });
                         });
                     } else if (!response || response?.data?.err !== 0) {
                         swal('Có lỗi của server', '', 'error');
@@ -190,7 +190,7 @@ const CreatePost = ({ isEdit = false }) => {
                     console.log(response);
                     if (response?.data?.err === 0) {
                         swal('Đã tạo thành công', '', 'success').then(() => {
-                            navigate('/viec-lam');
+                            navigate('/viec-lam', { replace: true });
                         });
                     } else if (!response || response?.data?.err !== 0) {
                         swal('Có lỗi của server', '', 'error');

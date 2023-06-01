@@ -128,7 +128,7 @@ const CreateCompany = ({ isEdit }) => {
             apiUpdateCompany(editData).then((response) => {
                 if (response.data.err === 0) {
                     swal('Hoàn thành!', 'Dữ liệu đã được chỉnh sửa thành công!', 'success').then(() => {
-                        navigate(-1);
+                        navigate(-1, { replace: true });
                     });
                 } else {
                     swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');
@@ -141,7 +141,7 @@ const CreateCompany = ({ isEdit }) => {
             apiCreateCompany(companyData).then((response) => {
                 if (response.data.err === 0) {
                     swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success').then(() => {
-                        navigate(-1);
+                        navigate(-1, { replace: true });
                     });
                 } else {
                     swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');

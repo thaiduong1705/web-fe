@@ -377,7 +377,14 @@ const DetailPage = () => {
                           })}
                 </div>
             </div>
-            <ApplyModal open={toggle} closeModal={() => setToggle(false)} post={appliedPost} />
+            <ApplyModal
+                open={toggle}
+                closeModal={() => {
+                    setToggle(false);
+                    navigate(0);
+                }}
+                post={appliedPost}
+            />
         </div>
     );
 };

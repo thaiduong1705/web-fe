@@ -250,7 +250,7 @@ const CreateCandidate = ({ isEdit = false }) => {
             apiCreateCandidate(candidateData).then((response) => {
                 if (response.data.err === 0) {
                     swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success').then(() => {
-                        navigate(-1);
+                        navigate(-1, { replace: true });
                     });
                 } else if (response.data.err === 3) {
                     swal('Lỗi!', response.data.msg, 'error');
@@ -267,7 +267,7 @@ const CreateCandidate = ({ isEdit = false }) => {
             apiUpdateCandidate(editData).then((response) => {
                 if (response.data.err === 0) {
                     swal('Hoàn thành!', 'Dữ liệu đã được chỉnh sửa thành công!', 'success').then(() => {
-                        navigate(-1);
+                        navigate(-1, { replace: true });
                     });
                 } else if (response.data.err === 3) {
                     swal('Lỗi!', response.data.msg, 'error');

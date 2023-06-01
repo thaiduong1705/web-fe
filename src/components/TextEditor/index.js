@@ -22,7 +22,13 @@ const TextEditor = ({ className, onChange, initialValue }) => {
     }, [quill]);
     return (
         <div className={clsx(className)}>
-            <ReactQuill theme="snow" value={quill} onChange={handleChange} modules={{ toolbar: TOOLBAR_OPTIONS }} />
+            <ReactQuill
+                theme="snow"
+                value={quill}
+                onChange={handleChange}
+                modules={{ toolbar: TOOLBAR_OPTIONS }}
+                className="ql-container"
+            />
         </div>
     );
 };
