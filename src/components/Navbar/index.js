@@ -12,13 +12,16 @@ import {
     faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import { useStateContext } from '~/contexts/Context';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from '~/store/action/auth';
+import { getCurrent } from '~/store/action/user';
 const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [dropdown, setDropdown] = useState(false);
+
+    const { isLoggedIn } = useSelector((state) => state.auth);
+    const { currentUser } = useSelector((state) => state.user);
 
     const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } =
         useStateContext();
@@ -41,11 +44,21 @@ const Navbar = () => {
         }
     }, [screenSize]);
 
+    useEffect(() => {
+        const id = setTimeout(() => {
+            isLoggedIn && dispatch(getCurrent());
+        }, 1000);
+        return () => {
+            clearTimeout(id);
+        };
+    }, [isLoggedIn]);
+
     const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
     const handleLogout = () => {
         dispatch(logout());
         navigate('/dang-nhap');
+        console.log('go');
     };
 
     return (
@@ -55,17 +68,18 @@ const Navbar = () => {
                 <span className="font-medium text-blue-500 pt-[4px]">JobProject</span>
             </div>
             <div className="flex items-center gap-2 cursor-pointer p-2 group hover:bg-light-gray rounded-lg relative">
+                <div>Xin chào {currentUser.userName}</div>
                 <img
                     className="rounded-full w-12 h-12"
                     src="https://cdn4.iconfinder.com/data/icons/green-shopper/1068/user.png"
                     alt="user-profile"
                 />
                 <FontAwesomeIcon icon={faCaretDown} style={{ color: '#4B5563' }} />
-                <div className="w-[170px] absolute top-[40px] text-start bg-slate-200 p-3 right-0 hidden group-hover:block">
+                <div className="w-[170px] absolute top-[40px] text-start bg-slate-50 p-3 right-0 hidden group-hover:block">
                     <ul>
-                        <li className="flex">
+                        <li className="inline-flex w-full">
                             <FontAwesomeIcon icon={faRightFromBracket} className="m-2" />
-                            <button className="submenu-item" onClick={handleLogout}>
+                            <button className="submenu-item mr-auto" onClick={handleLogout}>
                                 Đăng xuất
                             </button>
                         </li>

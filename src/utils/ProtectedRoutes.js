@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 
-const ProtectedRoutes = ({ children }) => {
+const ProtectedRoutes = () => {
     const authState =
         window.localStorage.getItem('persist:auth') && JSON.parse(window.localStorage.getItem('persist:auth'));
     authState.isLoggedIn = authState.isLoggedIn === 'true';

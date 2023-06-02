@@ -39,6 +39,9 @@ const actionType = {
     LOGIN_SUCCESS: 'LOGIN_SUCCESS',
     LOGIN_FAIL: 'LOGIN_FAIL',
     LOGOUT: 'LOGOUT',
+
+    //User
+    GET_CURRENT: 'GET_CURRENT',
 };
 
 export default actionType;
