@@ -205,7 +205,15 @@ const ListPosts = () => {
                         <p className="text-[24px] font-medium leading-[1.4] my-[2px] pt">Danh sách việc làm</p>
                         <p className="text-[#999999]">Danh sách các việc làm tại TP Hồ Chí Minh</p>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-4">
+                        <Combobox
+                            title=""
+                            className=""
+                            items={[
+                                { id: 1, value: 'Tất cả bài đăng' },
+                                { id: 2, value: 'Bài đăng đã ẩn' },
+                            ]}
+                        ></Combobox>
                         <Link
                             to="/viec-lam/tao-viec-lam"
                             className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80"

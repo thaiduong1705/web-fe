@@ -13,4 +13,6 @@ export const candidateSchema = yup.object().shape({
     experienceYear: yup.number().required('Chưa nhập thâm niên làm việc'),
     positionId: yup.string().required('Chưa nhập cấp bậc mong muốn'),
     districtList: yup.array().min(1, 'Có ít nhất 1 khu vực được chọn'),
+    CVImage: yup.string().required('Chưa có ảnh CV'),
+    profileImage: yup.string().required('Chưa có ảnh chân dung ứng viên'),
 });

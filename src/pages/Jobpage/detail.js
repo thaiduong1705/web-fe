@@ -28,6 +28,7 @@ import convertDatetime from '~/utils/convertDate';
 import { apiGetPostsFromCareer } from '~/services/career';
 import { apiGetRelatedPost, apiSoftDeletePost } from '~/services/post';
 import ApplyModal from '~/components/ApplyModal';
+import CandidatePostModal from '~/components/CandidatePostModal';
 import Swal from 'sweetalert2';
 const DetailPage = () => {
     const navigate = useNavigate();
@@ -42,6 +43,12 @@ const DetailPage = () => {
             dispatch(setDetailPostNull());
         };
     }, [id]);
+
+    useEffect(() => {
+        dispatch(getPostById(id));
+    }, [detailPost.Candidate]);
+
+    console.log(detailPost?.Candidate);
     useEffect(() => {
         if (detailPost) {
             let careerIds = [];
@@ -61,6 +68,7 @@ const DetailPage = () => {
     }, [detailPost]);
 
     const [toggle, setToggle] = useState(false);
+    const [toggleOnCandidate, setToggleOnCandidate] = useState(false);
     const [appliedPost, setAppliedPost] = useState(null);
 
     return (
@@ -119,7 +127,7 @@ const DetailPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-col justify-start w-[50%] pt-5 items-end">
+                    <div className="flex flex-col justify-start w-[50%] items-end">
                         <button
                             className="bg-red-500 hover:bg-red-600 text-white rounded-[4px] px-[8px] py-[8px] mb-5 w-[20%]"
                             onClick={(e) => {
@@ -335,7 +343,7 @@ const DetailPage = () => {
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-4">
                                 <FontAwesomeIcon icon={faLocationDot} />
-                                <span className="font-medium">Địa chỉ:</span>
+                                <span className="font-medium min-w-[20%]">Địa chỉ:</span>
                                 <span>{detailPost?.Company?.address || 'chưa cập nhật'}</span>
                             </div>
                             <div className="flex items-center gap-4">
@@ -354,10 +362,58 @@ const DetailPage = () => {
                         <div className="mb-5">
                             <div className="flex border-l-[6px] border-blue-500 justify-between items-center">
                                 <p className="font-medium text-[24px] pl-5">Thông tin chung</p>
-                                <p className="text-[16px] underline text-blue-400 hover:cursor-pointer ">Xem thêm</p>
+                                <p
+                                    className="text-[16px] underline text-blue-400 hover:cursor-pointer"
+                                    onClick={(e) => setToggleOnCandidate(true)}
+                                >
+                                    Xem thêm
+                                </p>
                             </div>
                         </div>
-                        <div></div>
+                        <div>
+                            <table className="table-auto min-w-full text-left text-[14px] font-light">
+                                <thead className="border-b dark:border-neutral-500">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-4 font-medium max-w-[40%]">
+                                            STT
+                                        </th>
+                                        <th scope="col" className="px-6 py-4 font-medium max-w-[60%]">
+                                            Họ tên
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {detailPost?.Candidate?.map((data, index) => {
+                                        return (
+                                            <tr className="border-b dark:border-neutral-500">
+                                                <td className=" px-6 py-4 ">{index + 1}</td>
+                                                <td className="whitespace-nowrap px-6 py-4">
+                                                    <div>
+                                                        <Link to={``} className="uppercase text-[16px] font-medium">
+                                                            {data.candidateName}
+                                                        </Link>
+
+                                                        <div className="flex line-clamp-1">
+                                                            <div className="mr-[4px] max-w-[180px] line-clamp-1">
+                                                                <span className="font-medium">Học vấn: </span>
+                                                                <span className="">
+                                                                    {data.AcademicLevel.academicLevelName}
+                                                                </span>
+                                                            </div>
+                                                            <span>|</span>
+                                                            <div className="ml-[4px] max-w-[180px] line-clamp-1">
+                                                                <span className="font-medium">Cấp bậc: </span>
+                                                                <span className="">{data.Position.positionName}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -394,6 +450,11 @@ const DetailPage = () => {
                 }}
                 post={appliedPost}
             />
+            <CandidatePostModal
+                open={toggleOnCandidate}
+                closeModal={() => setToggleOnCandidate(false)}
+                id={id}
+            ></CandidatePostModal>
         </div>
     );
 };
