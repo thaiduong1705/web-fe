@@ -350,6 +350,15 @@ const DetailPage = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="px-[32px] py-[20px] bg-white rounded-[12px] mt-[24px]">
+                        <div className="mb-5">
+                            <div className="flex border-l-[6px] border-blue-500 justify-between items-center">
+                                <p className="font-medium text-[24px] pl-5">Thông tin chung</p>
+                                <p className="text-[16px] underline text-blue-400 hover:cursor-pointer ">Xem thêm</p>
+                            </div>
+                        </div>
+                        <div></div>
+                    </div>
                 </div>
             </div>
             <div className="p-[16px] rounded-[12px] my-[20px] mx-[24px] bg-white">
