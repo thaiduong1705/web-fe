@@ -46,7 +46,7 @@ const DetailPage = () => {
 
     useEffect(() => {
         dispatch(getPostById(id));
-    }, [detailPost.Candidate]);
+    }, [detailPost?.Candidate]);
 
     console.log(detailPost?.Candidate);
     useEffect(() => {
