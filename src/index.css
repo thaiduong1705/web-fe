@@ -15,3 +15,7 @@ body {
     line-height: 1.5;
     text-rendering: optimizespeed;
 }
+
+.swal2-popup {
+    font-size: 1.6rem !important;
+}

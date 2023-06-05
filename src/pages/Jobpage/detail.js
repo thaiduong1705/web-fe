@@ -6,7 +6,6 @@ import {
     faLocationDot,
     faSuitcase,
     faCoins,
-    faCalendarDays,
     faUser,
     faBuilding,
     faFile,
@@ -18,17 +17,15 @@ import {
     faUserGroup,
     faUsers,
 } from '@fortawesome/free-solid-svg-icons';
+import CandidatePostModal from '~/components/CandidatePostModal';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostById, setDetailPostNull } from '~/store/action/post';
 
-import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
-import { Combobox, JobItem } from '~/components';
+import { JobItem } from '~/components';
 import convertDatetime from '~/utils/convertDate';
-import { apiGetPostsFromCareer } from '~/services/career';
 import { apiGetRelatedPost, apiSoftDeletePost } from '~/services/post';
 import ApplyModal from '~/components/ApplyModal';
-import CandidatePostModal from '~/components/CandidatePostModal';
 import Swal from 'sweetalert2';
 const DetailPage = () => {
     const navigate = useNavigate();
@@ -46,7 +43,7 @@ const DetailPage = () => {
 
     useEffect(() => {
         dispatch(getPostById(id));
-    }, [detailPost.Candidate]);
+    }, [detailPost?.Candidate]);
 
     console.log(detailPost?.Candidate);
     useEffect(() => {
@@ -403,7 +400,7 @@ const DetailPage = () => {
                                                             <span>|</span>
                                                             <div className="ml-[4px] max-w-[180px] line-clamp-1">
                                                                 <span className="font-medium">Cấp bậc: </span>
-                                                                <span className="">{data.Position.positionName}</span>
+                                                                <span className="">{data?.Position?.positionName}</span>
                                                             </div>
                                                         </div>
                                                     </div>

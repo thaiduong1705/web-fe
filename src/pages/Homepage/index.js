@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
-import { Stacked, Pie, SparkLine, Button, JobItem } from '~/components';
+import { Stacked, Pie, Button, JobItem } from '~/components';
 
 import styles from './Homepage.module.css';
 const Homepage = () => {
@@ -78,17 +78,6 @@ const Homepage = () => {
                                         </span>
                                     </p>
                                     <p className="text-gray-500 mt-1">expense</p>
-                                </div>
-                                <div className="mt-5">
-                                    <SparkLine
-                                        currentColor="blue"
-                                        id="line-sparkline"
-                                        type="Line"
-                                        height="80px"
-                                        width="250px"
-                                        data={[]}
-                                        color="blue"
-                                    />
                                 </div>
                             </div>
                         </div>

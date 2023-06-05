@@ -4,10 +4,10 @@ import { faCamera, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 import { candidateSchema } from './candidateValidation';
-import { Combobox, Loading, TextEditor } from '~/components';
+import { Combobox, Loading } from '~/components';
 import { apiCreateCandidate, apiUpdateCandidate } from '~/services/candidate';
 import { editCandidateData, setEditCandidateDataNull } from '~/store/action/candidate';
 import { apiRemoveImagesCompany, apiUploadImagesCompany } from '~/services/image';
@@ -241,7 +241,11 @@ const CreateCandidate = ({ isEdit = false }) => {
                     candidateSchema.validateSync(ValidData);
                 } catch (error) {
                     if (error instanceof yup.ValidationError) {
-                        swal(error.name, error.errors[0], 'error');
+                        Swal.fire({
+                            icon: 'error',
+                            title: error.name,
+                            text: error.errors[0],
+                        });
                     }
                 }
             }
@@ -252,13 +256,25 @@ const CreateCandidate = ({ isEdit = false }) => {
         if (candidateData) {
             apiCreateCandidate(candidateData).then((response) => {
                 if (response.data.err === 0) {
-                    swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success').then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        text: 'Dữ liệu đã được thêm thành công!',
+                    }).then(() => {
                         navigate(-1, { replace: true });
                     });
                 } else if (response.data.err === 3) {
-                    swal('Lỗi!', response.data.msg, 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Có lỗi!',
+                        text: response.data.msg,
+                    });
                 } else {
-                    swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Có lỗi!',
+                        text: 'Dữ liệu không được nạp thành công!',
+                    });
                 }
             });
         }
@@ -269,13 +285,25 @@ const CreateCandidate = ({ isEdit = false }) => {
             console.log(editData);
             apiUpdateCandidate(editData).then((response) => {
                 if (response.data.err === 0) {
-                    swal('Hoàn thành!', 'Dữ liệu đã được chỉnh sửa thành công!', 'success').then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        text: 'Dữ liệu đã được chỉnh sửa thành công!',
+                    }).then(() => {
                         navigate(-1, { replace: true });
                     });
                 } else if (response.data.err === 3) {
-                    swal('Lỗi!', response.data.msg, 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Có lỗi!',
+                        text: response.data.msg,
+                    });
                 } else {
-                    swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Có lỗi!',
+                        text: 'Dữ liệu không được nạp thành công!',
+                    });
                 }
             });
         }

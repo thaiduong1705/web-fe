@@ -2,12 +2,11 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Combobox, Loading } from '.';
+import { Combobox } from '.';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCandidates, setAllCandidatesNull } from '~/store/action/candidate';
 import { apiApplyPost } from '~/services/post';
 import Swal from 'sweetalert2';
-import { text } from '@fortawesome/fontawesome-svg-core';
 
 const ApplyModal = ({ post, closeModal, open }) => {
     const { allCandidates } = useSelector((state) => state.candidate);

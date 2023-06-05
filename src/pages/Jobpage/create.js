@@ -1,10 +1,9 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import * as yup from 'yup';
-import swal from 'sweetalert';
 
 import { jobSchema } from './jobValidation';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -179,21 +178,35 @@ const CreatePost = ({ isEdit = false }) => {
                 if (isEdit && postDataEdit) {
                     const response = await apiUpdatePost(ValidData);
                     if (response?.data?.err === 0) {
-                        swal('Đã sửa dữ liệu thành công', '', 'success').then(() => {
-                            navigate(-1, { replace: true });
+                        await Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Sửa dữ liệu thành công.',
                         });
+                        navigate(-1, { replace: true });
                     } else if (!response || response?.data?.err !== 0) {
-                        swal('Có lỗi của server', '', 'error');
+                        await Swal.fire({
+                            icon: 'error',
+                            title: 'Có lỗi!!!',
+                            text: '',
+                        });
                     }
                 } else {
                     const response = await apiCreatePost(ValidData);
                     console.log(response);
                     if (response?.data?.err === 0) {
-                        swal('Đã tạo thành công', '', 'success').then(() => {
-                            navigate('/viec-lam', { replace: true });
+                        await Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Tạo thành công.',
                         });
+                        navigate('/viec-lam', { replace: true });
                     } else if (!response || response?.data?.err !== 0) {
-                        swal('Có lỗi của server', '', 'error');
+                        await Swal.fire({
+                            icon: 'error',
+                            title: 'Có lỗi!!!',
+                            text: '',
+                        });
                     }
                 }
             } else {
@@ -201,7 +214,11 @@ const CreatePost = ({ isEdit = false }) => {
                     jobSchema.validateSync(ValidData);
                 } catch (error) {
                     if (error instanceof yup.ValidationError) {
-                        swal(error.name, error.errors[0], 'error');
+                        await Swal.fire({
+                            icon: 'error',
+                            title: error.name,
+                            text: error.errors[0],
+                        });
                     }
                 }
             }

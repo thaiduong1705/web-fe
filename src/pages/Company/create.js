@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
-import swal from 'sweetalert';
 
 import { companySchema } from './companyValidation';
 import { apiCreateCompany, apiUpdateCompany } from '~/services/company';
@@ -12,6 +11,7 @@ import { Combobox, Loading, TextEditor } from '~/components';
 import { apiUploadImagesCompany, apiRemoveImagesCompany } from '~/services/image';
 
 import { editCompanyData, setEditCompanyDataNull } from '~/store/action/company';
+import Swal from 'sweetalert2';
 const CreateCompany = ({ isEdit }) => {
     const { id } = useParams();
     const careerListData = useSelector((state) => state.otherData.careers);
@@ -116,7 +116,11 @@ const CreateCompany = ({ isEdit }) => {
                     companySchema.validateSync(ValidData);
                 } catch (error) {
                     if (error instanceof yup.ValidationError) {
-                        swal(error.name, error.errors[0], 'error');
+                        Swal.fire({
+                            icon: 'error',
+                            title: error.name,
+                            text: error.errors[0],
+                        });
                     }
                 }
             }
@@ -127,11 +131,19 @@ const CreateCompany = ({ isEdit }) => {
         if (editData) {
             apiUpdateCompany(editData).then((response) => {
                 if (response.data.err === 0) {
-                    swal('Hoàn thành!', 'Dữ liệu đã được chỉnh sửa thành công!', 'success').then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        text: 'Dữ liệu đã được chỉnh sửa thành công!',
+                    }).then(() => {
                         navigate(-1, { replace: true });
                     });
                 } else {
-                    swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Có lỗi!',
+                        text: 'Dữ liệu không được nạp thành công!',
+                    });
                 }
             });
         }
@@ -140,11 +152,19 @@ const CreateCompany = ({ isEdit }) => {
         if (companyData) {
             apiCreateCompany(companyData).then((response) => {
                 if (response.data.err === 0) {
-                    swal('Hoàn thành!', 'Dữ liệu đã được thêm thành công!', 'success').then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        text: 'Dữ liệu đã được thêm thành công!',
+                    }).then(() => {
                         navigate(-1, { replace: true });
                     });
                 } else {
-                    swal('Lỗi!', 'Dữ liệu không được nạp thành công!', 'error');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Có lỗi!',
+                        text: 'Dữ liệu không được nạp thành công!',
+                    });
                 }
             });
         }

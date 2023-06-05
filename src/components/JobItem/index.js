@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Experimental_CssVarsProvider } from '@mui/material';
 import { faClock, faBuilding } from '@fortawesome/free-solid-svg-icons';
-
+import Swal from 'sweetalert2';
 import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
+import { apiSoftDeletePost } from '~/services/post';
 
 const JobItem = ({ job = {}, onClick, toggleModal }) => {
     const [mouseEnter, setMouseEnter] = useState(null);
+    const navigate = useNavigate();
     return (
         <div
             className="h-[160px] overflow-hidden flex bg-[#f1f3f5] rounded-[8px] relative my-7 border-1 border-transparent hover:cursor-pointer hover:bg-[#E6F5FE] hover:border-blue-500 hover:transition-all"
@@ -78,7 +80,31 @@ const JobItem = ({ job = {}, onClick, toggleModal }) => {
                         <button className="text-blue-400 hover:text-blue-600 underline" onClick={onClick}>
                             Chỉnh sửa
                         </button>
-                        <button className="bg-blue-500 hover:bg-blue-600 w-[80px] text-white rounded-[8px] px-[8px] py-[6px]">
+                        <button
+                            className="bg-blue-500 hover:bg-blue-600 w-[80px] text-white rounded-[8px] px-[8px] py-[6px]"
+                            onClick={async (e) => {
+                                const result = await Swal.fire({
+                                    icon: 'question',
+                                    title: 'Xác nhận',
+                                    text: 'Bạn có chắc muốn xoá bài tuyển dụng này?',
+                                    showCancelButton: true,
+                                    cancelButtonText: 'Huỷ bỏ',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Đồng ý',
+                                });
+                                if (result.isConfirmed) {
+                                    const response = await apiSoftDeletePost(job?.id);
+                                    if (response.data.err === 0) {
+                                        await Swal.fire({
+                                            icon: 'success',
+                                            title: 'Đã xoá thành công',
+                                            text: '',
+                                        });
+                                        navigate(0);
+                                    }
+                                }
+                            }}
+                        >
                             Ẩn
                         </button>
                         <button

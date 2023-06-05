@@ -5,11 +5,9 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
-import { Combobox, Loading } from '.';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostById } from '~/store/action/post';
 import Swal from 'sweetalert2';
-import { text } from '@fortawesome/fontawesome-svg-core';
 
 const CandidatePostModal = ({ id, closeModal, open }) => {
     const { detailPost } = useSelector((state) => state.post);

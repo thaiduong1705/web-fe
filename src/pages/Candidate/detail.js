@@ -2,9 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { faPhone, faEnvelope, faLocationDot, faVenusMars, faCalendar } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 
-import { Combobox, Loading } from '~/components';
+import { Loading } from '~/components';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCandidateById, setDetailCandidateNull } from '~/store/action/candidate';
 
