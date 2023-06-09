@@ -105,3 +105,16 @@ export const apiSoftDeletePost = async (id) => {
         console.log(error);
     }
 };
+
+export const apiChangeStatusApplied = async (postId, candidateId) => {
+    try {
+        const request = await axiosInstance({
+            method: 'post',
+            url: '/api/v1/post/change-applied',
+            data: { postId, candidateId },
+        });
+        return request;
+    } catch (error) {
+        console.log(error);
+    }
+};
