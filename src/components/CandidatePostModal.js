@@ -5,9 +5,12 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
+import { apiChangeStatusApplied } from '~/services/post';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostById } from '~/store/action/post';
 import Swal from 'sweetalert2';
+import { Combobox } from '.';
+import { text } from '@fortawesome/fontawesome-svg-core';
 
 const CandidatePostModal = ({ id, closeModal, open }) => {
     const { detailPost } = useSelector((state) => state.post);
@@ -33,9 +36,36 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
         return null;
     }
 
+    const handleChangeIsApllied = (e, index) => {
+        console.log(detailPost.Candidate[index].id);
+        if ((e.value = 'Đã ứng tuyển thành công')) {
+            Swal.fire({
+                icon: 'question',
+                title: 'Lưu ý',
+                text: 'Bạn có muốn thay đổi trạng thái ứng tuyển của ứng viên này không?',
+                showDenyButton: true,
+                confirmButtonText: 'Đồng ý',
+                denyButtonText: 'Không đồng ý',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    apiChangeStatusApplied(detailPost.id, detailPost.Candidate[index].id).then(
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Trạng thái ứng tuyển được thay đổi thành công!',
+                        }),
+                    );
+                } else if (result.isDenied) {
+                }
+            });
+        } else {
+            Swal.fire({});
+        }
+    };
+
     return ReactDOM.createPortal(
         <div className="fixed top-0 left-0 right-0 bottom-0 z-500 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 max-h-full flex justify-center items-center bg-overlay-70">
-            <div className="bg-white rounded-lg shadow dark:bg-gray-700 w-[1200px]">
+            <div className="bg-white rounded-lg shadow dark:bg-gray-700 w-[1400px]">
                 <div className=" relative flex items-start justify-between p-[16px] border-b rounded-t-[4px] dark:border-gray-600">
                     <h3 className="text-[20px] font-semibold text-gray-900 dark:text-white line-clamp-1 w-[calc(100%-10rem)] border-l-4 border-blue-500">
                         <p className="pl-3"> Chi tiết danh sách ứng tuyển của bài đăng </p>
@@ -58,14 +88,17 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
                                 <th scope="col" className="px-6 py-4 font-medium w-[30%]">
                                     Họ tên
                                 </th>
-                                <th scope="col" className="px-6 py-4 font-medium w-[20%]">
+                                <th scope="col" className="px-6 py-4 font-medium w-[10%]">
                                     Kinh nghiệm
                                 </th>
                                 <th scope="col" className="px-6 py-4 font-medium w-[20%]">
                                     Trình độ chuyên môn
                                 </th>
-                                <th scope="col" className="px-6 py-4 font-medium w-[30%]">
+                                <th scope="col" className="px-6 py-4 font-medium w-[15%]">
                                     Các thao tác
+                                </th>
+                                <th scope="col" className="px-6 py-4 font-medium w-[20%]">
+                                    Tình trạng ứng tuyển
                                 </th>
                             </tr>
                         </thead>
@@ -73,12 +106,12 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
                             {detailPost?.Candidate.map((data, index) => {
                                 return (
                                     <tr className="border-b dark:border-neutral-500">
-                                        <td className="px-6 py-4">1</td>
+                                        <td className="px-6 py-4">{index + 1}</td>
                                         <td className="whitespace-nowrap px-6 py-4">
                                             <div>
-                                                <Link to={``} className="uppercase text-[16px] font-medium">
+                                                <div to={``} className="uppercase text-[16px] font-medium">
                                                     {data.candidateName}
-                                                </Link>
+                                                </div>
 
                                                 <div className="flex line-clamp-1">
                                                     <div className="mr-[4px] max-w-[180px] line-clamp-1">
@@ -106,6 +139,17 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
                                                     className="text-blue-500 text-[16px] underline hover:cursor-pointer hover:text-red-500"
                                                 />
                                             </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <Combobox
+                                                title="Tình trạng"
+                                                items={[
+                                                    { id: 0, value: 'Đang ứng tuyển' },
+                                                    { id: 1, value: 'Đã ứng tuyển thành công' },
+                                                ]}
+                                                onChange={(e) => handleChangeIsApllied(e, index)}
+                                                initialValue={+data.CandidatePost.isApplied}
+                                            />
                                         </td>
                                     </tr>
                                 );

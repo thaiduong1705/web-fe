@@ -132,7 +132,7 @@ const CreateCandidate = ({ isEdit = false }) => {
             formData.append('image', files[0]);
             const response = await apiUploadImagesCompany(formData);
             if (response.status === 200 && response.data.err === 0) {
-                setCVImage(response?.data.res.secure_url);
+                setCVImage(response?.data.res.response.secure_url);
             }
             setIsCVLoading(false);
         }
@@ -149,7 +149,7 @@ const CreateCandidate = ({ isEdit = false }) => {
             formData.append('image', files[0]);
             const response = await apiUploadImagesCompany(formData);
             if (response.status === 200 && response.data.err === 0) {
-                setProfileImage(response?.data.res.secure_url);
+                setProfileImage(response?.data.res.response.secure_url);
             }
             setIsProfileLoading(false);
         }

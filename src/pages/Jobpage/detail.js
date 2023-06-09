@@ -33,6 +33,8 @@ const DetailPage = () => {
 
     const { detailPost } = useSelector((state) => state.post);
     const [careerRelatedPosts, setCareerRelatedPosts] = useState([]);
+    const [isCandidateAdding, setIsCandidateAdding] = useState(false);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getPostById(id));
@@ -43,9 +45,9 @@ const DetailPage = () => {
 
     useEffect(() => {
         dispatch(getPostById(id));
-    }, [detailPost?.Candidate]);
+        setIsCandidateAdding(!isCandidateAdding);
+    }, [isCandidateAdding]);
 
-    console.log(detailPost?.Candidate);
     useEffect(() => {
         if (detailPost) {
             let careerIds = [];
@@ -54,7 +56,6 @@ const DetailPage = () => {
                     const id = career.id;
                     careerIds.push(id);
                 }
-                console.log(careerIds);
                 const response = await apiGetRelatedPost(detailPost.id, careerIds);
                 if (response?.data.err === 0) {
                     setCareerRelatedPosts((prev) => [...response.data.res]);
@@ -62,7 +63,8 @@ const DetailPage = () => {
             };
             fetchingRelatedPosts();
         }
-    }, [detailPost]);
+        console.log(detailPost);
+    }, []);
 
     const [toggle, setToggle] = useState(false);
     const [toggleOnCandidate, setToggleOnCandidate] = useState(false);
@@ -444,6 +446,7 @@ const DetailPage = () => {
                 closeModal={() => {
                     setToggle(false);
                     navigate(0);
+                    setIsCandidateAdding(!isCandidateAdding);
                 }}
                 post={appliedPost}
             />
