@@ -58,7 +58,6 @@ const Navbar = () => {
     const handleLogout = () => {
         dispatch(logout());
         navigate('/dang-nhap');
-        console.log('go');
     };
 
     return (
