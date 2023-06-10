@@ -63,7 +63,7 @@ const ListCompanies = () => {
     }
 
     return (
-        <div className="pb-6 h-screen">
+        <div className="h-screen">
             <div className="bg-blue-700 text-black px-[64px] rounded-[8px]">
                 <div className="grid grid-cols-12 py-[24px] gap-[16px] h-[80px]">
                     <div className="col-span-7 col-start-1 flex gap-[10px]">
@@ -114,7 +114,7 @@ const ListCompanies = () => {
 
             <div className="px-[64px]">
                 {companies.length === 0 ? (
-                    <div className="flex items-center justify-center">'Không có kết quả'</div>
+                    <div className="flex items-center justify-center">Không có kết quả</div>
                 ) : (
                     <>
                         {companies.map((company, index) => {

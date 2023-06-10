@@ -117,7 +117,7 @@ const ListPosts = () => {
         );
     }
     return (
-        <div className="bg-slate-100 h-screen">
+        <div className="h-screen">
             <div className="bg-blue-700 text-black px-[64px] rounded-[8px]">
                 <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px]">
                     <div className="col-span-5 col-start-1 flex gap-[10px]">
