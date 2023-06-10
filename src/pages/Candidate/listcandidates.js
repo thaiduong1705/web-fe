@@ -71,7 +71,7 @@ const ListCandidates = () => {
         );
     }
     return (
-        <div>
+        <div className="h-screen">
             <div className="bg-blue-700 text-black px-[64px] rounded-[8px]">
                 <div className="grid grid-cols-10 py-[24px] gap-[16px] h-[80px]">
                     <Combobox

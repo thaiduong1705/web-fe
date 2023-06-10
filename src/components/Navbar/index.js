@@ -66,14 +66,14 @@ const Navbar = () => {
                 <FontAwesomeIcon icon={faUserTie} style={{ color: '#3282f6' }} />
                 <span className="font-medium text-blue-500 pt-[4px]">JobProject</span>
             </div>
-            <div className="flex items-center gap-2 cursor-pointer p-2 group hover:bg-light-gray rounded-lg relative">
-                <div>Xin chào {currentUser.userName}</div>
+            <div className="flex items-center gap-2 cursor-pointer text-blue-500 text-14 font-medium p-2 group hover:bg-light-gray rounded-lg relative">
+                <div>XIN CHÀO {currentUser.userName}</div>
                 <img
                     className="rounded-full w-12 h-12"
                     src="https://cdn4.iconfinder.com/data/icons/green-shopper/1068/user.png"
                     alt="user-profile"
                 />
-                <FontAwesomeIcon icon={faCaretDown} style={{ color: '#4B5563' }} />
+                <FontAwesomeIcon icon={faCaretDown} style={{ color: '#3B82F6' }} />
                 <div className="w-[170px] absolute top-[40px] text-start bg-slate-50 p-3 right-0 hidden group-hover:block">
                     <ul>
                         <li className="inline-flex w-full">
