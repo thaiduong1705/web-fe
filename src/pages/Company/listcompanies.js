@@ -114,7 +114,7 @@ const ListCompanies = () => {
 
             <div className="px-[64px]">
                 {companies.length === 0 ? (
-                    <div className="flex items-center justify-center">'Không có kết quả'</div>
+                    <div className="flex items-center justify-center">Không có kết quả</div>
                 ) : (
                     <>
                         {companies.map((company, index) => {
