@@ -21,7 +21,7 @@ const JobItem = ({ job = {}, onClick, toggleModal }) => {
                     to={`/viec-lam/chi-tiet/${sanitizeVietnameseString(job?.jobTitle)}/${job?.id}`}
                     className="w-full h-full"
                 >
-                    <img src={job.Company.imageLink} className="w-full h-full object-contain p-[16px]" alt="" />
+                    <img src={job?.Company?.imageLink} className="w-full h-full object-contain p-[16px]" alt="" />
                 </Link>
             </div>
 
