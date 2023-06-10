@@ -118,12 +118,12 @@ const ListPosts = () => {
     }
     return (
         <div className="">
-            <div className="bg-blue-700 text-black px-[64px]">
+            <div className="bg-blue-700 text-black px-[64px] rounded-[8px]">
                 <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px]">
                     <div className="col-span-5 col-start-1 flex gap-[10px]">
                         <span className="text-[16px] text-white leading-[32px] block ">Tìm việc: </span>
                         <input
-                            className="w-[94%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
+                            className="w-[93.5%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
                             placeholder="Nhập từ khoá tìm kiếm..."
                             value={jobTitle}
                             onChange={(e) => {
@@ -222,7 +222,7 @@ const ListPosts = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="px-[64px]">
+                <div className="">
                     {posts.length === 0 ? (
                         <div className="flex justify-center items-center">Không có kết quả</div>
                     ) : (

@@ -5,7 +5,7 @@ import { useStateContext } from '~/contexts/Context';
 const DefaultLayout = ({ children }) => {
     const { activeMenu, setActiveMenu } = useStateContext();
     return (
-        <div>
+        <div className="bg-slate-100">
             <div>
                 {activeMenu ? (
                     <div className="w-96 fixed sidebar dark:bg-secondary-dark-bg bg-white">
@@ -29,7 +29,7 @@ const DefaultLayout = ({ children }) => {
                 >
                     <Navbar />
                 </div>
-                {children}
+                <div className="ml-[40px] mr-[12px]">{children}</div>
             </div>
         </div>
     );
