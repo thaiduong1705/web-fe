@@ -8,7 +8,7 @@ const CompanyItem = ({ item, onClick }) => {
     const [mouseEnter, setMouseEnter] = useState(null);
     return (
         <div
-            className="overflow-hidden flex bg-slate-200 rounded-[8px] relative my-7 border-1 border-transparent hover:cursor-pointer hover:bg-[#E6F5FE] hover:border-blue-500 hover:transition-all"
+            className="overflow-hidden flex bg-slate-200 rounded-[8px] relative my-7 border-1 border-transparent hover:cursor-pointer hover:bg-blue-200 hover:border-blue-500 hover:transition-all"
             onMouseEnter={() => setMouseEnter(true)}
             onMouseLeave={() => setMouseEnter(false)}
         >

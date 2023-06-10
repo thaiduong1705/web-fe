@@ -23,7 +23,7 @@ const DefaultLayout = ({ children }) => {
                 <div
                     className={
                         activeMenu
-                            ? 'dark:bg-main-dark-bg bg-main-bg w-auto h-auto item-center md:ml-96'
+                            ? 'dark:bg-main-dark-bg bg-slate-100 w-auto h-auto item-center md:ml-96'
                             : 'bg-main-bg dark:bg-main-dark-bg w-auto item-center justify-between'
                     }
                 >

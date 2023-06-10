@@ -26,7 +26,7 @@ const Homepage = () => {
     return (
         <div className="w-auto md:ml-96 h-screen">
             <div className="">
-                <div className="grid gap-[24px] grid-cols-4 mx-[20px] my-[48px]">
+                <div className="grid gap-[24px] grid-cols-4 mx-[20px] my-[24px]">
                     <ReportCard />
                     <ReportCard />
                     <ReportCard />

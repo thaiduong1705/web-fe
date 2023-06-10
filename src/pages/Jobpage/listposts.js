@@ -117,7 +117,7 @@ const ListPosts = () => {
         );
     }
     return (
-        <div className="">
+        <div className="bg-slate-100">
             <div className="bg-blue-700 text-black px-[64px] rounded-[8px]">
                 <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px]">
                     <div className="col-span-5 col-start-1 flex gap-[10px]">
@@ -199,7 +199,7 @@ const ListPosts = () => {
                     />
                 </div>
             </div>
-            <div className="w-full flex flex-col justify-center h-auto rounded-[3px] mt-[8px] bg-gray-50 px-[64px] py-[16px] ">
+            <div className="w-full flex flex-col justify-center h-auto rounded-[3px] mt-[8px] bg-slate-100 px-[64px] py-[16px] ">
                 <div className="flex justify-between mb-10 mt-5">
                     <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-blue-600 before:left-0 pl-[24px]">
                         <p className="text-[24px] font-medium leading-[1.4] my-[2px] pt">Danh sách việc làm</p>

@@ -61,7 +61,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="flex justify-between mr-[16px] ml-[52px] py-2 border-b-1 border-gray-300">
+        <div className="flex justify-between mr-[16px] ml-[52px] py-2 bg-slate-100">
             <div className="flex items-center gap-3">
                 <FontAwesomeIcon icon={faUserTie} style={{ color: '#3282f6' }} />
                 <span className="font-medium text-blue-500 pt-[4px]">JobProject</span>

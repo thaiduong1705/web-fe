@@ -30,8 +30,8 @@ const DetailCandidate = () => {
     }
 
     return (
-        <div>
-            <div className="shadow-lg px-[32px] py-[32px]">
+        <div className="h-screen">
+            <div className="bg-white rounded-[8px] px-[32px] py-[32px]">
                 <div className="grid grid-cols-3 gap-[12x] ">
                     <div className="col-start-1 flex w-[100%] h-[160px] border-r-2 border-[#2A80B9]">
                         <img

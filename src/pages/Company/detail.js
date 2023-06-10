@@ -67,14 +67,14 @@ const DetailCompany = () => {
             <div className="my-[20px] mx-[24px] grid grid-cols-12 gap-[16px]">
                 <div className="col-span-8 flex flex-col gap-[32px]">
                     <div className="px-[32px] pt-[20px] pb-[40px] rounded-[12px] bg-white">
-                        <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px] ">
+                        <p className="text-[24px] font-medium pl-[8px] border-l-[6px] border-l-blue-500 my-[24px] ">
                             Giới thiệu công ty
                         </p>
                         <div className="list-disc">{parse(`${detailCompany?.introduction}`) || 'Chưa cập nhật'}</div>
                     </div>
 
                     <div className="px-[32px] py-[20px] bg-white rounded-[12px]">
-                        <p className="text-[24px] font-medium pl-[8px] border-l-4 border-l-[#2A80B9] my-[24px]">
+                        <p className="text-[24px] font-medium pl-[8px] border-l-[6px] border-l-blue-500 my-[24px]">
                             Đang tuyển dụng
                         </p>
                         <div className="my-[20px]">
