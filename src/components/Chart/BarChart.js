@@ -11,7 +11,7 @@ const BarChart = ({ chartData }) => {
             options={{
                 maintainAspectRatio: false,
                 layout: {
-                    padding: 12,
+                    padding: 10,
                 },
                 responsive: true,
                 scales: {

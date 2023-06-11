@@ -44,7 +44,6 @@ export const apiCreatePost = async (post) => {
             url: '/api/v1/post/create-post',
             data: post,
         });
-        console.log(request);
         return request;
     } catch (error) {
         return error;
@@ -106,12 +105,12 @@ export const apiSoftDeletePost = async (id) => {
     }
 };
 
-export const apiChangeStatusApplied = async (postId, candidateId) => {
+export const apiChangeStatusApplied = async (postId, candidateId, isApplied) => {
     try {
         const request = await axiosInstance({
             method: 'post',
             url: '/api/v1/post/change-applied',
-            data: { postId, candidateId },
+            data: { postId, candidateId, isApplied },
         });
         return request;
     } catch (error) {

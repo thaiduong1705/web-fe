@@ -541,7 +541,7 @@ const CreateCandidate = ({ isEdit = false }) => {
                         )}
                     </div>
                     <div className="w-[25%]">
-                        <label>Khu vực làm việc</label>
+                        <label>Khu vực làm việc mong muốn</label>
 
                         {isEdit && districtOldList && (
                             <Combobox
@@ -594,7 +594,7 @@ const CreateCandidate = ({ isEdit = false }) => {
                                             <span>Thêm ảnh CV</span>
                                         </>
                                     ) : (
-                                        <div className="relative w-full h-full">
+                                        <div className="relative w-full h-full flex items-center justify-center">
                                             {CVImage && (
                                                 <>
                                                     <img
@@ -633,7 +633,7 @@ const CreateCandidate = ({ isEdit = false }) => {
                                             <span>Thêm ảnh chân dung ứng viên</span>
                                         </>
                                     ) : (
-                                        <div className="relative w-full h-full">
+                                        <div className="relative w-full h-full flex items-center justify-center">
                                             {profileImage && (
                                                 <>
                                                     <img

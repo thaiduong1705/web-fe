@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '~/components/Sidebar';
 import Navbar from '~/components/Navbar';
 import { useStateContext } from '~/contexts/Context';
+
 const DefaultLayout = ({ children }) => {
     const { activeMenu, setActiveMenu } = useStateContext();
+
+    const dispatch = useDispatch();
     return (
         <div className="bg-slate-100">
             <div>

@@ -9,7 +9,6 @@ const ListCompanies = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { companies, count } = useSelector((state) => state.company);
-    console.log(companies);
     const { careers, districts } = useSelector((state) => state.otherData);
     const [selectedCareer, setSelectedCareer] = useState('');
     const [searchName, setSearchName] = useState('');

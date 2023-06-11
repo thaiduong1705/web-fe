@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faCamera, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -83,8 +83,7 @@ const CreateCompany = ({ isEdit }) => {
             careerList: careerList,
             imageLink: imagePreview,
         };
-        console.log(ValidData);
-        const isValid_temp = await companySchema.isValid(ValidData).then((valid) => {
+        await companySchema.isValid(ValidData).then((valid) => {
             if (valid === true) {
                 if (!isEdit) {
                     setCompanyData({
@@ -179,17 +178,9 @@ const CreateCompany = ({ isEdit }) => {
         formData.append('image', files[0]);
         const response = await apiUploadImagesCompany(formData);
         if (response.status === 200 && response.data.err === 0) {
-            setImagePreview(response?.data.res.secure_url);
+            setImagePreview(response?.data.res.response.secure_url);
         }
         setIsLoading(false);
-        // for (let i of files) {
-        //     formData.append('file', i);
-        //     formData.append('upload_preset', process.env.REACT_APP_UPLOAD_ASSETS_NAME);
-        //     let response = await apiUploadImagesCompany(formData);
-        //     if (response.status === 200) imageLink = response?.data.secure_url;
-        // }
-        // setIsLoading(false);
-        // setImagePreview((prev) => imageLink);
     };
 
     const handleDeleteImage = async (e) => {
@@ -238,7 +229,7 @@ const CreateCompany = ({ isEdit }) => {
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="TenCongViec"
                             id="JobName"
-                            placeholder="Công ty TNHH ABC"
+                            placeholder=""
                             type="text"
                             value={companyName}
                             onChange={(e) => setCompanyName(e.target.value)}
@@ -272,7 +263,7 @@ const CreateCompany = ({ isEdit }) => {
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="TenCongViec"
-                            placeholder="Địa chỉ của công ty"
+                            placeholder=""
                             type="text"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
@@ -281,7 +272,7 @@ const CreateCompany = ({ isEdit }) => {
                 </div>
                 <div className="flex justify-between mb-[8px] gap-[10px] px-[8px]">
                     <div className="flex-1">
-                        <label>Lĩnh vực</label>
+                        <label>Lĩnh vực (ngành nghề) của công ty</label>
                         {isEdit && careerOldList && (
                             <Combobox
                                 className="h-[40px]"
@@ -292,7 +283,6 @@ const CreateCompany = ({ isEdit }) => {
                                     return { id: obj.id, value: obj.careerName };
                                 })}
                                 onChange={(e) => {
-                                    console.log(e);
                                     handleChangeCareer(e);
                                 }}
                                 initialValue={isEdit && careerOldList ? careerOldList : null}
@@ -308,17 +298,16 @@ const CreateCompany = ({ isEdit }) => {
                                     return { id: obj.id, value: obj.careerName };
                                 })}
                                 onChange={(e) => {
-                                    console.log(e);
                                     handleChangeCareer(e);
                                 }}
                             />
                         )}
                     </div>
                     <div className="w-[20%]">
-                        <label>Quy mô</label>
+                        <label>Quy mô công ty</label>
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
-                            title="Quy mô"
+                            placeholder="Từ ... đến ..."
                             onChange={(e) => setCompanySize(e.target.value)}
                             value={companySize}
                         />
@@ -359,7 +348,7 @@ const CreateCompany = ({ isEdit }) => {
                     <div className="w-full">
                         <h3 className="font-medium py-4">Ảnh đã chọn</h3>
                         <div className="flex gap-4 items-center">
-                            <div className="relative w-1/3 h-1/3 ">
+                            <div className="relative w-[300px] h-[300px] flex items-center justify-center">
                                 {imagePreview && (
                                     <>
                                         <img
