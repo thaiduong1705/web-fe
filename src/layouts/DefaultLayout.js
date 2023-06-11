@@ -29,7 +29,7 @@ const DefaultLayout = ({ children }) => {
                 >
                     <Navbar />
                 </div>
-                <div className="ml-[40px] mr-[12px]">{children}</div>
+                <div className="ml-[40px] mr-[12px] h-screen">{children}</div>
             </div>
         </div>
     );
