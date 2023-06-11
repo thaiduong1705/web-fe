@@ -23,7 +23,6 @@ const SearchingCombobox = ({
         if (initialValue) {
             if (isMulti) {
                 const selectedItems = items.filter((item) => initialValue.includes(item.id));
-                console.log(selectedItems);
                 if (selectedItems.length > 0) {
                     setSelectedValue(selectedItems);
                 }

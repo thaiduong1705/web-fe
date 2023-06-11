@@ -7,7 +7,7 @@ import { getAcademicLevels, getCareers, getDistricts, getPositions, getWorkingTy
 import './App.css';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import DefaultLayout from './layouts/DefaultLayout';
-
+import { getCurrent } from '~/store/action/user';
 function App() {
     const dispatch = useDispatch();
     useEffect(() => {
@@ -17,6 +17,17 @@ function App() {
         dispatch(getPositions());
         dispatch(getWorkingTypes());
     }, []);
+
+    const { isLoggedIn } = useSelector((state) => state.auth);
+    useEffect(() => {
+        const id = setTimeout(() => {
+            isLoggedIn && dispatch(getCurrent());
+        }, 1000);
+        return () => {
+            clearTimeout(id);
+        };
+    }, [isLoggedIn]);
+
     return (
         <Router>
             <Routes>

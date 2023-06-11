@@ -20,7 +20,6 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { isLoggedIn } = useSelector((state) => state.auth);
     const { currentUser } = useSelector((state) => state.user);
 
     const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } =
@@ -43,15 +42,6 @@ const Navbar = () => {
             setActiveMenu(true);
         }
     }, [screenSize]);
-
-    useEffect(() => {
-        const id = setTimeout(() => {
-            isLoggedIn && dispatch(getCurrent());
-        }, 1000);
-        return () => {
-            clearTimeout(id);
-        };
-    }, [isLoggedIn]);
 
     const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
