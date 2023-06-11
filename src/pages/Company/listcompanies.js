@@ -62,7 +62,7 @@ const ListCompanies = () => {
     }
 
     return (
-        <div className="pb-6 bg-slate-100">
+        <div className="h-screen bg-slate-100">
             <div className="bg-blue-700 text-black px-[64px] rounded-[8px]">
                 <div className="grid grid-cols-12 py-[24px] gap-[16px] h-[80px]">
                     <div className="col-span-7 col-start-1 flex gap-[10px]">
