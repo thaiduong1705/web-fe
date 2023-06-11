@@ -10,19 +10,43 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPostById } from '~/store/action/post';
 import Swal from 'sweetalert2';
 import { Combobox } from '.';
-import { text } from '@fortawesome/fontawesome-svg-core';
+
+const ToggleButton = ({ postId, candidateId, applied, onClick }) => {
+    const handleChangeStatus = () => {
+        Swal.fire({
+            icon: 'question',
+            title: 'Lưu ý',
+            text: 'Bạn có muốn thay đổi trạng thái ứng tuyển của ứng viên này không?',
+            showDenyButton: true,
+            confirmButtonText: 'Đồng ý',
+            denyButtonText: 'Không đồng ý',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                apiChangeStatusApplied(postId, candidateId, !applied).then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        text: 'Trạng thái ứng tuyển được thay đổi thành công!',
+                    });
+                    onClick();
+                });
+            }
+        });
+    };
+    return (
+        <button
+            className={'p-[4px] rounded-lg font-medium w-[250px] ' + (applied ? 'bg-green-500' : 'bg-gray-400')}
+            onClick={handleChangeStatus}
+        >
+            {applied ? 'Ứng tuyển thành công' : 'Đang ứng tuyển'}
+        </button>
+    );
+};
 
 const CandidatePostModal = ({ id, closeModal, open }) => {
     const { detailPost } = useSelector((state) => state.post);
+    const [appliedChange, setAppliedChange] = useState(false);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getPostById(id));
-
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
-    }, [id]);
 
     useEffect(() => {
         if (open) {
@@ -32,36 +56,13 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
         }
     }, [open]);
 
+    useEffect(() => {
+        dispatch(getPostById(id));
+    }, [appliedChange]);
+
     if (!open) {
         return null;
     }
-
-    const handleChangeIsApllied = (e, index) => {
-        console.log(detailPost.Candidate[index].id);
-        if ((e.value = 'Đã ứng tuyển thành công')) {
-            Swal.fire({
-                icon: 'question',
-                title: 'Lưu ý',
-                text: 'Bạn có muốn thay đổi trạng thái ứng tuyển của ứng viên này không?',
-                showDenyButton: true,
-                confirmButtonText: 'Đồng ý',
-                denyButtonText: 'Không đồng ý',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    apiChangeStatusApplied(detailPost.id, detailPost.Candidate[index].id).then(
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công!',
-                            text: 'Trạng thái ứng tuyển được thay đổi thành công!',
-                        }),
-                    );
-                } else if (result.isDenied) {
-                }
-            });
-        } else {
-            Swal.fire({});
-        }
-    };
 
     return ReactDOM.createPortal(
         <div className="fixed top-0 left-0 right-0 bottom-0 z-500 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 max-h-full flex justify-center items-center bg-overlay-70">
@@ -105,7 +106,7 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
                         <tbody>
                             {detailPost?.Candidate.map((data, index) => {
                                 return (
-                                    <tr className="border-b dark:border-neutral-500">
+                                    <tr className="border-b dark:border-neutral-500" key={data?.id}>
                                         <td className="px-6 py-4">{index + 1}</td>
                                         <td className="whitespace-nowrap px-6 py-4">
                                             <div>
@@ -141,14 +142,11 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <Combobox
-                                                title="Tình trạng"
-                                                items={[
-                                                    { id: 0, value: 'Đang ứng tuyển' },
-                                                    { id: 1, value: 'Đã ứng tuyển thành công' },
-                                                ]}
-                                                onChange={(e) => handleChangeIsApllied(e, index)}
-                                                initialValue={+data.CandidatePost.isApplied}
+                                            <ToggleButton
+                                                postId={detailPost?.id}
+                                                candidateId={data?.id}
+                                                applied={data?.CandidatePost.isApplied}
+                                                onClick={() => setAppliedChange(!appliedChange)}
                                             />
                                         </td>
                                     </tr>
@@ -156,22 +154,6 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
                             })}
                         </tbody>
                     </table>
-                </div>
-                <div className="flex items-center justify-end p-[24px] space-x-[8px] border-t border-gray-200 rounded-b-[4px] dark:border-gray-600">
-                    <button
-                        type="button"
-                        className="text-white bg-blue-700 hover:bg-blue-800 outline-none font-medium rounded-lg text-[14px] px-[20px] py-[10px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        onClick={(e) => {}}
-                    >
-                        Đồng ý
-                    </button>
-                    <button
-                        type="button"
-                        className="text-gray-500 bg-white hover:bg-gray-100 outline-none rounded-lg border border-gray-200 text-[14px] px-[20px] py-[10px] font-medium hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                        onClick={closeModal}
-                    >
-                        Huỷ bỏ
-                    </button>
                 </div>
             </div>
         </div>,

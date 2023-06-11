@@ -41,11 +41,10 @@ const DetailPage = () => {
         return () => {
             dispatch(setDetailPostNull());
         };
-    }, [id]);
+    }, []);
 
     useEffect(() => {
         dispatch(getPostById(id));
-        setIsCandidateAdding(!isCandidateAdding);
     }, [isCandidateAdding]);
 
     useEffect(() => {
@@ -63,7 +62,6 @@ const DetailPage = () => {
             };
             fetchingRelatedPosts();
         }
-        console.log(detailPost);
     }, []);
 
     const [toggle, setToggle] = useState(false);
@@ -350,11 +348,6 @@ const DetailPage = () => {
                                 <span className="font-medium">Quy mô công ty:</span>
                                 <span>{detailPost?.Company?.companySize || 'chưa cập nhật'}</span>
                             </div>
-                            <div className="flex items-center gap-4">
-                                <FontAwesomeIcon icon={faFile} />
-                                <span className="font-medium">Đã đăng:</span>
-                                <span>Bind số lượng bài</span>
-                            </div>
                         </div>
                     </div>
                     <div className="px-[32px] py-[20px] bg-white rounded-[12px] mt-[24px]">
@@ -384,7 +377,7 @@ const DetailPage = () => {
                                 <tbody>
                                     {detailPost?.Candidate?.map((data, index) => {
                                         return (
-                                            <tr className="border-b dark:border-neutral-500">
+                                            <tr className="border-b dark:border-neutral-500" key={data?.id}>
                                                 <td className=" px-6 py-4 ">{index + 1}</td>
                                                 <td className="whitespace-nowrap px-6 py-4">
                                                     <div>

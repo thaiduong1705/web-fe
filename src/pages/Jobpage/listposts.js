@@ -15,7 +15,6 @@ const ListPosts = () => {
     const dispatch = useDispatch();
 
     const { posts, count } = useSelector((state) => state.post);
-    console.log(posts);
     const { careers, districts, academicLevels, workingTypes, positions } = useSelector((state) => state.otherData);
 
     const [jobTitle, setJobTitle] = useState('');
@@ -93,7 +92,6 @@ const ListPosts = () => {
         );
     };
     const handleFilter = () => {
-        console.log({ gender, salary, expYear, position, al, wt, career, district, createdAt });
         dispatch(
             getPostsLimit({
                 jobTitle: jobTitle,
