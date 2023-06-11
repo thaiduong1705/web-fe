@@ -15,7 +15,7 @@ const Homepage = () => {
         }),
         datasets: [
             {
-                label: 'Thống kê 1',
+                label: 'Thống kê',
                 data: [5, 3, 7, 5, 8, 9, 2],
                 backgroundColor: 'white',
                 fontColor: 'white',
@@ -33,13 +33,21 @@ const Homepage = () => {
                     <ReportCard />
                 </div>
                 <div className="my-[60px] mx-[20px] grid grid-cols-1 gap-y-[48px] gap-x-[24px] md:grid-cols-2 xl:grid-cols-3">
-                    <ChartCard>
+                    <ChartCard context={'Số bài đăng trong 7 ngày vừa qua'}>
                         <BarChart chartData={data} />
                     </ChartCard>
-                    <ChartCard>
+                    <ChartCard
+                        context={'Số lượt ứng tuyển trong 7 ngày vừa qua'}
+                        fromColor="from-pink-700"
+                        toColor="to-pink-400"
+                    >
                         <LineChart chartData={data} />
                     </ChartCard>
-                    <ChartCard>
+                    <ChartCard
+                        context={'Số người ứng tuyển thành công trong 7 ngày vừa qua'}
+                        fromColor="from-green-700"
+                        toColor="to-green-400"
+                    >
                         <LineChart chartData={data} />
                     </ChartCard>
                 </div>
