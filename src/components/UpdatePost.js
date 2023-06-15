@@ -4,7 +4,6 @@ import { CreatePost, CreateCompany, CreateCandidate } from '~/pages/index';
 
 const UpdatePost = () => {
     const location = useLocation();
-    console.log(location.state);
     return (
         <div>
             {location.state === 'EDIT_CANDIDATE' && <CreateCandidate isEdit={true} />}

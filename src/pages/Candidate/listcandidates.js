@@ -71,8 +71,8 @@ const ListCandidates = () => {
         );
     }
     return (
-        <div>
-            <div className="bg-blue-700 text-black px-[64px]">
+        <div className="h-screen">
+            <div className="bg-blue-700 text-black px-[64px] rounded-[8px]">
                 <div className="grid grid-cols-10 py-[24px] gap-[16px] h-[80px]">
                     <Combobox
                         title="Trình độ học vấn"
@@ -123,15 +123,15 @@ const ListCandidates = () => {
                 <>
                     <div className="my-[40px] px-[64px]">
                         <table className="table-auto min-w-full text-left text-[14px] font-light">
-                            <thead className="border-b dark:border-neutral-500">
+                            <thead className="border-b border-gray-500 dark:border-neutral-600">
                                 <tr>
-                                    <th scope="col" className="px-6 py-4 font-medium w-1/3">
+                                    <th scope="col" className="px-6 py-4 font-medium w-1/3 text-16 text-blue-600">
                                         Ứng viên
                                     </th>
-                                    <th scope="col" className="px-6 py-4 font-medium">
+                                    <th scope="col" className="px-6 py-4 font-medium text-16 text-blue-600">
                                         Kinh nghiệm
                                     </th>
-                                    <th scope="col" className="px-6 py-4 font-medium">
+                                    <th scope="col" className="px-6 py-4 font-medium text-16 text-blue-600">
                                         Trình độ chuyên môn
                                     </th>
                                 </tr>

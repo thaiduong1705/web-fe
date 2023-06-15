@@ -15,7 +15,6 @@ const ListPosts = () => {
     const dispatch = useDispatch();
 
     const { posts, count } = useSelector((state) => state.post);
-    console.log(posts);
     const { careers, districts, academicLevels, workingTypes, positions } = useSelector((state) => state.otherData);
 
     const [jobTitle, setJobTitle] = useState('');
@@ -93,7 +92,6 @@ const ListPosts = () => {
         );
     };
     const handleFilter = () => {
-        console.log({ gender, salary, expYear, position, al, wt, career, district, createdAt });
         dispatch(
             getPostsLimit({
                 jobTitle: jobTitle,
@@ -117,13 +115,13 @@ const ListPosts = () => {
         );
     }
     return (
-        <div className="">
-            <div className="bg-blue-700 text-black px-[64px]">
+        <div className="bg-slate-100 h-screen">
+            <div className="bg-blue-700 text-black px-[64px] rounded-[8px]">
                 <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px]">
                     <div className="col-span-5 col-start-1 flex gap-[10px]">
                         <span className="text-[16px] text-white leading-[32px] block ">Tìm việc: </span>
                         <input
-                            className="w-[94%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
+                            className="w-[93.5%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
                             placeholder="Nhập từ khoá tìm kiếm..."
                             value={jobTitle}
                             onChange={(e) => {
@@ -199,7 +197,7 @@ const ListPosts = () => {
                     />
                 </div>
             </div>
-            <div className="w-full flex flex-col justify-center h-auto rounded-[3px] mt-[8px] bg-gray-50 px-[64px] py-[16px] ">
+            <div className="w-full flex flex-col justify-center h-auto rounded-[3px] mt-[8px] bg-slate-100 px-[64px] py-[16px] ">
                 <div className="flex justify-between mb-10 mt-5">
                     <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-blue-600 before:left-0 pl-[24px]">
                         <p className="text-[24px] font-medium leading-[1.4] my-[2px] pt">Danh sách việc làm</p>
@@ -222,7 +220,7 @@ const ListPosts = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="px-[64px]">
+                <div className="">
                     {posts.length === 0 ? (
                         <div className="flex justify-center items-center">Không có kết quả</div>
                     ) : (

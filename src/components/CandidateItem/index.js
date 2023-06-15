@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const CandidateItem = ({ item, onClick }) => {
     return (
-        <tr className="border-b dark:border-neutral-500 hover:bg-[#E6F5FE] transition-all">
+        <tr className="border-b border-gray-300 dark:border-neutral-500 hover:bg-blue-200 transition-all">
             <td className="whitespace-nowrap px-6 py-4">
                 <div>
                     <Link to={`chi-tiet/${item?.id}`} className="uppercase text-[16px] font-medium">

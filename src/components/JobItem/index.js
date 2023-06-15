@@ -12,7 +12,7 @@ const JobItem = ({ job = {}, onClick, toggleModal }) => {
     const navigate = useNavigate();
     return (
         <div
-            className="h-[160px] overflow-hidden flex bg-[#f1f3f5] rounded-[8px] relative my-7 border-1 border-transparent hover:cursor-pointer hover:bg-[#E6F5FE] hover:border-blue-500 hover:transition-all"
+            className="h-[160px] overflow-hidden flex bg-slate-200 rounded-[8px] relative my-7 border-1 border-transparent hover:cursor-pointer hover:bg-blue-200 hover:border-blue-500 hover:transition-all"
             onMouseEnter={() => setMouseEnter(true)}
             onMouseLeave={() => setMouseEnter(false)}
         >
@@ -21,7 +21,7 @@ const JobItem = ({ job = {}, onClick, toggleModal }) => {
                     to={`/viec-lam/chi-tiet/${sanitizeVietnameseString(job?.jobTitle)}/${job?.id}`}
                     className="w-full h-full"
                 >
-                    <img src={job.Company.imageLink} className="w-full h-full object-contain p-[16px]" alt="" />
+                    <img src={job?.Company?.imageLink} className="w-full h-full object-contain p-[16px]" alt="" />
                 </Link>
             </div>
 

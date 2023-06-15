@@ -99,7 +99,6 @@ const CreatePost = ({ isEdit = false }) => {
             });
         }
         return () => {};
-        console.log(postDataEdit);
     }, [postDataEdit]);
     const handleChangeGender = (value) => {
         setGender((prev) => value.id);
@@ -171,8 +170,6 @@ const CreatePost = ({ isEdit = false }) => {
             careerOldList: oldCareerList,
         };
 
-        console.log(ValidData);
-
         const isValid_temp = await jobSchema.isValid(ValidData).then(async (valid) => {
             if (valid === true) {
                 if (isEdit && postDataEdit) {
@@ -193,7 +190,6 @@ const CreatePost = ({ isEdit = false }) => {
                     }
                 } else {
                     const response = await apiCreatePost(ValidData);
-                    console.log(response);
                     if (response?.data?.err === 0) {
                         await Swal.fire({
                             icon: 'success',

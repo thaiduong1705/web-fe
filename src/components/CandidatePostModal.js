@@ -5,21 +5,48 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
+import { apiChangeStatusApplied } from '~/services/post';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostById } from '~/store/action/post';
 import Swal from 'sweetalert2';
+import { Combobox } from '.';
+
+const ToggleButton = ({ postId, candidateId, applied, onClick }) => {
+    const handleChangeStatus = () => {
+        Swal.fire({
+            icon: 'question',
+            title: 'Lưu ý',
+            text: 'Bạn có muốn thay đổi trạng thái ứng tuyển của ứng viên này không?',
+            showDenyButton: true,
+            confirmButtonText: 'Đồng ý',
+            denyButtonText: 'Không đồng ý',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                apiChangeStatusApplied(postId, candidateId, !applied).then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        text: 'Trạng thái ứng tuyển được thay đổi thành công!',
+                    });
+                    onClick();
+                });
+            }
+        });
+    };
+    return (
+        <button
+            className={'p-[4px] rounded-lg font-medium w-[250px] ' + (applied ? 'bg-green-500' : 'bg-gray-400')}
+            onClick={handleChangeStatus}
+        >
+            {applied ? 'Ứng tuyển thành công' : 'Đang ứng tuyển'}
+        </button>
+    );
+};
 
 const CandidatePostModal = ({ id, closeModal, open }) => {
     const { detailPost } = useSelector((state) => state.post);
+    const [appliedChange, setAppliedChange] = useState(false);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getPostById(id));
-
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
-    }, [id]);
 
     useEffect(() => {
         if (open) {
@@ -29,13 +56,17 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
         }
     }, [open]);
 
+    useEffect(() => {
+        dispatch(getPostById(id));
+    }, [appliedChange]);
+
     if (!open) {
         return null;
     }
 
     return ReactDOM.createPortal(
         <div className="fixed top-0 left-0 right-0 bottom-0 z-500 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 max-h-full flex justify-center items-center bg-overlay-70">
-            <div className="bg-white rounded-lg shadow dark:bg-gray-700 w-[1200px]">
+            <div className="bg-white rounded-lg shadow dark:bg-gray-700 w-[1400px]">
                 <div className=" relative flex items-start justify-between p-[16px] border-b rounded-t-[4px] dark:border-gray-600">
                     <h3 className="text-[20px] font-semibold text-gray-900 dark:text-white line-clamp-1 w-[calc(100%-10rem)] border-l-4 border-blue-500">
                         <p className="pl-3"> Chi tiết danh sách ứng tuyển của bài đăng </p>
@@ -58,27 +89,30 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
                                 <th scope="col" className="px-6 py-4 font-medium w-[30%]">
                                     Họ tên
                                 </th>
-                                <th scope="col" className="px-6 py-4 font-medium w-[20%]">
+                                <th scope="col" className="px-6 py-4 font-medium w-[10%]">
                                     Kinh nghiệm
                                 </th>
                                 <th scope="col" className="px-6 py-4 font-medium w-[20%]">
                                     Trình độ chuyên môn
                                 </th>
-                                <th scope="col" className="px-6 py-4 font-medium w-[30%]">
+                                <th scope="col" className="px-6 py-4 font-medium w-[15%]">
                                     Các thao tác
+                                </th>
+                                <th scope="col" className="px-6 py-4 font-medium w-[20%]">
+                                    Tình trạng ứng tuyển
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             {detailPost?.Candidate.map((data, index) => {
                                 return (
-                                    <tr className="border-b dark:border-neutral-500">
-                                        <td className="px-6 py-4">1</td>
+                                    <tr className="border-b dark:border-neutral-500" key={data?.id}>
+                                        <td className="px-6 py-4">{index + 1}</td>
                                         <td className="whitespace-nowrap px-6 py-4">
                                             <div>
-                                                <Link to={``} className="uppercase text-[16px] font-medium">
+                                                <div to={``} className="uppercase text-[16px] font-medium">
                                                     {data.candidateName}
-                                                </Link>
+                                                </div>
 
                                                 <div className="flex line-clamp-1">
                                                     <div className="mr-[4px] max-w-[180px] line-clamp-1">
@@ -107,27 +141,19 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
                                                 />
                                             </div>
                                         </td>
+                                        <td className="px-6 py-4">
+                                            <ToggleButton
+                                                postId={detailPost?.id}
+                                                candidateId={data?.id}
+                                                applied={data?.CandidatePost.isApplied}
+                                                onClick={() => setAppliedChange(!appliedChange)}
+                                            />
+                                        </td>
                                     </tr>
                                 );
                             })}
                         </tbody>
                     </table>
-                </div>
-                <div className="flex items-center justify-end p-[24px] space-x-[8px] border-t border-gray-200 rounded-b-[4px] dark:border-gray-600">
-                    <button
-                        type="button"
-                        className="text-white bg-blue-700 hover:bg-blue-800 outline-none font-medium rounded-lg text-[14px] px-[20px] py-[10px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        onClick={(e) => {}}
-                    >
-                        Đồng ý
-                    </button>
-                    <button
-                        type="button"
-                        className="text-gray-500 bg-white hover:bg-gray-100 outline-none rounded-lg border border-gray-200 text-[14px] px-[20px] py-[10px] font-medium hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                        onClick={closeModal}
-                    >
-                        Huỷ bỏ
-                    </button>
                 </div>
             </div>
         </div>,

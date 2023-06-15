@@ -33,19 +33,20 @@ const DetailPage = () => {
 
     const { detailPost } = useSelector((state) => state.post);
     const [careerRelatedPosts, setCareerRelatedPosts] = useState([]);
+    const [isCandidateAdding, setIsCandidateAdding] = useState(false);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getPostById(id));
         return () => {
             dispatch(setDetailPostNull());
         };
-    }, [id]);
+    }, []);
 
     useEffect(() => {
         dispatch(getPostById(id));
-    }, [detailPost?.Candidate]);
+    }, [isCandidateAdding]);
 
-    console.log(detailPost?.Candidate);
     useEffect(() => {
         if (detailPost) {
             let careerIds = [];
@@ -54,7 +55,6 @@ const DetailPage = () => {
                     const id = career.id;
                     careerIds.push(id);
                 }
-                console.log(careerIds);
                 const response = await apiGetRelatedPost(detailPost.id, careerIds);
                 if (response?.data.err === 0) {
                     setCareerRelatedPosts((prev) => [...response.data.res]);
@@ -62,7 +62,7 @@ const DetailPage = () => {
             };
             fetchingRelatedPosts();
         }
-    }, [detailPost]);
+    }, []);
 
     const [toggle, setToggle] = useState(false);
     const [toggleOnCandidate, setToggleOnCandidate] = useState(false);
@@ -348,11 +348,6 @@ const DetailPage = () => {
                                 <span className="font-medium">Quy mô công ty:</span>
                                 <span>{detailPost?.Company?.companySize || 'chưa cập nhật'}</span>
                             </div>
-                            <div className="flex items-center gap-4">
-                                <FontAwesomeIcon icon={faFile} />
-                                <span className="font-medium">Đã đăng:</span>
-                                <span>Bind số lượng bài</span>
-                            </div>
                         </div>
                     </div>
                     <div className="px-[32px] py-[20px] bg-white rounded-[12px] mt-[24px]">
@@ -382,7 +377,7 @@ const DetailPage = () => {
                                 <tbody>
                                     {detailPost?.Candidate?.map((data, index) => {
                                         return (
-                                            <tr className="border-b dark:border-neutral-500">
+                                            <tr className="border-b dark:border-neutral-500" key={data?.id}>
                                                 <td className=" px-6 py-4 ">{index + 1}</td>
                                                 <td className="whitespace-nowrap px-6 py-4">
                                                     <div>
@@ -444,6 +439,7 @@ const DetailPage = () => {
                 closeModal={() => {
                     setToggle(false);
                     navigate(0);
+                    setIsCandidateAdding(!isCandidateAdding);
                 }}
                 post={appliedPost}
             />

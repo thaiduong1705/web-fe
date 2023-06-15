@@ -1,17 +1,17 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 
-const BarChart = ({ chartData }) => {
+const LineChart = ({ chartData }) => {
     return (
-        <Bar
+        <Line
             data={chartData}
             width={'100%'}
             height={'100%'}
             options={{
                 maintainAspectRatio: false,
                 layout: {
-                    padding: 10,
+                    padding: 12,
                 },
                 responsive: true,
                 scales: {
@@ -58,4 +58,4 @@ const BarChart = ({ chartData }) => {
     );
 };
 
-export default BarChart;
+export default LineChart;
