@@ -27,7 +27,7 @@ const TextEditor = ({ className, onChange, initialValue }) => {
                 value={quill}
                 onChange={handleChange}
                 modules={{ toolbar: TOOLBAR_OPTIONS }}
-                className="ql-container"
+                className="ql-container overflow-auto"
             />
         </div>
     );

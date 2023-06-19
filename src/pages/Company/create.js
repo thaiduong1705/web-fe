@@ -315,7 +315,7 @@ const CreateCompany = ({ isEdit }) => {
                 </div>
                 <div className="mb-[8px] px-[8px] overflow-hidden">
                     <label>Giới thiệu công ty</label>
-                    {isEdit && (
+                    {isEdit && introduction && (
                         <TextEditor
                             className="w-[100%] h-[400px] mb-[8px] overflow-scroll"
                             onChange={setIntroduction}
@@ -354,7 +354,7 @@ const CreateCompany = ({ isEdit }) => {
                                         <img
                                             src={imagePreview}
                                             alt="preview"
-                                            className="w-full h-full object-cover rounded-md"
+                                            className="w-full h-full object-contain rounded-md"
                                         />
                                         <button
                                             title="Xóa"
