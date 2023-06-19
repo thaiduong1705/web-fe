@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ReportCard = ({ number = 10, percent = 10, color = '3482F6', name }) => {
+const ReportCard = ({ number = 10, percent = 10, color = '3482F6', content, className, icon }) => {
     return (
         <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md w-[370px] h-[145px]">
             <div
@@ -12,7 +12,9 @@ const ReportCard = ({ number = 10, percent = 10, color = '3482F6', name }) => {
                 icon
             </div>
             <div className="p-[16px] text-right">
-                <p className="block antialiased leading-normal text-[14px] text-[#546e7a]">{name}</p>
+                <p className="block antialiased leading-normal text-[14px] text-[#546e7a]">
+                    Số lượng tuyển dụng hôm nay
+                </p>
                 <h4 className="tracking-normal block antialiased text-[24px] font-semibold leading-snug text-black">
                     {number}
                 </h4>

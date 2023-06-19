@@ -63,6 +63,7 @@ module.exports = {
             inset: { 210: '210px' },
             backgroundImage: {
                 'hero-pattern': "url('https://i.ibb.co/MkvLDfb/Rectangle-4389.png')",
+                'title-pattern': "url('https://fullhdoboi.ru/wp-content/uploads/_ph/6/725136301.jpg')",
             },
             flex: {
                 2: '0 0 15%',

@@ -37,6 +37,7 @@ const Login = () => {
             <img
                 src="https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80"
                 class="absolute z-0 h-full w-full object-cover"
+                alt=""
             />
             <div class="absolute inset-0 z-0 h-full w-full bg-black/50"></div>
             <div className="flex flex-col top-1/4 left-2/4 -translate-x-[50%] px-[24px] py-[32px] mx-auto md:h-screen lg:py-0 w-[500px] absolute z-1">
