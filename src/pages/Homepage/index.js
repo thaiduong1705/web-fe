@@ -24,20 +24,17 @@ const Homepage = () => {
         ],
     };
     return (
-        <div className="w-auto md:ml-96 h-full">
-            <div className="h-[150px] text-[32px] flex justify-center items-center bg-white rounded-[8px] font-medium">
-                <div
-                    className="relative h-[200px] bg-local ml-[20px] mr-[24px] rounded-[8px]"
-                    style={{ backgroundImage: 'url(' + Background + ')' }}
-                >
-                    <div className="absolute bg-[#00000080] h-[100%] w-[100%] rounded-[8px]"></div>
-                    <div className="absolute flex items-center justify-center h-[100%] w-[100%]">
-                        <div className="text-slate-200 font-semibold text-[32px]">
-                            Ngày mới làm việc hiệu quả nhé, user.
-                        </div>
+        <div className="w-auto md:ml-96 h-[100%]">
+            <div
+                className="relative h-[200px] bg-local ml-[20px] mr-[24px] rounded-[8px]"
+                style={{ backgroundImage: 'url(' + Background + ')' }}
+            >
+                <div className="absolute bg-[#00000080] h-[100%] w-[100%] rounded-[8px]"></div>
+                <div className="absolute flex items-center justify-center h-[100%] w-[100%]">
+                    <div className="text-slate-200 font-semibold text-[32px]">
+                        Ngày mới làm việc hiệu quả nhé, user.
                     </div>
                 </div>
-                Thống kê
             </div>
             <div className="grid gap-[24px] grid-cols-4 mx-[32px] my-[24px]">
                 <ReportCard content={'Số lượng công ty'} icon={<FontAwesomeIcon icon={faBuilding} />} />

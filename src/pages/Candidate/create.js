@@ -399,7 +399,7 @@ const CreateCandidate = ({ isEdit = false }) => {
                         <input
                             className="w-full h-[40px] rounded-md outline-none px-[8px]"
                             name="SoLuong"
-                            maxLength={10}
+                            maxLength={11}
                             onChange={(e) => setCandidatePhonenumber(e.target.value)}
                             value={phoneNumber}
                         />
