@@ -42,6 +42,9 @@ const actionType = {
 
     //User
     GET_CURRENT: 'GET_CURRENT',
+
+    //Report
+    GET_REPORT: 'GET_REPORT',
 };
 
 export default actionType;

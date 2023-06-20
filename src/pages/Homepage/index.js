@@ -1,12 +1,25 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ReportCard, BarChart, ChartCard, LineChart } from '~/components';
 
+import { getReports } from '~/store/action/report';
 import Background from '../../image/grass.jpg';
 import styles from './Homepage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faFile, faUsers } from '@fortawesome/free-solid-svg-icons';
 const Homepage = () => {
+    const dispatch = useDispatch();
+
+    const reports = useSelector((state) => state.report);
+
+    useEffect(() => {
+        dispatch(getReports());
+    }, []);
+
+    console.log(reports);
+
     const data = {
         labels: [...Array(7)].map((_, i) => {
             const d = new Date();
