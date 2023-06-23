@@ -117,3 +117,15 @@ export const apiChangeStatusApplied = async (postId, candidateId, isApplied) => 
         console.log(error);
     }
 };
+
+export const apiGetDeletedPost = async () => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
+            url: '/api/v1/post/get-delete',
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+};

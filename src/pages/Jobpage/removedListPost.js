@@ -9,7 +9,7 @@ import ReactPaginate from 'react-paginate';
 import { Exp, Gender, Salary, CreatedAt } from '~/data';
 import ApplyModal from '~/components/ApplyModal';
 
-const ListPosts = () => {
+const RemovedListPosts = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -66,8 +66,10 @@ const ListPosts = () => {
     let companyPerPage = 10;
 
     useEffect(() => {
-        dispatch(getPostsLimit());
+        dispatch(getDeletedPosts());
     }, []);
+
+    console.log(posts);
 
     useEffect(() => {
         setPageCount((prev) => Math.ceil(count / companyPerPage));
@@ -116,103 +118,11 @@ const ListPosts = () => {
     }
     return (
         <div className="bg-slate-100 h-screen">
-            <div className="bg-blue-700 text-black px-[64px] rounded-[8px]">
-                <div className="grid grid-cols-6 py-[24px] gap-[16px] h-[80px]">
-                    <div className="col-span-5 col-start-1 flex gap-[10px]">
-                        <span className="text-[16px] text-white leading-[32px] block ">Tìm việc: </span>
-                        <input
-                            className="w-[93.5%] h-[35px] pl-[12px] border-solid border-1 rounded-[4px] border-transparent outline-none"
-                            placeholder="Nhập từ khoá tìm kiếm..."
-                            value={jobTitle}
-                            onChange={(e) => {
-                                setJobTitle((prev) => e.target.value);
-                            }}
-                        />
-                    </div>
-                    <button
-                        className="cursor-pointer col-start-6 bg-blue-400 hover:bg-blue-500 text-white h-[35px] rounded-[8px] font-[550]"
-                        onClick={handleFilter}
-                    >
-                        Tìm kiếm
-                    </button>
-                </div>
-                <div className="grid grid-cols-5 grid-rows-2 pb-[20px] gap-[16px]">
-                    <Combobox
-                        title="Cấp bậc"
-                        items={[
-                            { id: '', value: 'Tất cả cấp bậc' },
-                            ...positions.map((obj) => {
-                                return { id: obj.id, value: obj.positionName };
-                            }),
-                        ]}
-                        onChange={handleChangePosition}
-                    />
-                    <Combobox
-                        title="Loại hình"
-                        items={[
-                            { id: '', value: 'Tất cả loại hình' },
-                            ...workingTypes.map((obj) => {
-                                return { id: obj.id, value: obj.workingTypeName };
-                            }),
-                        ]}
-                        onChange={handleChangeWT}
-                    />
-                    <Combobox title="Kinh nghiệm" items={Exp} onChange={handleChangeExp} />
-                    <Combobox title="Thời gian" items={CreatedAt} onChange={handleChangeCreatedAt} />
-                    <Combobox title="Giới tính" items={Gender} onChange={handleChangeGender} />
-                    <Combobox title="Độ tuổi" />
-                    <Combobox
-                        title="Trình độ"
-                        items={[
-                            { id: '', value: 'Tất cả trình độ' },
-                            ...academicLevels.map((obj) => {
-                                return { id: obj.id, value: obj.academicLevelName };
-                            }),
-                        ]}
-                        onChange={handleChangeAL}
-                    />
-                    <Combobox title="Mức lương" items={Salary} onChange={handleChangeSalary} />
-                    <Combobox
-                        title="Ngành nghề"
-                        items={[
-                            { id: '', value: 'Tất cả ngành nghề' },
-                            ...careers.map((obj) => {
-                                return { id: obj.id, value: obj.careerName };
-                            }),
-                        ]}
-                        isSearchable={true}
-                        onChange={handleChangeCareer}
-                    />
-                    <Combobox
-                        title="Quận huyện"
-                        className="h-[35px] col-start-5"
-                        items={[
-                            { id: '', value: 'Tất cả khu vực' },
-                            ...districts.map((obj) => {
-                                return { id: obj.id, value: obj.districtName };
-                            }),
-                        ]}
-                        isSearchable={true}
-                        onChange={handleChangeDistrict}
-                    />
-                </div>
-            </div>
             <div className="w-full flex flex-col justify-center h-auto rounded-[3px] mt-[8px] bg-slate-100 px-[64px] py-[16px] ">
                 <div className="flex justify-between mb-10 mt-5">
                     <div className="relative before:content-[''] before:absolute before:h-full before:rounded-[4px] before:w-[6px] before:bg-blue-600 before:left-0 pl-[24px]">
-                        <p className="text-[24px] font-medium leading-[1.4] my-[2px] pt">Danh sách việc làm</p>
-                        <p className="text-[#999999]">Danh sách các việc làm tại TP Hồ Chí Minh</p>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <Link className="underline text-blue-400" to="/viec-lam/bai-viet-bi-an">
-                            Danh sách bài tuyển dụng bị ẩn
-                        </Link>
-                        <Link
-                            to="/viec-lam/tao-viec-lam"
-                            className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80"
-                        >
-                            Tạo mới bài tuyển dụng
-                        </Link>
+                        <p className="text-[24px] font-medium leading-[1.4] my-[2px] pt">Danh sách bài đăng bị ẩn</p>
+                        <p className="text-[#999999]">Danh sách các việc làm hết hạn/bị ẩn</p>
                     </div>
                 </div>
                 <div className="">
@@ -261,4 +171,4 @@ const ListPosts = () => {
     );
 };
 
-export default ListPosts;
+export default RemovedListPosts;

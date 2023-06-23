@@ -19,6 +19,7 @@ import {
 } from '~/pages';
 import UpdatePost from '~/components/UpdatePost';
 import Login from '~/pages/Login';
+import RemovedListPosts from '~/pages/Jobpage/removedListPost';
 
 export const publicRoutes = [
     {
@@ -56,6 +57,10 @@ export const privateRoutes = [
             {
                 path: 'chinh-sua/:id',
                 component: UpdatePost,
+            },
+            {
+                path: 'bai-viet-bi-an',
+                component: RemovedListPosts,
             },
         ],
         subNav: [

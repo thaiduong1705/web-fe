@@ -46,6 +46,12 @@ const postReducer = (state = initState, action) => {
                 ...state,
                 postDataEdit: action.postDataEdit || null,
             };
+        case actionType.GET_DELETED_POST:
+            return {
+                ...state,
+                posts: action.posts || [],
+                msg: action.msg || '',
+            };
         case actionType.SET_POST_EDIT_NULL:
             return {
                 ...state,
