@@ -64,7 +64,7 @@ const Navbar = () => {
                     alt="user-profile"
                 />
                 <FontAwesomeIcon icon={faCaretDown} style={{ color: '#3B82F6' }} />
-                <div className="w-[170px] absolute top-[40px] text-start bg-slate-50 p-3 right-0 hidden group-hover:block">
+                <div className="w-[170px] absolute top-[40px] text-start bg-slate-50 p-3 right-0 hidden group-hover:block z-10">
                     <ul>
                         <li className="inline-flex w-full">
                             <FontAwesomeIcon icon={faRightFromBracket} className="m-2" />

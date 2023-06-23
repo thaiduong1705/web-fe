@@ -17,7 +17,6 @@ function App() {
         dispatch(getPositions());
         dispatch(getWorkingTypes());
     }, []);
-
     const { isLoggedIn } = useSelector((state) => state.auth);
     useEffect(() => {
         const id = setTimeout(() => {

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getCompanyLimit, setCompaniesToNull } from '~/store/action/company';
 import ReactPaginate from 'react-paginate';
+import { exportExcel } from '~/utils/exportData';
 const ListCompanies = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -42,6 +43,10 @@ const ListCompanies = () => {
                 companyName: searchName,
             }),
         );
+    };
+
+    const handleExportExcel = () => {
+        exportExcel(companies, 'Danh sách công ty', 'Company');
     };
 
     const handleSearch = () => {
@@ -101,7 +106,13 @@ const ListCompanies = () => {
                     <p className="text-[24px] font-medium leading-[1.4] mb-[4px]">Nhà tuyển dụng</p>
                     <p className="text-[#999999]">Danh sách nhà tuyển dụng tại TP Hồ Chí Minh</p>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center gap-[8px]">
+                    <button
+                        className="bg-green-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80 px-3"
+                        onClick={handleExportExcel}
+                    >
+                        Xuất excel danh sách hiện tại
+                    </button>
                     <Link
                         to="/nha-tuyen-dung/tao-moi"
                         className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80 px-3"

@@ -58,6 +58,16 @@ export const privateRoutes = [
                 component: UpdatePost,
             },
         ],
+        subNav: [
+            {
+                title: 'Danh sách tuyển dụng',
+                path: '/viec-lam/',
+            },
+            {
+                title: 'Thêm bài tuyển dụng',
+                path: '/viec-lam/tao-viec-lam',
+            },
+        ],
     },
 
     {
@@ -83,6 +93,16 @@ export const privateRoutes = [
                 component: UpdatePost,
             },
         ],
+        subNav: [
+            {
+                title: 'Danh sách nhà tuyển dụng',
+                path: '/nha-tuyen-dung/',
+            },
+            {
+                title: 'Thêm nhà tuyển dụng',
+                path: '/nha-tuyen-dung/tao-moi',
+            },
+        ],
     },
 
     {
@@ -106,6 +126,16 @@ export const privateRoutes = [
             {
                 path: 'chinh-sua/:id',
                 component: UpdatePost,
+            },
+        ],
+        subNav: [
+            {
+                title: 'Danh sách ứng viên',
+                path: '/ung-vien/',
+            },
+            {
+                title: 'Thêm ứng viên',
+                path: '/ung-vien/tao-ung-vien',
             },
         ],
     },

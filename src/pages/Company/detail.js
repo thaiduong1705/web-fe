@@ -118,7 +118,7 @@ const DetailCompany = () => {
                                 <span>{detailCompany?.companySize || 'Chưa cập nhật'}</span>
                             </div>
 
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-start gap-4">
                                 <FontAwesomeIcon icon={faFile} />
                                 <span className="font-medium">Lĩnh vực:</span>
                                 {detailCompany?.Career?.map((cc, index) => {
