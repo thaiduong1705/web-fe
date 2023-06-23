@@ -107,3 +107,25 @@ export const setEditDataNull = () => ({
     type: actionType.SET_POST_EDIT_NULL,
     postDataEdit: null,
 });
+
+export const getDeletedPosts = () => async (dispatch) => {
+    try {
+        const response = await postAPI.apiGetDeletedPost();
+        if (response?.data.err === 0) {
+            dispatch({
+                type: actionType.GET_DELETED_POST,
+                posts: response?.data.res,
+            });
+        } else {
+            dispatch({
+                type: actionType.GET_DELETED_POST,
+                msg: response.data.msg,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionType.GET_DELETED_POST,
+            posts: null,
+        });
+    }
+};

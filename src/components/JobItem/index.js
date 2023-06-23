@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Experimental_CssVarsProvider } from '@mui/material';
@@ -6,10 +6,21 @@ import { faClock, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
 import { apiSoftDeletePost } from '~/services/post';
+import { Jobpage } from '~/pages';
 
 const JobItem = ({ job = {}, onClick, toggleModal }) => {
     const [mouseEnter, setMouseEnter] = useState(null);
+    const [isRemoved, setIsRemoved] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (job.deletedAt) {
+            setIsRemoved(true);
+        } else if (!job.deletedAt) {
+            setIsRemoved(false);
+        }
+    });
+
     return (
         <div
             className="h-[160px] overflow-hidden flex bg-slate-200 rounded-[8px] relative my-7 border-1 border-transparent hover:cursor-pointer hover:bg-blue-200 hover:border-blue-500 hover:transition-all"
@@ -77,42 +88,56 @@ const JobItem = ({ job = {}, onClick, toggleModal }) => {
                         {job?.salaryMax !== 999 && `${job?.salaryMax} triệu`}
                     </span>
                     <div className="flex gap-4">
-                        <button className="text-blue-400 hover:text-blue-600 underline" onClick={onClick}>
-                            Chỉnh sửa
-                        </button>
-                        <button
-                            className="bg-blue-500 hover:bg-blue-600 w-[80px] text-white rounded-[8px] px-[8px] py-[6px]"
-                            onClick={async (e) => {
-                                const result = await Swal.fire({
-                                    icon: 'question',
-                                    title: 'Xác nhận',
-                                    text: 'Bạn có chắc muốn xoá bài tuyển dụng này?',
-                                    showCancelButton: true,
-                                    cancelButtonText: 'Huỷ bỏ',
-                                    showConfirmButton: true,
-                                    confirmButtonText: 'Đồng ý',
-                                });
-                                if (result.isConfirmed) {
-                                    const response = await apiSoftDeletePost(job?.id);
-                                    if (response.data.err === 0) {
-                                        await Swal.fire({
-                                            icon: 'success',
-                                            title: 'Đã xoá thành công',
-                                            text: '',
+                        {isRemoved ? (
+                            <>
+                                <button className="text-slate-600 underline">Chỉnh sửa</button>
+                                <button className="bg-slate-500 w-[80px] text-white rounded-[8px] px-[8px] py-[6px]">
+                                    Ẩn
+                                </button>
+                                <button className="bg-slate-600 text-white rounded-[8px] px-[8px] py-[6px]">
+                                    Ứng tuyển
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <button className="text-blue-400 hover:text-blue-600 underline" onClick={onClick}>
+                                    Chỉnh sửa
+                                </button>
+                                <button
+                                    className="bg-blue-500 hover:bg-blue-600 w-[80px] text-white rounded-[8px] px-[8px] py-[6px]"
+                                    onClick={async (e) => {
+                                        const result = await Swal.fire({
+                                            icon: 'question',
+                                            title: 'Xác nhận',
+                                            text: 'Bạn có chắc muốn xoá bài tuyển dụng này?',
+                                            showCancelButton: true,
+                                            cancelButtonText: 'Huỷ bỏ',
+                                            showConfirmButton: true,
+                                            confirmButtonText: 'Đồng ý',
                                         });
-                                        navigate(0);
-                                    }
-                                }
-                            }}
-                        >
-                            Ẩn
-                        </button>
-                        <button
-                            className="bg-red-500 hover:bg-red-600 text-white rounded-[8px] px-[8px] py-[6px]"
-                            onClick={toggleModal}
-                        >
-                            Ứng tuyển
-                        </button>
+                                        if (result.isConfirmed) {
+                                            const response = await apiSoftDeletePost(job?.id);
+                                            if (response.data.err === 0) {
+                                                await Swal.fire({
+                                                    icon: 'success',
+                                                    title: 'Đã xoá thành công',
+                                                    text: '',
+                                                });
+                                                navigate(0);
+                                            }
+                                        }
+                                    }}
+                                >
+                                    Ẩn
+                                </button>
+                                <button
+                                    className="bg-red-500 hover:bg-red-600 text-white rounded-[8px] px-[8px] py-[6px]"
+                                    onClick={toggleModal}
+                                >
+                                    Ứng tuyển
+                                </button>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
