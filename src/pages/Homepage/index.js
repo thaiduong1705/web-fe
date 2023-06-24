@@ -44,7 +44,7 @@ const Homepage = () => {
     console.log(reports);
     console.log(users);
 
-    const data = {
+    const dataPosts = {
         labels: [...Array(7)].map((_, i) => {
             const d = new Date();
             d.setDate(d.getDate() - 6 + i);
@@ -53,7 +53,65 @@ const Homepage = () => {
         datasets: [
             {
                 label: 'Thống kê',
-                data: [5, 3, 7, 5, 8, 9, 2],
+                data: [
+                    reports.reports?.dailyReport[0]?.postCount,
+                    reports.reports?.dailyReport[1]?.postCount,
+                    reports.reports?.dailyReport[2]?.postCount,
+                    reports.reports?.dailyReport[3]?.postCount,
+                    reports.reports?.dailyReport[4]?.postCount,
+                    reports.reports?.dailyReport[5]?.postCount,
+                    reports.reports?.dailyReport[6]?.postCount,
+                ],
+                backgroundColor: 'white',
+                fontColor: 'white',
+                borderColor: 'white',
+            },
+        ],
+    };
+
+    const dataSuccess = {
+        labels: [...Array(7)].map((_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - 6 + i);
+            return d.toLocaleDateString();
+        }),
+        datasets: [
+            {
+                label: 'Thống kê',
+                data: [
+                    reports.reports?.dailyReport[0]?.successedAppliedCount,
+                    reports.reports?.dailyReport[1]?.successedAppliedCount,
+                    reports.reports?.dailyReport[2]?.successedAppliedCount,
+                    reports.reports?.dailyReport[3]?.successedAppliedCount,
+                    reports.reports?.dailyReport[4]?.successedAppliedCount,
+                    reports.reports?.dailyReport[5]?.successedAppliedCount,
+                    reports.reports?.dailyReport[6]?.successedAppliedCount,
+                ],
+                backgroundColor: 'white',
+                fontColor: 'white',
+                borderColor: 'white',
+            },
+        ],
+    };
+
+    const dataApplied = {
+        labels: [...Array(7)].map((_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - 6 + i);
+            return d.toLocaleDateString();
+        }),
+        datasets: [
+            {
+                label: 'Thống kê',
+                data: [
+                    reports.reports?.dailyReport[0]?.appliedCount,
+                    reports.reports?.dailyReport[1]?.appliedCount,
+                    reports.reports?.dailyReport[2]?.appliedCount,
+                    reports.reports?.dailyReport[3]?.appliedCount,
+                    reports.reports?.dailyReport[4]?.appliedCount,
+                    reports.reports?.dailyReport[5]?.appliedCount,
+                    reports.reports?.dailyReport[6]?.appliedCount,
+                ],
                 backgroundColor: 'white',
                 fontColor: 'white',
                 borderColor: 'white',
@@ -111,21 +169,21 @@ const Homepage = () => {
             </div>
             <div className="my-[60px] mx-[20px] grid grid-cols-1 gap-y-[48px] gap-x-[24px] md:grid-cols-2 xl:grid-cols-3">
                 <ChartCard context={'Số bài đăng trong 7 ngày vừa qua'}>
-                    <BarChart chartData={data} />
+                    <BarChart chartData={dataPosts} />
                 </ChartCard>
                 <ChartCard
                     context={'Số lượt ứng tuyển trong 7 ngày vừa qua'}
                     fromColor="from-pink-700"
                     toColor="to-pink-400"
                 >
-                    <LineChart chartData={data} />
+                    <LineChart chartData={dataApplied} />
                 </ChartCard>
                 <ChartCard
                     context={'Số người ứng tuyển thành công trong 7 ngày vừa qua'}
                     fromColor="from-green-700"
                     toColor="to-green-400"
                 >
-                    <LineChart chartData={data} />
+                    <LineChart chartData={dataSuccess} />
                 </ChartCard>
             </div>
 
