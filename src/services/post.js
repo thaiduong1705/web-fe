@@ -25,6 +25,7 @@ export const apiGetPostLimit = async (query) => {
         return error;
     }
 };
+
 export const apiGetPost = async (id) => {
     try {
         const response = await axiosInstance({

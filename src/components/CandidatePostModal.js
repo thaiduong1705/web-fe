@@ -68,9 +68,18 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
         <div className="fixed top-0 left-0 right-0 bottom-0 z-500 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 max-h-full flex justify-center items-center bg-overlay-70">
             <div className="bg-white rounded-lg shadow dark:bg-gray-700 w-[1400px]">
                 <div className=" relative flex items-start justify-between p-[16px] border-b rounded-t-[4px] dark:border-gray-600">
-                    <h3 className="text-[20px] font-semibold text-gray-900 dark:text-white line-clamp-1 w-[calc(100%-10rem)] border-l-4 border-blue-500">
-                        <p className="pl-3"> Chi tiết danh sách ứng tuyển của bài đăng </p>
-                    </h3>
+                    <div className="flex w-[700px] items-center">
+                        <h3 className="text-[20px] font-semibold text-gray-900 dark:text-white line-clamp-1 w-[58%] border-l-4 border-blue-500">
+                            <p className="pl-3"> Chi tiết danh sách ứng tuyển của bài đăng </p>
+                        </h3>
+                        <button
+                            className="bg-green-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80 px-3 w-[35%] justify-center"
+                            onClick={''}
+                        >
+                            Xuất excel danh sách hiện tại
+                        </button>
+                    </div>
+
                     <button
                         type="button"
                         className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-[20px] p-[6px] ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white absolute top-[16px] right-[16px]"
@@ -103,7 +112,7 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="overflow-scroll">
                             {detailPost?.Candidate.map((data, index) => {
                                 return (
                                     <tr className="border-b dark:border-neutral-500" key={data?.id}>
