@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPostById } from '~/store/action/post';
 import Swal from 'sweetalert2';
 import { Combobox } from '.';
+import { exportExcel } from '~/utils/exportData';
 
 const ToggleButton = ({ postId, candidateId, applied, onClick }) => {
     const handleChangeStatus = () => {
@@ -56,6 +57,11 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
         }
     }, [open]);
 
+    const exportCandidateExcel = () => {
+        alert('fdafdasfdsa');
+        exportExcel(detailPost.Candidate, `${detailPost.jobTitle}`, 'Danh sách ứng tuyển');
+    };
+
     useEffect(() => {
         dispatch(getPostById(id));
     }, [appliedChange]);
@@ -74,7 +80,9 @@ const CandidatePostModal = ({ id, closeModal, open }) => {
                         </h3>
                         <button
                             className="bg-green-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80 px-3 w-[35%] justify-center"
-                            onClick={''}
+                            onClick={() => {
+                                exportCandidateExcel();
+                            }}
                         >
                             Xuất excel danh sách hiện tại
                         </button>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -9,6 +9,7 @@ import ProtectedRoutes from './utils/ProtectedRoutes';
 import DefaultLayout from './layouts/DefaultLayout';
 import { getCurrent } from '~/store/action/user';
 function App() {
+    const [delayFinish, setDelayFinish] = useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAcademicLevels());
@@ -21,13 +22,14 @@ function App() {
     useEffect(() => {
         const id = setTimeout(() => {
             isLoggedIn && dispatch(getCurrent());
+            setDelayFinish(true);
         }, 1000);
         return () => {
             clearTimeout(id);
         };
     }, [isLoggedIn]);
 
-    return (
+    return delayFinish ? (
         <Router>
             <Routes>
                 <Route element={<ProtectedRoutes />}>
@@ -75,7 +77,7 @@ function App() {
                 })}
             </Routes>
         </Router>
-    );
+    ) : null;
 }
 
 export default App;
