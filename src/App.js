@@ -8,6 +8,7 @@ import './App.css';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import DefaultLayout from './layouts/DefaultLayout';
 import { getCurrent } from '~/store/action/user';
+import DynamicPageTitle from './utils/DynamicPageTitle';
 function App() {
     const dispatch = useDispatch();
     useEffect(() => {
@@ -29,6 +30,7 @@ function App() {
 
     return (
         <Router>
+            <DynamicPageTitle />
             <Routes>
                 <Route element={<ProtectedRoutes />}>
                     {privateRoutes.map((route, index) => {
