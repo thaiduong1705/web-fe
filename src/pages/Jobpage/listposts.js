@@ -106,6 +106,40 @@ const ListPosts = () => {
             }),
         );
     };
+    const handlePostListChange = (e) => {
+        if (e.value === 'Mới nhất') {
+            dispatch(
+                getPostsLimit({
+                    jobTitle: jobTitle,
+                    sex: gender,
+                    experienceYear: expYear,
+                    createdAt: createdAt,
+                    academicLevelId: al,
+                    positionId: position,
+                    workingTypeId: wt,
+                    career: career,
+                    district: district,
+                    order: 'desc',
+                }),
+            );
+            console.log(posts);
+        } else if (e.value === 'Cũ nhất') {
+            dispatch(
+                getPostsLimit({
+                    jobTitle: jobTitle,
+                    sex: gender,
+                    experienceYear: expYear,
+                    createdAt: createdAt,
+                    academicLevelId: al,
+                    positionId: position,
+                    workingTypeId: wt,
+                    career: career,
+                    district: district,
+                    order: 'asc',
+                }),
+            );
+        }
+    };
 
     if (posts.length === 0 && !isLoaded) {
         return (
@@ -207,6 +241,15 @@ const ListPosts = () => {
                         <Link className="underline text-blue-400" to="/viec-lam/bai-viet-bi-an">
                             Danh sách bài tuyển dụng bị ẩn
                         </Link>
+                        <Combobox
+                            className="border-1"
+                            title="Mới nhất"
+                            items={[
+                                { id: 1, value: 'Mới nhất' },
+                                { id: 2, value: 'Cũ nhất' },
+                            ]}
+                            onChange={(e) => handlePostListChange(e)}
+                        />
                         <Link
                             to="/viec-lam/tao-viec-lam"
                             className="bg-blue-600 text-white rounded-[8px] border-transparent border-1 flex items-center p-[8px] hover:opacity-80"
