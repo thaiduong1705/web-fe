@@ -13,8 +13,6 @@ import {
     faBuilding,
     faFile,
     faUsers,
-    faUserTie,
-    faPaste,
     faFileLines,
     faFileCircleCheck,
     faFileCircleXmark,
@@ -40,9 +38,6 @@ const Homepage = () => {
         setPercent4st((reports.reports?.countFreqCareers[3].postCount / reports.reports?.countPost) * 100);
         setPercent5st((reports.reports?.countFreqCareers[4].postCount / reports.reports?.countPost) * 100);
     }, []);
-
-    console.log(reports);
-    console.log(users);
 
     const dataPosts = {
         labels: [...Array(7)].map((_, i) => {
@@ -220,25 +215,25 @@ const Homepage = () => {
                     </thead>
                     <tbody>
                         <tr className="">
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-blue-700 text-white h-full">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-blue-700 text-white h-full">
                                 <div className="flex justify-center items-center gap-2 text-yellow-400">
                                     <FontAwesomeIcon icon={faCrown}></FontAwesomeIcon>1
                                 </div>
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-blue-700 text-white">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-blue-700 text-white">
                                 {reports.reports?.countFreqCareers[0].careerName}
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-blue-700 text-white">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-blue-700 text-white">
                                 {reports.reports?.countFreqCareers[0].postCount}
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left">
-                                <div class="w-[300px]">
-                                    <p class="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left">
+                                <div className="w-[300px]">
+                                    <p className="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
                                         {percent1st}%
                                     </p>
-                                    <div class="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
+                                    <div className="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
                                         <div
-                                            class="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
+                                            className="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
                                             style={{ width: percent1st + '%' }}
                                         ></div>
                                     </div>
@@ -246,25 +241,25 @@ const Homepage = () => {
                             </td>
                         </tr>
                         <tr className="">
-                            <td class="py-7 px-5 border-b border-blue-gray-50  font-medium text-left bg-green-500 text-white">
+                            <td className="py-7 px-5 border-b border-blue-gray-50  font-medium text-left bg-green-500 text-white">
                                 <div className="flex justify-center items-center gap-2 text-slate-200">
                                     <FontAwesomeIcon icon={faCrown}></FontAwesomeIcon>2
                                 </div>
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-green-500 text-white">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-green-500 text-white">
                                 {reports.reports?.countFreqCareers[1].careerName}
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-green-500 text-white">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-green-500 text-white">
                                 {reports.reports?.countFreqCareers[1].postCount}
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left">
-                                <div class="w-[300px]">
-                                    <p class="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left">
+                                <div className="w-[300px]">
+                                    <p className="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
                                         {percent2st}%
                                     </p>
-                                    <div class="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
+                                    <div className="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
                                         <div
-                                            class="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
+                                            className="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
                                             style={{ width: percent2st + '%' }}
                                         ></div>
                                     </div>
@@ -272,25 +267,25 @@ const Homepage = () => {
                             </td>
                         </tr>
                         <tr className="bg-gradient-to-r ">
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-green-500 text-white">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-green-500 text-white">
                                 <div className="flex justify-center items-center gap-2 text-amber-600">
                                     <FontAwesomeIcon icon={faCrown}></FontAwesomeIcon>3
                                 </div>
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-green-500 text-white">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-green-500 text-white">
                                 {reports.reports?.countFreqCareers[2].careerName}
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-green-500 text-white">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-green-500 text-white">
                                 {reports.reports?.countFreqCareers[2].postCount}
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 font-medium text-left">
-                                <div class="w-[300px]">
-                                    <p class="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left">
+                                <div className="w-[300px]">
+                                    <p className="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
                                         {percent3st}%
                                     </p>
-                                    <div class="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
+                                    <div className="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
                                         <div
-                                            class="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
+                                            className="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
                                             style={{ width: percent3st + '%' }}
                                         ></div>
                                     </div>
@@ -298,21 +293,21 @@ const Homepage = () => {
                             </td>
                         </tr>
                         <tr>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 text-left">4</td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 text-left">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 text-left">4</td>
+                            <td className="py-7 px-5 border-b border-blue-gray-50 text-left">
                                 {reports.reports?.countFreqCareers[3].careerName}
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 text-left">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 text-left">
                                 {reports.reports?.countFreqCareers[3].postCount}
                             </td>
-                            <td class="py-7 px-5 border-b border-blue-gray-50 text-left">
-                                <div class="w-[300px]">
-                                    <p class="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
+                            <td className="py-7 px-5 border-b border-blue-gray-50 text-left">
+                                <div className="w-[300px]">
+                                    <p className="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
                                         {percent4st}%
                                     </p>
-                                    <div class="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
+                                    <div className="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
                                         <div
-                                            class="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
+                                            className="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
                                             style={{ width: percent4st + '%' }}
                                         ></div>
                                     </div>
@@ -320,17 +315,17 @@ const Homepage = () => {
                             </td>
                         </tr>
                         <tr>
-                            <td class="py-7 px-5 text-left">5</td>
-                            <td class="py-7 px-5 text-left">{reports.reports?.countFreqCareers[4].careerName}</td>
-                            <td class="py-7 px-5 text-left">{reports.reports?.countFreqCareers[4].postCount}</td>
-                            <td class="py-7 px-5 text-left">
-                                <div class="w-[300px]">
-                                    <p class="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
+                            <td className="py-7 px-5 text-left">5</td>
+                            <td className="py-7 px-5 text-left">{reports.reports?.countFreqCareers[4].careerName}</td>
+                            <td className="py-7 px-5 text-left">{reports.reports?.countFreqCareers[4].postCount}</td>
+                            <td className="py-7 px-5 text-left">
+                                <div className="w-[300px]">
+                                    <p className="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
                                         {percent5st}%
                                     </p>
-                                    <div class="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
+                                    <div className="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
                                         <div
-                                            class="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
+                                            className="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
                                             style={{ width: percent5st + '%' }}
                                         ></div>
                                     </div>

@@ -30,7 +30,7 @@ const Sidebar = () => {
                     </div>
                     <div className="mt-6">
                         {privateRoutes.map((route, index) => {
-                            return <SubNav item={route} />;
+                            return <SubNav item={route} key={index} />;
                         })}
                     </div>
                 </>

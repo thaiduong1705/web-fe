@@ -28,6 +28,7 @@ const SubNav = ({ item }) => {
                         {item?.subNav?.map((subItem, index) => {
                             return (
                                 <NavLink
+                                    key={index}
                                     to={subItem.path}
                                     className={
                                         'px-[16px] py-[8px] text-md rounded-[8px] text-blue-600 font-medium dark:text-gray-200 hover:text-white hover:bg-blue-700 m-2 hover:transition-all'

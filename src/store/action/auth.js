@@ -4,6 +4,7 @@ import { apiLogin } from '~/services/auth';
 export const login = (payload) => async (dispatch) => {
     try {
         const response = await apiLogin(payload);
+
         if (response?.data?.err === 0) {
             dispatch({
                 type: actionType.LOGIN_SUCCESS,

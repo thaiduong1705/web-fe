@@ -1,55 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faBell,
-    faCartShopping,
-    faMessage,
-    faBars,
-    faCircleUser,
-    faCaretDown,
-    faUserTie,
-    faRightFromBracket,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faUserTie, faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useStateContext } from '~/contexts/Context';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from '~/store/action/auth';
 import { getCurrent } from '~/store/action/user';
+import UpdateUserModal from '../UpdateUserModal';
 const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const { currentUser } = useSelector((state) => state.user);
 
-    const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } =
-        useStateContext();
-
-    useEffect(() => {
-        const handleResize = () => setScreenSize(window.innerWidth);
-
-        window.addEventListener('resize', handleResize);
-
-        handleResize();
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    useEffect(() => {
-        if (screenSize <= 900) {
-            setActiveMenu(false);
-        } else {
-            setActiveMenu(true);
-        }
-    }, [screenSize]);
-
-    const handleActiveMenu = () => setActiveMenu(!activeMenu);
-
     const handleLogout = () => {
         dispatch(logout());
         navigate('/dang-nhap');
     };
-
+    const [openUpdate, setOpenUpdate] = useState(false);
     return (
         <div className="flex justify-between mr-[16px] ml-[52px] py-2 bg-slate-100">
             <div className="flex items-center gap-3">
@@ -64,17 +33,29 @@ const Navbar = () => {
                     alt="user-profile"
                 />
                 <FontAwesomeIcon icon={faCaretDown} style={{ color: '#3B82F6' }} />
-                <div className="w-[170px] absolute top-[40px] text-start bg-slate-50 p-3 right-0 hidden group-hover:block z-10">
+                <div className="absolute top-[40px]  bg-slate-50 p-3 right-0 hidden group-hover:block z-10 w-[250px]">
                     <ul>
-                        <li className="inline-flex w-full">
+                        <li className="flex w-full py-[12px]">
+                            <FontAwesomeIcon icon={faUser} className="m-2" />
+                            <button
+                                className="submenu-item mr-auto hover:opacity-70"
+                                onClick={() => {
+                                    setOpenUpdate(true);
+                                }}
+                            >
+                                Thay đổi thông tin tài khoản
+                            </button>
+                        </li>
+                        <li className="flex w-full py-[12px]">
                             <FontAwesomeIcon icon={faRightFromBracket} className="m-2" />
-                            <button className="submenu-item mr-auto" onClick={handleLogout}>
+                            <button className="submenu-item mr-auto hover:opacity-70" onClick={handleLogout}>
                                 Đăng xuất
                             </button>
                         </li>
                     </ul>
                 </div>
             </div>
+            <UpdateUserModal open={openUpdate} closeModal={() => setOpenUpdate(false)} />
         </div>
     );
 };

@@ -22,18 +22,29 @@ function App() {
     const { isLoggedIn } = useSelector((state) => state.auth);
     useEffect(() => {
         const id = setTimeout(() => {
-            isLoggedIn && dispatch(getCurrent());
             setDelayFinish(true);
-        }, 1000);
+        }, 1500);
         return () => {
             clearTimeout(id);
         };
     }, [isLoggedIn]);
 
+    useEffect(() => {
+        const getuser = setTimeout(() => {
+            isLoggedIn && dispatch(getCurrent());
+        }, 1000);
+        return () => {
+            clearTimeout(getuser);
+        };
+    }, [isLoggedIn, dispatch]);
     return delayFinish ? (
         <Router>
             <DynamicPageTitle />
             <Routes>
+                {publicRoutes.map((route, index) => {
+                    const Page = route.component;
+                    return <Route key={index} path={route.path} element={<Page />} />;
+                })}
                 <Route element={<ProtectedRoutes />}>
                     {privateRoutes.map((route, index) => {
                         const Page = route.component;
@@ -73,10 +84,6 @@ function App() {
                         );
                     })}
                 </Route>
-                {publicRoutes.map((route, index) => {
-                    const Page = route.component;
-                    return <Route key={index} path={route.path} element={<Page />} />;
-                })}
             </Routes>
         </Router>
     ) : null;

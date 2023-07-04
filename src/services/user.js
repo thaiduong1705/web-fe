@@ -11,3 +11,17 @@ export const apiGetCurrent = async () => {
         return error;
     }
 };
+
+export const apiUpdateUser = async (formData) => {
+    try {
+        const response = await axiosInstance({
+            method: 'post',
+            url: '/api/v1/user/update-user',
+            data: formData,
+        });
+        return response;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};

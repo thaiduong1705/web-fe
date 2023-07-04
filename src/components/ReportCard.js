@@ -1,13 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faBuilding,
-    faUserTie,
-    faPaste,
-    faFileLines,
-    faFileCircleCheck,
-    faFileCircleXmark,
-} from '@fortawesome/free-solid-svg-icons';
 
 const ReportCard = ({ number, percent = 10, color = '3482F6', content, className, icon }) => {
     return (
@@ -20,7 +11,7 @@ const ReportCard = ({ number, percent = 10, color = '3482F6', content, className
             >
                 icon
             </div>
-            <div class="bg-clip-border mx-6 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-blue-500/40 shadow-lg absolute -mt-4 grid h-[64px] w-[64px] place-items-center">
+            <div className="bg-clip-border mx-6 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-blue-500/40 shadow-lg absolute -mt-4 grid h-[64px] w-[64px] place-items-center">
                 {icon}
             </div>
             <div className="p-[16px] text-right">

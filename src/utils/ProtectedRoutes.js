@@ -9,7 +9,10 @@ const ProtectedRoutes = () => {
         isLoggedIn: local.isLoggedIn,
         token: local.token,
     };
-    return authState.isLoggedIn && authState.token ? <Outlet /> : <Navigate to="/dang-nhap" />;
+
+    const isLoggedIn = authState.isLoggedIn === 'true'; // Chuyển chuỗi 'true' thành boolean true
+    const token = authState.token === 'null' ? null : authState.token; // Chuyển chuỗi 'null' thành giá trị null
+    return isLoggedIn && token ? <Outlet /> : <Navigate to="/dang-nhap" />;
 };
 
 export default ProtectedRoutes;
