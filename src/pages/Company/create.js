@@ -315,13 +315,12 @@ const CreateCompany = ({ isEdit }) => {
                 </div>
                 <div className="mb-[8px] px-[8px] overflow-hidden">
                     <label>Giới thiệu công ty</label>
-                    {isEdit && introduction && (
-                        <TextEditor
-                            className="w-[100%] h-[400px] mb-[8px] overflow-scroll"
-                            onChange={setIntroduction}
-                            initialValue={isEdit && introduction ? introduction : null}
-                        />
-                    )}
+
+                    <TextEditor
+                        className="w-[100%] h-[400px] mb-[8px] overflow-scroll"
+                        onChange={setIntroduction}
+                        initialValue={isEdit && introduction ? introduction : null}
+                    />
                     {!isEdit && (
                         <TextEditor
                             className="w-[100%] h-[400px] mb-[8px] overflow-scroll"
