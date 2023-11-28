@@ -2,13 +2,15 @@ import actionType from './actionTypes';
 import { apiLogin } from '~/services/auth';
 
 export const login = (payload) => async (dispatch) => {
+    console.log(payload);
     try {
         const response = await apiLogin(payload);
+        console.log(response);
 
-        if (response?.data?.err === 0) {
+        if (response?.status === 200) {
             dispatch({
                 type: actionType.LOGIN_SUCCESS,
-                token: response.data.token,
+                token: response.data.accessToken,
             });
         } else {
             dispatch({

@@ -9,7 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { isLoggedIn, msg, update } = useSelector((state) => state.auth);
     const [payload, setPayload] = useState({
-        userName: '',
+        username: '',
         password: '',
     });
     const handleSubmit = () => {
@@ -46,7 +46,12 @@ const Login = () => {
                 </button>
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-[24px] space-y-[16px] md:space-y-[24px] sm:p-[32px]">
-                        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                        <h1
+                            className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+                            onClick={() => {
+                                console.log(isLoggedIn);
+                            }}
+                        >
                             Đăng nhập
                         </h1>
                         <div>
@@ -58,15 +63,15 @@ const Login = () => {
                             </label>
                             <input
                                 type="text"
-                                name="userName"
+                                name="username"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-[14px] leading-[20px] rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-[10px] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder=""
-                                value={payload.userName}
+                                value={payload.username}
                                 onChange={(e) =>
                                     setPayload((prev) => {
                                         return {
                                             ...prev,
-                                            userName: e.target.value,
+                                            username: e.target.value,
                                         };
                                     })
                                 }
