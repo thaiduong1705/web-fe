@@ -4,7 +4,7 @@ export const apiGetCandidates = async () => {
     try {
         const response = await axiosInstance({
             method: 'get',
-            url: '/api/v1/candidate/all',
+            url: '/api/v1/candidate/',
         });
         return response;
     } catch (error) {

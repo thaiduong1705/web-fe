@@ -15,7 +15,6 @@ function App() {
     useEffect(() => {
         dispatch(getAcademicLevels());
         dispatch(getCareers());
-        dispatch(getDistricts());
         dispatch(getPositions());
         dispatch(getWorkingTypes());
     }, []);

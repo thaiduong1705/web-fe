@@ -1,10 +1,10 @@
 import axiosInstance from '../axiosConfig';
 
-export const apiGetCompanies = async () => {
+export const apiGetAllCompanies = async () => {
     try {
         const response = await axiosInstance({
             method: 'get',
-            url: '/api/v1/company/all',
+            url: '/api/v1/company/',
         });
         return response;
     } catch (error) {
@@ -12,11 +12,12 @@ export const apiGetCompanies = async () => {
     }
 };
 
-export const apiGetCompany = async (id) => {
+export const apiCreateCompany = async (payload) => {
     try {
         const response = await axiosInstance({
-            method: 'get',
-            url: `/api/v1/company/get-company/${id}`,
+            method: 'post',
+            url: '/api/v1/company/',
+            data: payload,
         });
         return response;
     } catch (error) {
@@ -24,11 +25,11 @@ export const apiGetCompany = async (id) => {
     }
 };
 
-export const apiGetCompanyLimit = async (query) => {
+export const apiGetFilterCompany = async (query) => {
     try {
         const response = await axiosInstance({
             method: 'get',
-            url: `/api/v1/company/limit`,
+            url: '/api/v1/company/filter',
             params: query,
         });
         return response;
@@ -37,44 +38,52 @@ export const apiGetCompanyLimit = async (query) => {
     }
 };
 
-export const apiCreateCompany = async (company) => {
-    try {
-        const request = await axiosInstance({
-            method: 'post',
-            url: '/api/v1/company/create-company',
-            data: company,
-        });
-        return request;
-    } catch (error) {
-        return error;
-    }
-};
-
-export const apiUpdateCompany = async (company) => {
-    try {
-        const request = await axiosInstance({
-            method: 'put',
-            url: '/api/v1/company/update-company',
-            data: company,
-        });
-        return request;
-    } catch (error) {
-        return error;
-    }
-};
-
-export const apiGetRelatedCompany = async (companyId, careerIds) => {
+export const apiGetRelatedCompaniesFromCareer = async (query) => {
     try {
         const response = await axiosInstance({
             method: 'get',
-            url: '/api/v1/company/get-related-company',
-            params: {
-                companyId,
-                careerIds,
-            },
+            url: '/api/v1/company/relate-comp',
+            params: query,
         });
         return response;
     } catch (error) {
-        console.log(error);
+        return error;
+    }
+};
+
+export const apiGetCompanyById = async (id) => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
+            url: `/api/v1/company/${id}`,
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const apiUpdateCompany = async (id, payload) => {
+    try {
+        const response = await axiosInstance({
+            method: 'put',
+            url: `/api/v1/company/${id}`,
+            data: payload,
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const apiDeleteCompany = async (id) => {
+    try {
+        const response = await axiosInstance({
+            method: 'delete',
+            url: `/api/v1/company/${id}`,
+        });
+        return response;
+    } catch (error) {
+        return error;
     }
 };

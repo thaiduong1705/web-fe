@@ -1,23 +1,48 @@
 import axiosInstance from '../axiosConfig';
 
-export const apiGetJobItem = () =>
-    new Promise(async (resolve, reject) => {
-        try {
-            const response = await axiosInstance({
-                method: 'get',
-                url: '/api/v1/post/all',
-            });
-            resolve(response);
-        } catch (error) {
-            reject(error);
-        }
-    });
+// export const apiGetPostLimit = async (query) => {
+//     try {
+//         const response = await axiosInstance({
+//             method: 'get',
+//             url: `/api/v1/post/limit`,
+//             params: query,
+//         });
+//         return response;
+//     } catch (error) {
+//         return error;
+//     }
+// };
 
-export const apiGetPostLimit = async (query) => {
+export const apiGetAllPosts = async () => {
     try {
         const response = await axiosInstance({
             method: 'get',
-            url: `/api/v1/post/limit`,
+            url: '/api/v1/post/',
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const apiCreatePost = async (payload) => {
+    try {
+        const response = await axiosInstance({
+            method: 'post',
+            url: '/api/v1/post/',
+            data: payload,
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const apiGetFilterPosts = async (query) => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
+            url: '/api/v1/post/filter',
             params: query,
         });
         return response;
@@ -26,11 +51,12 @@ export const apiGetPostLimit = async (query) => {
     }
 };
 
-export const apiGetPost = async (id) => {
+export const apiGetRelatedPostsFromCareer = async (query) => {
     try {
         const response = await axiosInstance({
             method: 'get',
-            url: `/api/v1/post/get-post/${id}`,
+            url: '/api/v1/post/relate',
+            params: query,
         });
         return response;
     } catch (error) {
@@ -38,95 +64,89 @@ export const apiGetPost = async (id) => {
     }
 };
 
-export const apiCreatePost = async (post) => {
-    try {
-        const request = await axiosInstance({
-            method: 'post',
-            url: '/api/v1/post/create-post',
-            data: post,
-        });
-        return request;
-    } catch (error) {
-        return error;
-    }
-};
-
-export const apiUpdatePost = async (post) => {
-    try {
-        const request = await axiosInstance({
-            method: 'put',
-            url: '/api/v1/post/update-post',
-            data: post,
-        });
-        return request;
-    } catch (error) {
-        return error;
-    }
-};
-
-export const apiGetRelatedPost = async (postId, careerIds) => {
+export const apiGetDeletedPosts = async () => {
     try {
         const response = await axiosInstance({
             method: 'get',
-            url: '/api/v1/post/get-related-post',
-            params: {
-                postId,
-                careerIds,
-            },
+            url: '/api/v1/post/delete-posts',
         });
         return response;
     } catch (error) {
-        console.log(error);
+        return error;
     }
 };
 
-export const apiApplyPost = async (formData) => {
+export const apiGetDeletedPostOfCompany = async () => {
     try {
         const response = await axiosInstance({
-            method: 'post',
+            method: 'get',
+            url: '/api/v1/post/delete-post-comp',
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const apiApplyPost = async (query) => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
             url: '/api/v1/post/apply',
-            data: formData,
+            params: query,
         });
         return response;
     } catch (error) {
-        console.log(error);
+        return error;
     }
 };
 
-export const apiSoftDeletePost = async (id) => {
+export const apiChangeStatusApplied = async (query) => {
     try {
         const response = await axiosInstance({
-            method: 'post',
-            url: '/api/v1/post/soft-delete',
-            data: { id },
+            method: 'put',
+            url: '/api/v1/post/apply',
+            params: query,
         });
         return response;
     } catch (error) {
-        console.log(error);
+        return error;
     }
 };
 
-export const apiChangeStatusApplied = async (postId, candidateId, isApplied) => {
-    try {
-        const request = await axiosInstance({
-            method: 'post',
-            url: '/api/v1/post/change-applied',
-            data: { postId, candidateId, isApplied },
-        });
-        return request;
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-export const apiGetDeletedPost = async () => {
+export const apiGetPostById = async (id) => {
     try {
         const response = await axiosInstance({
             method: 'get',
-            url: '/api/v1/post/get-delete',
+            url: `/api/v1/post/${id}`,
         });
         return response;
     } catch (error) {
-        console.log(error);
+        return error;
+    }
+};
+
+export const apiUpdatePost = async (payload) => {
+    try {
+        const response = await axiosInstance({
+            method: 'put',
+            url: `/api/v1/post/${id}`,
+            data: payload,
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const apiDeletePost = async () => {
+    try {
+        const response = await axiosInstance({
+            method: 'delete',
+            url: `/api/v1/post/${id}`,
+        });
+        return response;
+    } catch (error) {
+        return error;
     }
 };

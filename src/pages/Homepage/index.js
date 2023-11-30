@@ -21,98 +21,56 @@ import {
 const Homepage = () => {
     const dispatch = useDispatch();
 
-    const reports = useSelector((state) => state.report);
-    const users = useSelector((state) => state.user);
+    // const dataPosts = {
+    //     labels: [...Array(7)].map((_, i) => {
+    //         const d = new Date();
+    //         d.setDate(d.getDate() - 6 + i);
+    //         return d.toLocaleDateString();
+    //     }),
+    //     datasets: [
+    //         {
+    //             label: 'Thống kê',
+    //             data: [],
+    //             backgroundColor: 'white',
+    //             fontColor: 'white',
+    //             borderColor: 'white',
+    //         },
+    //     ],
+    // };
 
-    const [percent1st, setPercent1st] = useState(null);
-    const [percent2st, setPercent2st] = useState(null);
-    const [percent3st, setPercent3st] = useState(null);
-    const [percent4st, setPercent4st] = useState(null);
-    const [percent5st, setPercent5st] = useState(null);
+    // const dataSuccess = {
+    //     labels: [...Array(7)].map((_, i) => {
+    //         const d = new Date();
+    //         d.setDate(d.getDate() - 6 + i);
+    //         return d.toLocaleDateString();
+    //     }),
+    //     datasets: [
+    //         {
+    //             label: 'Thống kê',
+    //             data: [],
+    //             backgroundColor: 'white',
+    //             fontColor: 'white',
+    //             borderColor: 'white',
+    //         },
+    //     ],
+    // };
 
-    useEffect(() => {
-        dispatch(getReports());
-        setPercent1st((reports.reports?.countFreqCareers[0].postCount / reports.reports?.countPost) * 100);
-        setPercent2st((reports.reports?.countFreqCareers[1].postCount / reports.reports?.countPost) * 100);
-        setPercent3st((reports.reports?.countFreqCareers[2].postCount / reports.reports?.countPost) * 100);
-        setPercent4st((reports.reports?.countFreqCareers[3].postCount / reports.reports?.countPost) * 100);
-        setPercent5st((reports.reports?.countFreqCareers[4].postCount / reports.reports?.countPost) * 100);
-    }, []);
-
-    const dataPosts = {
-        labels: [...Array(7)].map((_, i) => {
-            const d = new Date();
-            d.setDate(d.getDate() - 6 + i);
-            return d.toLocaleDateString();
-        }),
-        datasets: [
-            {
-                label: 'Thống kê',
-                data: [
-                    reports.reports?.dailyReport[0]?.postCount,
-                    reports.reports?.dailyReport[1]?.postCount,
-                    reports.reports?.dailyReport[2]?.postCount,
-                    reports.reports?.dailyReport[3]?.postCount,
-                    reports.reports?.dailyReport[4]?.postCount,
-                    reports.reports?.dailyReport[5]?.postCount,
-                    reports.reports?.dailyReport[6]?.postCount,
-                ],
-                backgroundColor: 'white',
-                fontColor: 'white',
-                borderColor: 'white',
-            },
-        ],
-    };
-
-    const dataSuccess = {
-        labels: [...Array(7)].map((_, i) => {
-            const d = new Date();
-            d.setDate(d.getDate() - 6 + i);
-            return d.toLocaleDateString();
-        }),
-        datasets: [
-            {
-                label: 'Thống kê',
-                data: [
-                    reports.reports?.dailyReport[0]?.successedAppliedCount,
-                    reports.reports?.dailyReport[1]?.successedAppliedCount,
-                    reports.reports?.dailyReport[2]?.successedAppliedCount,
-                    reports.reports?.dailyReport[3]?.successedAppliedCount,
-                    reports.reports?.dailyReport[4]?.successedAppliedCount,
-                    reports.reports?.dailyReport[5]?.successedAppliedCount,
-                    reports.reports?.dailyReport[6]?.successedAppliedCount,
-                ],
-                backgroundColor: 'white',
-                fontColor: 'white',
-                borderColor: 'white',
-            },
-        ],
-    };
-
-    const dataApplied = {
-        labels: [...Array(7)].map((_, i) => {
-            const d = new Date();
-            d.setDate(d.getDate() - 6 + i);
-            return d.toLocaleDateString();
-        }),
-        datasets: [
-            {
-                label: 'Thống kê',
-                data: [
-                    reports.reports?.dailyReport[0]?.appliedCount,
-                    reports.reports?.dailyReport[1]?.appliedCount,
-                    reports.reports?.dailyReport[2]?.appliedCount,
-                    reports.reports?.dailyReport[3]?.appliedCount,
-                    reports.reports?.dailyReport[4]?.appliedCount,
-                    reports.reports?.dailyReport[5]?.appliedCount,
-                    reports.reports?.dailyReport[6]?.appliedCount,
-                ],
-                backgroundColor: 'white',
-                fontColor: 'white',
-                borderColor: 'white',
-            },
-        ],
-    };
+    // const dataApplied = {
+    //     labels: [...Array(7)].map((_, i) => {
+    //         const d = new Date();
+    //         d.setDate(d.getDate() - 6 + i);
+    //         return d.toLocaleDateString();
+    //     }),
+    //     datasets: [
+    //         {
+    //             label: 'Thống kê',
+    //             data: [],
+    //             backgroundColor: 'white',
+    //             fontColor: 'white',
+    //             borderColor: 'white',
+    //         },
+    //     ],
+    // };
     return (
         <div className="w-auto md:ml-96 h-[100%] pb-5">
             <div
@@ -121,64 +79,58 @@ const Homepage = () => {
             >
                 <div className="absolute bg-[#00000080] h-[100%] w-[100%] rounded-[8px]"></div>
                 <div className="absolute flex items-center justify-center h-[100%] w-[100%]">
-                    <div className="text-slate-200 font-semibold text-[32px]">
-                        Ngày mới làm việc hiệu quả nhé, {users.currentUser.userName}.
-                    </div>
+                    <div className="text-slate-200 font-semibold text-[32px]">Ngày mới làm việc hiệu quả nhé, .</div>
                 </div>
             </div>
-            <div className="grid gap-[24px] grid-cols-4 mx-[20px] my-[24px]">
-                <ReportCard
-                    content={'Số lượng công ty'}
-                    icon={<FontAwesomeIcon icon={faBuilding} />}
-                    number={reports.reports?.countCompany}
-                />
+            {/* <div className="grid gap-[24px] grid-cols-4 mx-[20px] my-[24px]">
+                <ReportCard content={'Số lượng công ty'} icon={<FontAwesomeIcon icon={faBuilding} />} number={''} />
                 <ReportCard
                     name="Tổng số bài tuyển dụng"
                     content={'Số lượng ứng viên'}
                     icon={<FontAwesomeIcon icon={faUsers} />}
-                    number={reports.reports?.countCandidate}
+                    number={''}
                 />
                 <ReportCard
                     content={'Tổng tin đăng hiện tại'}
                     className={'col-span-2'}
                     icon={<FontAwesomeIcon icon={faFile} name="Tổng số lượng ứng viên" />}
-                    number={reports.reports?.countPost}
+                    number={''}
                 />
                 <ReportCard
                     content={'Số lượng tin đăng hôm nay'}
                     icon={<FontAwesomeIcon icon={faFileLines} />}
                     name="Tổng số lượng nhà tuyển dụng"
-                    number={reports.reports?.dailyReport[0].postCount}
+                    number={''}
                 />
                 <ReportCard
                     content={'Số lượng tin đăng còn hạn'}
                     icon={<FontAwesomeIcon icon={faFileCircleCheck} />}
-                    number={reports.reports?.countAvailablePost}
+                    number={''}
                 />
                 <ReportCard
                     content={'Số lượng tin đăng đã ẩn'}
                     icon={<FontAwesomeIcon icon={faFileCircleXmark} />}
                     name="Tổng số lượt ứng tuyển"
-                    number={reports.reports?.countDeletePost}
+                    number={''}
                 />
             </div>
             <div className="my-[60px] mx-[20px] grid grid-cols-1 gap-y-[48px] gap-x-[24px] md:grid-cols-2 xl:grid-cols-3">
                 <ChartCard context={'Số bài đăng trong 7 ngày vừa qua'}>
-                    <BarChart chartData={dataPosts} />
+                    <BarChart chartData={''} />
                 </ChartCard>
                 <ChartCard
                     context={'Số lượt ứng tuyển trong 7 ngày vừa qua'}
                     fromColor="from-pink-700"
                     toColor="to-pink-400"
                 >
-                    <LineChart chartData={dataApplied} />
+                    <LineChart chartData={''} />
                 </ChartCard>
                 <ChartCard
                     context={'Số người ứng tuyển thành công trong 7 ngày vừa qua'}
                     fromColor="from-green-700"
                     toColor="to-green-400"
                 >
-                    <LineChart chartData={dataSuccess} />
+                    <LineChart chartData={''} />
                 </ChartCard>
             </div>
 
@@ -220,21 +172,17 @@ const Homepage = () => {
                                     <FontAwesomeIcon icon={faCrown}></FontAwesomeIcon>1
                                 </div>
                             </td>
-                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-blue-700 text-white">
-                                {reports.reports?.countFreqCareers[0].careerName}
-                            </td>
-                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-blue-700 text-white">
-                                {reports.reports?.countFreqCareers[0].postCount}
-                            </td>
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-blue-700 text-white"></td>
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-blue-700 text-white"></td>
                             <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left">
                                 <div className="w-[300px]">
                                     <p className="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
-                                        {percent1st}%
+                                        20%
                                     </p>
                                     <div className="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
                                         <div
                                             className="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
-                                            style={{ width: percent1st + '%' }}
+                                            style={{ width: 20 + '%' }}
                                         ></div>
                                     </div>
                                 </div>
@@ -246,21 +194,17 @@ const Homepage = () => {
                                     <FontAwesomeIcon icon={faCrown}></FontAwesomeIcon>2
                                 </div>
                             </td>
-                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-green-500 text-white">
-                                {reports.reports?.countFreqCareers[1].careerName}
-                            </td>
-                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-green-500 text-white">
-                                {reports.reports?.countFreqCareers[1].postCount}
-                            </td>
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-green-500 text-white"></td>
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-green-500 text-white"></td>
                             <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left">
                                 <div className="w-[300px]">
                                     <p className="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
-                                        {percent2st}%
+                                        20%
                                     </p>
                                     <div className="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
                                         <div
                                             className="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
-                                            style={{ width: percent2st + '%' }}
+                                            style={{ width: 20 + '%' }}
                                         ></div>
                                     </div>
                                 </div>
@@ -272,21 +216,17 @@ const Homepage = () => {
                                     <FontAwesomeIcon icon={faCrown}></FontAwesomeIcon>3
                                 </div>
                             </td>
-                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-green-500 text-white">
-                                {reports.reports?.countFreqCareers[2].careerName}
-                            </td>
-                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-green-500 text-white">
-                                {reports.reports?.countFreqCareers[2].postCount}
-                            </td>
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-green-500 text-white"></td>
+                            <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left bg-gradient-to-r from-green-500 text-white"></td>
                             <td className="py-7 px-5 border-b border-blue-gray-50 font-medium text-left">
                                 <div className="w-[300px]">
                                     <p className="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
-                                        {percent3st}%
+                                        20%
                                     </p>
                                     <div className="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
                                         <div
                                             className="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
-                                            style={{ width: percent3st + '%' }}
+                                            style={{ width: 20 + '%' }}
                                         ></div>
                                     </div>
                                 </div>
@@ -294,21 +234,17 @@ const Homepage = () => {
                         </tr>
                         <tr>
                             <td className="py-7 px-5 border-b border-blue-gray-50 text-left">4</td>
-                            <td className="py-7 px-5 border-b border-blue-gray-50 text-left">
-                                {reports.reports?.countFreqCareers[3].careerName}
-                            </td>
-                            <td className="py-7 px-5 border-b border-blue-gray-50 text-left">
-                                {reports.reports?.countFreqCareers[3].postCount}
-                            </td>
+                            <td className="py-7 px-5 border-b border-blue-gray-50 text-left"></td>
+                            <td className="py-7 px-5 border-b border-blue-gray-50 text-left"></td>
                             <td className="py-7 px-5 border-b border-blue-gray-50 text-left">
                                 <div className="w-[300px]">
                                     <p className="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
-                                        {percent4st}%
+                                        20%
                                     </p>
                                     <div className="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
                                         <div
                                             className="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
-                                            style={{ width: percent4st + '%' }}
+                                            style={{ width: 20 + '%' }}
                                         ></div>
                                     </div>
                                 </div>
@@ -316,17 +252,17 @@ const Homepage = () => {
                         </tr>
                         <tr>
                             <td className="py-7 px-5 text-left">5</td>
-                            <td className="py-7 px-5 text-left">{reports.reports?.countFreqCareers[4].careerName}</td>
-                            <td className="py-7 px-5 text-left">{reports.reports?.countFreqCareers[4].postCount}</td>
+                            <td className="py-7 px-5 text-left"></td>
+                            <td className="py-7 px-5 text-left"></td>
                             <td className="py-7 px-5 text-left">
                                 <div className="w-[300px]">
                                     <p className="antialiased font-sans mb-1 block text-[12px] font-medium text-blue-gray-600">
-                                        {percent5st}%
+                                        20%
                                     </p>
                                     <div className="flex flex-start bg-slate-200 overflow-hidden w-full rounded-[8px] font-sans text-xs font-medium h-2">
                                         <div
                                             className="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
-                                            style={{ width: percent5st + '%' }}
+                                            style={{ width: 20 + '%' }}
                                         ></div>
                                     </div>
                                 </div>
@@ -334,7 +270,7 @@ const Homepage = () => {
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div> */}
         </div>
     );
 };
