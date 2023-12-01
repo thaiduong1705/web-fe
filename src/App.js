@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { publicRoutes, privateRoutes } from './routes';
 import { getAcademicLevels, getCareers, getDistricts, getPositions, getWorkingTypes } from './store/action/otherData';
+import { getListProvinces } from './services/location';
 import './App.css';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import DefaultLayout from './layouts/DefaultLayout';
@@ -17,6 +18,7 @@ function App() {
         dispatch(getCareers());
         dispatch(getPositions());
         dispatch(getWorkingTypes());
+        getListProvinces();
     }, []);
     const { isLoggedIn } = useSelector((state) => state.auth);
     useEffect(() => {

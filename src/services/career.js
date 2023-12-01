@@ -4,7 +4,7 @@ export const apiGetAllCareers = async () => {
     try {
         const response = await axiosInstance({
             method: 'get',
-            url: '/api/v1/career/all',
+            url: '/api/v1/career/',
         });
         return response;
     } catch (error) {
@@ -16,7 +16,7 @@ export const apiCreateCareers = async (payload) => {
     try {
         const response = await axiosInstance({
             method: 'post',
-            url: '/api/v1/career/all',
+            url: '/api/v1/career/',
             data: payload,
         });
         return response;

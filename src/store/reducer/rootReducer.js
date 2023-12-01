@@ -5,6 +5,7 @@ import otherReducer from './otherReducer';
 import postReducer from './postReducer';
 import candidateReducer from './candidateReducer';
 import reportReducer from './reportReducer';
+import locationReducer from './locationReducer';
 
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
     post: postReducer,
     candidate: candidateReducer,
     report: reportReducer,
+    location: locationReducer,
 });
 
 export default rootReducer;

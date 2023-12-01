@@ -15,8 +15,8 @@ export const login = (payload) => async (dispatch) => {
         } else {
             dispatch({
                 type: actionType.LOGIN_FAIL,
-                token: response.data.msg,
-                msg: response.data.msg,
+                token: response.message,
+                msg: response.message,
             });
         }
     } catch (error) {

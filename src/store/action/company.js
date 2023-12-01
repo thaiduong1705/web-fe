@@ -2,16 +2,17 @@ import actionType from './actionTypes';
 import { companyAPI } from '~/services';
 export const getCompanies = () => async (dispatch) => {
     try {
-        const response = await companyAPI.apiGetCompanies();
+        const response = await companyAPI.apiGetAllCompanies();
+        console.log(response);
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_COMPANIES,
-                companies: response?.data.res,
+                companies: response?.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_COMPANIES,
-                msg: response.data.msg,
+                msg: response.message,
             });
         }
     } catch (error) {
@@ -24,16 +25,16 @@ export const getCompanies = () => async (dispatch) => {
 
 export const getCompanyById = (id) => async (dispatch) => {
     try {
-        const response = await companyAPI.apiGetCompany(id);
+        const response = await companyAPI.apiGetCompanyById(id);
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_COMPANY_BY_ID,
-                detailCompany: response.data.res,
+                detailCompany: response.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_COMPANY_BY_ID,
-                msg: response.data.msg,
+                msg: response.message,
             });
         }
     } catch (error) {
@@ -83,16 +84,16 @@ export const setCompaniesToNull = () => (dispatch) => {
 
 export const editCompanyData = (id) => async (dispatch) => {
     try {
-        const response = await companyAPI.apiGetCompany(id);
+        const response = await companyAPI.apiGetCompanyById(id);
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_COMPANY_EDIT,
-                companyDataEdit: response.data.res,
+                companyDataEdit: response.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_COMPANY_EDIT,
-                msg: response.data.msg,
+                msg: response.message,
             });
         }
     } catch (error) {

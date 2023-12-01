@@ -1,18 +1,19 @@
 import actionType from './actionTypes';
-import { careerAPI, districtAPI, positionAPI, academicLevelAPI, workingTypeAPI } from '~/services';
+import { careerAPI, positionAPI, academicLevelAPI, workingTypeAPI } from '~/services';
 
 export const getCareers = () => async (dispatch) => {
     try {
-        const response = await careerAPI.apiGetCareers();
+        const response = await careerAPI.apiGetAllCareers();
+        console.log(response);
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_CAREER,
-                careers: response.data.res,
+                careers: response.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_CAREER,
-                msg: response.data.msg,
+                msg: response.message,
                 careers: null,
             });
         }
@@ -24,41 +25,19 @@ export const getCareers = () => async (dispatch) => {
     }
 };
 
-export const getDistricts = () => async (dispatch) => {
-    try {
-        const response = await districtAPI.apiGetDistricts();
-        if (response?.data.err === 0) {
-            dispatch({
-                type: actionType.GET_DISTRICT,
-                districts: response.data.res,
-            });
-        } else {
-            dispatch({
-                type: actionType.GET_DISTRICT,
-                msg: response.data.msg,
-                districts: null,
-            });
-        }
-    } catch (error) {
-        dispatch({
-            type: actionType.GET_DISTRICT,
-            districts: null,
-        });
-    }
-};
-
 export const getAcademicLevels = () => async (dispatch) => {
     try {
         const response = await academicLevelAPI.apiGetAcademicLevels();
+        console.log(response);
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_ACADEMIC_LEVEL,
-                academicLevels: response.data.res,
+                academicLevels: response.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_ACADEMIC_LEVEL,
-                msg: response.data.msg,
+                msg: response.message,
                 academicLevels: null,
             });
         }
@@ -72,16 +51,16 @@ export const getAcademicLevels = () => async (dispatch) => {
 
 export const getPositions = () => async (dispatch) => {
     try {
-        const response = await positionAPI.apiGetPositions();
+        const response = await positionAPI.apiGetAllPositions();
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_POSITION,
-                positions: response.data.res,
+                positions: response.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_POSITION,
-                msg: response.data.msg,
+                msg: response.message,
                 positions: null,
             });
         }
@@ -99,12 +78,12 @@ export const getWorkingTypes = () => async (dispatch) => {
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_WORKING_TYPE,
-                workingTypes: response.data.res,
+                workingTypes: response.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_WORKING_TYPE,
-                msg: response.data.msg,
+                msg: response.message,
                 workingTypes: null,
             });
         }

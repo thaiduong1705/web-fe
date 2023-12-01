@@ -7,6 +7,7 @@ import * as academicLevelAPI from './academicLevel';
 import * as positionAPI from './position';
 import * as workingTypeAPI from './workingTypes';
 import * as reportAPI from './report';
+import * as locationAPI from './location';
 
 export {
     companyAPI,
@@ -18,4 +19,5 @@ export {
     workingTypeAPI,
     candidateAPI,
     reportAPI,
+    locationAPI,
 };

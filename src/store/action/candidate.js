@@ -7,12 +7,12 @@ export const getCandidates = () => async (dispatch) => {
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_CANDIDATES,
-                allCandidates: response?.data.res,
+                allCandidates: response?.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_CANDIDATES,
-                msg: response.data.msg,
+                msg: response.message,
             });
         }
     } catch (error) {
@@ -89,12 +89,12 @@ export const editCandidateData = (id) => async (dispatch) => {
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_CANDIDATE_EDIT,
-                candidateDataEdit: response.data.res,
+                candidateDataEdit: response.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_CANDIDATE_EDIT,
-                msg: response.data.msg,
+                msg: response.message,
             });
         }
     } catch (error) {

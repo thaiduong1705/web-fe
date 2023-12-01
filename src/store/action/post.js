@@ -2,16 +2,16 @@ import actionType from './actionTypes';
 import { postAPI } from '~/services';
 export const getPosts = () => async (dispatch) => {
     try {
-        const response = await postAPI.apiGetJobItem();
+        const response = await postAPI.apiGetAllPosts();
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_POSTS,
-                posts: response?.data.res,
+                posts: response?.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_POSTS,
-                msg: response.data.msg,
+                msg: response.message,
             });
         }
     } catch (error) {
@@ -47,16 +47,16 @@ export const getPostsLimit = (query) => async (dispatch) => {
 
 export const getPostById = (id) => async (dispatch) => {
     try {
-        const response = await postAPI.apiGetPost(id);
+        const response = await postAPI.apiGetPostById(id);
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_POST_BY_ID,
-                detailPost: response.data.res,
+                detailPost: response.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_POST_BY_ID,
-                msg: response.data.msg,
+                msg: response.message,
             });
         }
     } catch (error) {
@@ -83,16 +83,16 @@ export const setPostsToNull = () => (dispatch) => {
 
 export const editData = (id) => async (dispatch) => {
     try {
-        const response = await postAPI.apiGetPost(id);
+        const response = await postAPI.apiGetPostById(id);
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_POST_EDIT,
-                postDataEdit: response.data.res,
+                postDataEdit: response.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_POST_EDIT,
-                msg: response.data.msg,
+                msg: response.message,
             });
         }
     } catch (error) {
@@ -110,16 +110,16 @@ export const setEditDataNull = () => ({
 
 export const getDeletedPosts = () => async (dispatch) => {
     try {
-        const response = await postAPI.apiGetDeletedPost();
+        const response = await postAPI.apiGetDeletedPosts();
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_DELETED_POST,
-                posts: response?.data.res,
+                posts: response?.data,
             });
         } else {
             dispatch({
                 type: actionType.GET_DELETED_POST,
-                msg: response.data.msg,
+                msg: response.message,
             });
         }
     } catch (error) {
