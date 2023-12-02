@@ -28,7 +28,7 @@ const locationReducer = (state = initState, action) => {
                 msg: action.msg || '',
             };
         default:
-            return state;
+            return state,
     }
 };
 
