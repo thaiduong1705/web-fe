@@ -31,7 +31,7 @@ export const getProvinceDistricts = async (code) => {
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_PROVINCE_DISTRICTS,
-                districts: response?.data,
+                districts: response?.data.districts,
             });
         } else {
             dispatch({
@@ -54,7 +54,7 @@ export const getDistrictWards = async (code) => {
         if (response?.data.err === 0) {
             dispatch({
                 type: actionType.GET_DISTRICT_WARDS,
-                wards: response?.data,
+                wards: response?.data.wards,
             });
         } else {
             dispatch({

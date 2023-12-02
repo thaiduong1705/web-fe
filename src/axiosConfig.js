@@ -6,13 +6,15 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     function (config) {
-        // Làm gì đó trước khi request dược gửi đi
-        let token =
-            window.localStorage.getItem('persist:auth') &&
-            JSON.parse(window.localStorage.getItem('persist:auth'))?.token?.slice(1, -1);
-        config.headers = {
-            authorization: token ? `Bearer ${token}` : null,
+        const local =
+            window.localStorage.getItem('persist:auth') && JSON.parse(window.localStorage.getItem('persist:auth'));
+        const authState = {
+            isLoggedIn: local.isLoggedIn,
+            token: local.token,
         };
+        if (authState) {
+            config.headers.Authorization = `Bearer ${authState.token}`;
+        }
         return config;
     },
     function (error) {

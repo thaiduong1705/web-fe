@@ -13,23 +13,23 @@ const locationReducer = (state = initState, action) => {
             return {
                 ...state,
                 provinces: action.provinces,
-                msg: action.msg || ""
-            }
+                msg: action.msg || '',
+            };
         case actionType.GET_PROVINCE_DISTRICTS:
             return {
                 ...state,
                 districts: action.districts,
-                msg: action.msg || ""
-            }
+                msg: action.msg || '',
+            };
         case actionType.GET_DISTRICT_WARDS:
             return {
                 ...state,
                 wards: action.wards,
-                msg: action.msg || ""
-            }
+                msg: action.msg || '',
+            };
         default:
-            return state,
+            return state;
     }
-}
+};
 
-export default locationReducer
+export default locationReducer;

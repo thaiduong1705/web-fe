@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Combobox, JobItem, Loading } from '~/components';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { editData, getPostsLimit, getDeletedPosts } from '~/store/action/post';
+import { editData, getPostsLimit, getDeletedPosts, getPosts } from '~/store/action/post';
+import { apiGetCurrentStaffInformation } from '~/services/auth';
 import ReactPaginate from 'react-paginate';
 import { Exp, Gender, Salary, CreatedAt } from '~/data';
 import ApplyModal from '~/components/ApplyModal';
@@ -66,7 +67,18 @@ const ListPosts = () => {
     let companyPerPage = 10;
 
     useEffect(() => {
-        dispatch(getPostsLimit());
+        // dispatch(getPosts());
+        // console.log(posts);
+        const local =
+            window.localStorage.getItem('persist:auth') && JSON.parse(window.localStorage.getItem('persist:auth'));
+        const authState = {
+            isLoggedIn: local.isLoggedIn,
+            token: local.token,
+        };
+        console.log(authState.token);
+        const response = apiGetCurrentStaffInformation(authState.token).then((data) => {
+            console.log(data);
+        });
     }, []);
 
     useEffect(() => {

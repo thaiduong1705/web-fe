@@ -40,3 +40,15 @@ export const apiResetToken = async (payload) => {
         return error;
     }
 };
+
+export const apiGetCurrentStaffInformation = async (token) => {
+    try {
+        const response = await axiosInstance({
+            method: 'get',
+            url: '/api/v1/auth/current-staff',
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+};

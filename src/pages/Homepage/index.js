@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ReportCard, BarChart, ChartCard, LineChart } from '~/components';
 
 import { getReports } from '~/store/action/report';
-import { getCurrent } from '~/store/action/user';
 import Background from '../../image/grass.jpg';
 import styles from './Homepage.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

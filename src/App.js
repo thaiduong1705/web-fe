@@ -8,7 +8,6 @@ import { getListProvinces } from './services/location';
 import './App.css';
 import ProtectedRoutes from './utils/ProtectedRoutes';
 import DefaultLayout from './layouts/DefaultLayout';
-import { getCurrent } from '~/store/action/user';
 import DynamicPageTitle from './utils/DynamicPageTitle';
 function App() {
     const [delayFinish, setDelayFinish] = useState(false);
@@ -30,14 +29,14 @@ function App() {
         };
     }, [isLoggedIn]);
 
-    useEffect(() => {
-        const getuser = setTimeout(() => {
-            isLoggedIn && dispatch(getCurrent());
-        }, 1000);
-        return () => {
-            clearTimeout(getuser);
-        };
-    }, [isLoggedIn, dispatch]);
+    // useEffect(() => {
+    //     const getuser = setTimeout(() => {
+    //         isLoggedIn
+    //     }, 1000);
+    //     return () => {
+    //         clearTimeout(getuser);
+    //     };
+    // }, [isLoggedIn, dispatch]);
     return delayFinish ? (
         <Router>
             <DynamicPageTitle />

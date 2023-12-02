@@ -24,7 +24,7 @@ import { getPostById, setDetailPostNull } from '~/store/action/post';
 
 import { JobItem } from '~/components';
 import convertDatetime from '~/utils/convertDate';
-import { apiGetRelatedPost, apiSoftDeletePost } from '~/services/post';
+// import { apiGetRelatedPost, apiSoftDeletePost } from '~/services/post';
 import ApplyModal from '~/components/ApplyModal';
 import Swal from 'sweetalert2';
 const DetailPage = () => {
@@ -55,10 +55,10 @@ const DetailPage = () => {
                     const id = career.id;
                     careerIds.push(id);
                 }
-                const response = await apiGetRelatedPost(detailPost.id, careerIds);
-                if (response?.data.err === 0) {
-                    setCareerRelatedPosts((prev) => [...response.data.res]);
-                }
+                // const response = await apiGetRelatedPost(detailPost.id, careerIds);
+                // if (response?.data.err === 0) {
+                //     setCareerRelatedPosts((prev) => [...response.data.res]);
+                // }
             };
             fetchingRelatedPosts();
         }
@@ -154,17 +154,17 @@ const DetailPage = () => {
                                     showConfirmButton: true,
                                     confirmButtonText: 'Đồng ý',
                                 });
-                                if (result.isConfirmed) {
-                                    const response = await apiSoftDeletePost(detailPost.id);
-                                    if (response.data.err === 0) {
-                                        await Swal.fire({
-                                            icon: 'success',
-                                            title: 'Đã xoá thành công',
-                                            text: '',
-                                        });
-                                        navigate(-1);
-                                    }
-                                }
+                                // if (result.isConfirmed) {
+                                //     const response = await apiSoftDeletePost(detailPost.id);
+                                //     if (response.data.err === 0) {
+                                //         await Swal.fire({
+                                //             icon: 'success',
+                                //             title: 'Đã xoá thành công',
+                                //             text: '',
+                                //         });
+                                //         navigate(-1);
+                                //     }
+                                // }
                             }}
                         >
                             Xoá

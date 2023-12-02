@@ -5,7 +5,7 @@ import { Button, Experimental_CssVarsProvider } from '@mui/material';
 import { faClock, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import sanitizeVietnameseString from '~/utils/sanitizeVietnameseString';
-import { apiSoftDeletePost } from '~/services/post';
+// import { apiSoftDeletePost } from '~/services/post';
 import { Jobpage } from '~/pages';
 
 const JobItem = ({ job = {}, onClick, toggleModal }) => {
@@ -115,17 +115,17 @@ const JobItem = ({ job = {}, onClick, toggleModal }) => {
                                             showConfirmButton: true,
                                             confirmButtonText: 'Đồng ý',
                                         });
-                                        if (result.isConfirmed) {
-                                            const response = await apiSoftDeletePost(job?.id);
-                                            if (response.data.err === 0) {
-                                                await Swal.fire({
-                                                    icon: 'success',
-                                                    title: 'Đã xoá thành công',
-                                                    text: '',
-                                                });
-                                                navigate(0);
-                                            }
-                                        }
+                                        // if (result.isConfirmed) {
+                                        //     const response = await apiSoftDeletePost(job?.id);
+                                        //     if (response.data.err === 0) {
+                                        //         await Swal.fire({
+                                        //             icon: 'success',
+                                        //             title: 'Đã xoá thành công',
+                                        //             text: '',
+                                        //         });
+                                        //         navigate(0);
+                                        //     }
+                                        // }
                                     }}
                                 >
                                     Ẩn

@@ -6,7 +6,6 @@ import { useStateContext } from '~/contexts/Context';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from '~/store/action/auth';
-import { getCurrent } from '~/store/action/user';
 import UpdateUserModal from '../UpdateUserModal';
 const Navbar = () => {
     const dispatch = useDispatch();

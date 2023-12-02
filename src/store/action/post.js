@@ -23,26 +23,26 @@ export const getPosts = () => async (dispatch) => {
 };
 
 export const getPostsLimit = (query) => async (dispatch) => {
-    try {
-        const response = await postAPI.apiGetPostLimit(query);
-        if (response?.data.err === 0) {
-            dispatch({
-                type: actionType.GET_POSTS_LIMIT,
-                posts: response.data.res,
-                count: response.data.count,
-            });
-        } else {
-            dispatch({
-                type: actionType.GET_POSTS_LIMIT,
-                msg: response.data.msg,
-            });
-        }
-    } catch (error) {
-        dispatch({
-            type: actionType.GET_POSTS_LIMIT,
-            posts: null,
-        });
-    }
+    // try {
+    //     const response = await postAPI.apiGetPostLimit(query);
+    //     if (response?.data.err === 0) {
+    //         dispatch({
+    //             type: actionType.GET_POSTS_LIMIT,
+    //             posts: response.data.res,
+    //             count: response.data.count,
+    //         });
+    //     } else {
+    //         dispatch({
+    //             type: actionType.GET_POSTS_LIMIT,
+    //             msg: response.data.msg,
+    //         });
+    //     }
+    // } catch (error) {
+    //     dispatch({
+    //         type: actionType.GET_POSTS_LIMIT,
+    //         posts: null,
+    //     });
+    // }
 };
 
 export const getPostById = (id) => async (dispatch) => {

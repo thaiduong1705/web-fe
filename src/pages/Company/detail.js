@@ -8,7 +8,7 @@ import parse from 'html-react-parser';
 import { Combobox, CompanyItem, JobItem } from '~/components';
 import { getCompanyById, setDetailCompanyNull } from '~/store/action/company';
 import { apiGetPostsFromCareer } from '~/services/career';
-import { apiGetRelatedCompany } from '~/services/company';
+// import { apiGetRelatedCompany } from '~/services/company';
 const DetailCompany = () => {
     const { id } = useParams();
     const { detailCompany } = useSelector((state) => state.company);
@@ -29,10 +29,10 @@ const DetailCompany = () => {
                     const id = career.id;
                     careerIds.push(id);
                 }
-                const response = await apiGetRelatedCompany(detailCompany.id, careerIds);
-                if (response?.data.err === 0) {
-                    setCareerRelatedPosts((prev) => [...response.data.res]);
-                }
+                // const response = await apiGetRelatedCompany(detailCompany.id, careerIds);
+                // if (response?.data.err === 0) {
+                //     setCareerRelatedPosts((prev) => [...response.data.res]);
+                // }
             };
             fetchingRelatedPosts();
         }

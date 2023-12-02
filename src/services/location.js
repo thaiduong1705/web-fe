@@ -1,4 +1,3 @@
-import axiosInstance from '../axiosConfig';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -27,7 +26,7 @@ export const getProvinceDistricts = async (code) => {
                 depth: 2,
             },
         });
-        return response.data.districts;
+        return response;
     } catch (error) {
         return error;
     }
@@ -42,7 +41,7 @@ export const getDistrictWards = async (code) => {
                 depth: 2,
             },
         });
-        return response.data.wards;
+        return response;
     } catch (error) {
         return error;
     }
