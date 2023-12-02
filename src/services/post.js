@@ -126,7 +126,7 @@ export const apiGetPostById = async (id) => {
     }
 };
 
-export const apiUpdatePost = async (payload) => {
+export const apiUpdatePost = async (payload, id) => {
     try {
         const response = await axiosInstance({
             method: 'put',
@@ -139,7 +139,7 @@ export const apiUpdatePost = async (payload) => {
     }
 };
 
-export const apiDeletePost = async () => {
+export const apiDeletePost = async (id) => {
     try {
         const response = await axiosInstance({
             method: 'delete',

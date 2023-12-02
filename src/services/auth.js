@@ -1,4 +1,3 @@
-import axios from 'axios';
 import axiosInstance from '~/axiosConfig';
 
 export const apiLogin = async (payload) => {
@@ -7,6 +6,7 @@ export const apiLogin = async (payload) => {
             method: 'post',
             url: '/api/v1/auth/login',
             data: payload,
+            withCredentials: true,
         });
         return response;
     } catch (error) {
